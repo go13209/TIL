@@ -1,0 +1,57 @@
+# Git
+
+## Git이란?
+- Git은 **분산버전관리시스템**으로 코드의 버전을 관리하는 도구이다.
+- 2005년 리눅스 커널을 위한 도구로 리누스 토르발스가 개발하였다.
+- 컴퓨터 파일의 변경사항을 추적하고 여러 명의 사용자들 간에 해당 파일들의 작업을 조율 가능하다.
+- 데이터를 파일 시스템의 스냅샷으로 관리하고 매우 크기가 작다.
+- 파일이 달리지지 않으면 성능을 위해 파일을 새로 저장하지 않는다.
+
+## 분산버전관리시스템(DVCS)
+- 중앙집중식버전관리시스템은 중앙에서 버전을 관리하고 파일을 받아서 사용한다.
+- 반면에 분산버전관리시스템은 원격 저장소(remote repository)를 통하여 협업하고, 모든 히스토리를 클라이언트들이 공유한다.
+
+## Git 기본 흐름
+1. 작업(수정)한 파일은 Working directory에 위치한다.
+    - untracked / modified -> staged
+2. 1번의 파일을 add하여 Staging area에 모은다.
+    - staged -> committed
+3. 모인 파일을 commit하여 버전으로 기록한다.
+
+## 기본 명령어
+- $ git init
+  - 특정 폴더를 git 저장소(repository)를 만들어 git으로 관리
+    - .git 폴더가 생성됨
+    - git bash에서는 (master) 또는 (main) 이라는 표기를 확인할 수 있음
+- $ git add 파일명.확장자
+  - working directory상의 변경 내용을 staging area에 추가하기 위해 사용
+    - untracked 상태의 파일을 staged로 변경
+    - modified 상태의 파일을 staged로 변경
+- $ git commit -m '커밋메시지'
+  - staged 상태의 파일들을 커밋을 통해 버전으로 기록
+  - SHA-1 해시를 사용하여 40자 길이의 체크섬을 생성하고, 이를 통해 고유한 커밋을 표기
+  - 커밋 메시지는 변경사항을 나타낼 수 있도록 명확하게 작성해야 함
+- $ git status
+  - git 저장소에 있는 파일의 상태를 확인하기 위하여 활용
+    - 파일의 상태를 알 수 있음
+      - Untracked: 버전으로 관리된 적 없는 파일(새로 만든 경우)
+      - Tracked: 이전부터 버전으로 관리되고 있는 파일
+        - Unmodified: 수정되지 않은 파일, git status에 나타나지 않음
+        - Modified: Changes not staged for commit(수정되었으나 staged 되지 않은 파일)
+        - Staged: Changes to be committed(staged 되었으나 commit 되지 않은 파일)
+    - Nothing to commit, working tree clean: 작업(수정)한 파일이 모두 커밋된 상태이고 별도의 수정사항 또한 없는 상태
+- $ git log
+  - 현재 저장소에 기록된 커밋을 조회
+  - 다양한 옵션을 통해 로그를 조회할 수 있음
+    - $ git log -1
+    - $ git log --online
+    - $ git log -2 --online
+
+## Git 설정 파일(config)
+- 사용자 정보(commit author): 커밋을 하기 위해 반드시 필요
+  - git config --global user.name "username"
+  - git config --global user.email "my@email.com"
+- 설정 확인
+  - git config -l
+  - git config --global-l
+  - git config user.name
