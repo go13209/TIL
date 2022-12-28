@@ -113,12 +113,12 @@
   - 예시
     - <u>밑줄을 쳐주세요</u>
 
-## 마크다운 관련 자료
+## 마크다운 관련 참고자료
 - [Github Flavored Markdown](https://github.github.com/gfm/)
 - [Mastering Markdown](https://guides.github.com/features/mastering-markdown)
 - [Markdown Guide](https://www.markdownguide.org)
 
-## Technical writing 관련 자료
+## Technical writing 관련 참고자료
 - [백엔드 개발자를 꿈꾸는 학생 개발자들에게](https://d2.naver.com/news/3435170)
 - [Google Technical Writing](https://developers.google.com/tech-writing)
 - [Technical writing conference](https://engineering.linecorp.com/ko/blog/write-the-docs-prague-2018-recap/)
