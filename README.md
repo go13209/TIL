@@ -8,4 +8,4 @@
 # 2022년 12월 28일
 
 ## Today I Learned
-- Git 내용 추가 [Git](./git.md)
+- [Git](./git.md) - Git 내용 추가 및 기타 오탈자 수정
