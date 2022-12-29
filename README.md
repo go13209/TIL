@@ -1,11 +1,8 @@
-# 2022년 12월 27일
+# KDT 멀티캠퍼스 풀스택 개발자(Python) 2기
 
 ## Today I Learned
-- [마크다운](./markdown.md)
-- [CLI](./CLI.md)
-- [Git](./git.md)
-
-# 2022년 12월 28일
-
-## Today I Learned
-- [Git](./git.md) - Git 내용 추가 및 기타 오탈자 수정
+- 1주차 (2022.12.26 ~ 2022.12.30)
+  - [마크다운](./markdown.md)
+  - [CLI](./CLI.md)
+  - [Git](./git.md)  
+- 2주차 (2023.01.02 ~ 2023.01.06)
