@@ -1,24 +1,24 @@
-# Git
+# :star: Git
 
-## Git이란?
+## :bulb: Git이란?
 - Git은 `분산버전관리시스템`으로 `코드의 버전을 관리`하는 도구이다.
 - 2005년 리눅스 커널을 위한 도구로 리누스 토르발스가 개발하였다.
 - 컴퓨터 파일의 변경사항을 추적하고 여러 명의 사용자들 간에 해당 파일들의 작업을 조율 가능하다.
 - 데이터를 파일 시스템의 스냅샷으로 관리하고 매우 크기가 작다.
 - 파일이 달라지지 않으면 성능을 위해 파일을 새로 저장하지 않는다.
 
-## 분산버전관리시스템(DVCS)
+## :bulb: 분산버전관리시스템(DVCS)
 - 중앙집중식버전관리시스템은 중앙에서 버전을 관리하고 파일을 받아서 사용한다.
 - 반면에 분산버전관리시스템은 원격 저장소(remote repository)를 통하여 협업하고, 모든 히스토리를 클라이언트들이 공유한다.
 
-## Git 기본 흐름
+## :bulb: Git 기본 흐름
 1. 작업(수정)한 파일은 Working directory에 위치한다.
 2. 1번의 파일을 add하여 Staging area에 모은다.
     - untracked / modified -> staged
 3. 모인 파일을 commit하여 버전으로 기록한다.
     - staged -> committed
 
-## Git 기본 명령어
+## :bulb: Git 기본 명령어
 - $ git init
   - 특정 폴더를 git 저장소(repository)로 만들어 git으로 관리
     - .git 폴더가 생성됨
@@ -47,7 +47,7 @@
     - $ git log --online
     - $ git log -2 --online
 
-## Git 설정 파일(config)
+## :bulb: Git 설정 파일(config)
 - 사용자 정보(commit author): 커밋을 하기 위해 반드시 필요
   - git config --global user.name "username"
   - git config --global user.email "my@email.com"
@@ -56,7 +56,7 @@
   - git config --global-l
   - git config user.name
 
-## GitHub 원격저장소 활용하는 방법
+## :bulb: GitHub 원격저장소 활용하는 방법
 1. GitHub에서 New Repository 생성
 2. 원격저장소의 URL을 확인
     - 예시: https://github.com/Rilee-0320/TIL.git
@@ -79,12 +79,12 @@
 - git remote -v : 원격저장소 정보 확인
 - git remote rm <원격저장소> : 원격저장소 삭제
 
-## .gitignore
+## :bulb: .gitignore
 - 개발 프로젝트에서 별도로 버전 관리를 하지 말아야 할, 즉 커밋하지 않을 파일, 디렉토리가 발생함
 - .gitignore 파일을 생성하고 해당 파일명 또는 디렉토리명을 입력할 경우 해당 파일, 디렉토리를 제외하고 커밋 가능
 - 참고: [.gitignore.io](https://www.toptal.com/developers/gitignore/)
 
-## Git branch
+## :bulb: Git branch
 - 독립적인 작업흐름을 만들고 관리하기 위해 branch 활용
 - 브랜치 주요 명령어
   - (master) $ git branch {브랜치명} : 브랜치 생성
@@ -288,7 +288,7 @@
         (master) $ git branch -d feature/test
         ```
 
-## Git Flow
+## :bulb: Git Flow
 - Git을 활용하여 협업하는 흐름으로 branch를 활용하는 전략
 - 각자 독립된 버전의 흐름을 만들 수 있음
 
@@ -315,7 +315,7 @@
   - GitHub 기반의 오픈소스 참여 과정에서 쓰이는 방식
   - 원격 저장소를 fork 한 후 내 저장소로 복제본을 가져온 뒤 로컬에서 작업 후 원격 저장소로 push 가능
 
-## Git 관련 참고자료
+## :bulb: Git 관련 참고자료
 - [누구나 쉽게 이해할 수 있는 Git](https://backlog.com/git-tutorial/kr/)
 - [Pro Git](https://git-scm.com/book/ko/v2)
 - [좋은 git commit 메시지를 위한 영어 사전](https://blog.ull.im/engineering/2019/03/10/logs-on-git.html)

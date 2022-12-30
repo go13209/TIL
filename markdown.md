@@ -1,6 +1,6 @@
-# 마크다운이란?
+# :star: 마크다운이란?
 
-## 개요
+## :bulb: 개요
 
 - 2004년 존 그루버가 만든 텍스트 기반의 가벼운 마크업 언어
   - Markdown is a **text-to-HTML conversion tool** for web writers.
@@ -10,14 +10,14 @@
     2. a software tool, written in Perl, **that converts the plain text formatting to HTML.**
   - The overriding **design goal for Markdown's formatting syntax is to make it as readable as possible.**
 
-## 특징
+## :bulb: 특징
 
 - 워드프로세서(한글/MS word)는 다양한 서식과 구조를 지원하며 문서에 즉각적으로 반영되지만 다른 프로그램으로 호환에 제약이 되며, 워드프로세서 상의 기능을 활용해야 함
 - 마크다운은 최소한의 문법으로 구성되어 있으며 순수 텍스트로 작성 가능함
 - 마크다운은 단순 텍스트 문법으로 내용을 작성하며, 다양한 환경에서 변환하여 보임
   - 다양한 text editor, 웹 환경 등에서 모두 지원(HTML 변환)
 
-## 활용 예시
+## :bulb: 활용 예시
 
 - README.md
   - 오픈소스의 공식 문서를 작성하거나 개인 프로젝트의 프로젝트 소개서로 활용
@@ -29,7 +29,7 @@
   - Jupyter notebook에는 별도의 마크다운 셀이 있어 데이터 분석 등을 하는 과정에서 프로젝트 내용과 분석 결과를 정리 가능함
   - Notion과 같은 메모/노트 필기 SW 역시 마크다운 기반 문서 작성을 기본으로 함
 
-## 마크다운 문법
+## :bulb: 마크다운 문법
 
 - Heading: 문서의 제목이나 소제목
   - #의 개수에 따라 대응되는 수준(Heading level)이 있으며, h1~h6까지 표현 가능
@@ -113,12 +113,12 @@
   - 예시
     - <u>밑줄을 쳐주세요</u>
 
-## 마크다운 관련 참고자료
+## :bulb: 마크다운 관련 참고자료
 - [Github Flavored Markdown](https://github.github.com/gfm/)
 - [Mastering Markdown](https://guides.github.com/features/mastering-markdown)
 - [Markdown Guide](https://www.markdownguide.org)
 
-## Technical writing 관련 참고자료
+## :bulb: Technical writing 관련 참고자료
 - [백엔드 개발자를 꿈꾸는 학생 개발자들에게](https://d2.naver.com/news/3435170)
 - [Google Technical Writing](https://developers.google.com/tech-writing)
 - [Technical writing conference](https://engineering.linecorp.com/ko/blog/write-the-docs-prague-2018-recap/)
