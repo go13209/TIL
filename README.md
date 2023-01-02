@@ -1,6 +1,6 @@
-# :star: KDT 멀티캠퍼스 풀스택 개발자(Python) 2기
+# ⭐ KDT 멀티캠퍼스 풀스택 개발자(Python) 2기
 
-## :bulb: Today I Learned
+## 💡 Today I Learned
 - 1주차 (2022.12.26 ~ 2023.01.01)
   - [마크다운](./markdown.md)
   - [CLI](./CLI.md)
