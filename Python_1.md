@@ -1,4 +1,4 @@
-# ⭐ Python
+# ⭐ Python - 1
 
 > 컴퓨터는 저장(Remember)하고 조작(Calculation)하는 도구
 
@@ -32,8 +32,10 @@
 - 인터프리터 언어(Interpreter)
   - 소스 코드를 기계어로 변환하는 컴파일 과정 없이 바로 실행 가능
   - 코드를 대화하듯 한 줄 입력하고 실행한 후 바로 확인할 수 있음
-  > 2 + 2 # 사용자가 입력(input)  
-  > 4 &nbsp; &nbsp; &nbsp; # 컴퓨터가 대답(output)
+  ```
+  2 + 2 # 사용자가 입력(input)  
+  4     # 컴퓨터가 대답(output)
+  ```
 - 객체 지향 프로그래밍(Object Oriented Programming)
   - 파이썬은 객체지향 언어이며 모든 것이 객체로 구현되어 있음
     - 객체(Object): 숫자, 문자, 클래스 등 값을 가지고 있는 모든 것
@@ -56,15 +58,18 @@
 
 ### 실습 예제
 - x = 10, y = 20 일 때, 각각 값을 바꿔서 저장하는 코드를 작성하시오.
-  > 방법 1) 임시변수 활용  
-  > tmp = x  
-  > x = y  
-  > y = tmp  
-  > print(x, y)
-
-  > 방법 2) Pythonic!  
-  > y, x = x, y  
-  > print(x, y)
+  ```
+  방법 1) 임시변수 활용  
+  tmp = x  
+  x = y  
+  y = tmp  
+  print(x, y)
+  ```
+  ```
+  방법 2) Pythonic!  
+  y, x = x, y  
+  print(x, y)
+  ```
 
 ## 💡 식별자(Identifiers)
 - 파이썬 객체(변수, 함수, 모듈, 클래스 등)를 식별하는 데 사용하는 이름(name)
@@ -162,13 +167,17 @@
         - 대괄호([]) 혹은 list()를 통해 생성
         - 순서가 있는 시퀀스로 인덱스를 통해 접근 가능
         - 값 추가는 .append()를 활용하여 추가하고자 하는 값을 전달
-          > even_numbers = [2, 4, 6, 8]  
-          > even_numbers.append(10)  
-          > even_numbers = [2, 4, 6, 8, 10]
+          ```
+          even_numbers = [2, 4, 6, 8]  
+          even_numbers.append(10)  
+          even_numbers = [2, 4, 6, 8, 10]
+          ```
         - 값 삭제는 .pop()를 활용하여 삭제하고자 하는 인덱스를 전달
-          > even_numbers = [2, 4, 6, 8]  
-          > even_numbers.pop(0)  
-          > even_numbers = [4, 6, 8]
+          ```
+          even_numbers = [2, 4, 6, 8]  
+          even_numbers.pop(0)  
+          even_numbers = [4, 6, 8]
+          ```
     - None: 값이 없음을 표현하기 위한 None 타입
       - 일반적으로 반환 값이 없는 함수에서 사용하기도 함
 
@@ -187,6 +196,15 @@
 - 주석으로 처리될 내용 앞에 '#'을 입력
   - 한 줄을 온전히 주석 처리하거나 코드 뒷부분에 주석을 덧붙일 수 있음
   - VS Code 단축키 : Ctrl + /
+
+## 💡 사용자 입력
+- input([prompt])
+  - 사용자로부터 값을 즉시 입력받을 수 있는 내장함수
+    - 대괄호 부분에 문자열을 넣으면 입력 시 해당 문자열을 출력할 수 있음
+  - **반환 값은 항상 문자열의 형태로 반환**
+- print()
+  - 모니터 화면에 결과물을 출력하기 위해 사용
+  - 변수의 경우 변수의 값을 출력하며 객체별 표현 방식에 따라 출력하게 됨
 
 ## 💡 코드 스타일 가이드
 - [PEP8](https://peps.python.org/pep-0008/)

@@ -7,4 +7,5 @@
   - [Git](./git.md)
   - [취업특강](./취업특강.md)
 - 2주차 (2023.01.02 ~ 2023.01.08)
-  - [Python](/Python.md)
+  - [Python - 1](/Python_1.md)
+  - [Python - 2](/python_2.md)
