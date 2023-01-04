@@ -187,6 +187,29 @@
   - `반복제어`
     - break, continue, for-else
 
+## 💡 while 문
+- while 문은 조건식이 참인 경우 반복적으로 코드를 실행
+  - 조건이 참인 경우 들여쓰기 되어 있는 코드 블록이 실행됨
+  - 코드 블록이 모두 실행되고 다시 조건식을 검사하며 반복적으로 실행됨
+  - while 문은 무한 루프를 하지 않도록 종료 조건이 반드시 필요함
+  ```
+  while < expression >:
+    Run this code block
+  ```
+  ### 실습 예제
+  - 1부터 사용자가 입력한 양의 정수까지의 총합을 구하는 코드를 작성하시오.
+    ```
+    # 값 초기화
+    n = 0
+    total = 0
+    user_input = int(input())
+
+    while n <= user_input:
+      total += n
+      n += 1
+    print(total)
+    ```
+
 ## 💡 for 문
 - for 문은 시퀀스(string, tuple, list, range)를 포함한 순회 가능한 객체(iterable) 요소를 모두 순회함
   - 처음부터 끝까지 모두 순회하므로 별도의 종료 조건이 필요하지 않음

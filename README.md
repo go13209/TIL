@@ -7,5 +7,6 @@
   - [Git](./git.md)
   - [취업특강](./취업특강.md)
 - 2주차 (2023.01.02 ~ 2023.01.08)
-  - [Python - 1](/Python_1.md)
-  - [Python - 2](/python_2.md)
+  - [Python - 파이썬 기초](/Python_1.md)
+  - [Python - 조건문, 반복문](/python_2.md)
+  - [Python - 함수](/python_3.md)
