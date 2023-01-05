@@ -1,4 +1,4 @@
-# ⭐ Python - 2
+# ⭐ Python - 조건문, 반복문
 
 ## 💡 String Formatting
 - 변수를 활용하여 문자열을 만드는 법

@@ -1,4 +1,4 @@
-# ⭐ Python - 1
+# ⭐ Python - 파이썬 기초
 
 > 컴퓨터는 저장(Remember)하고 조작(Calculation)하는 도구
 
@@ -180,6 +180,17 @@
           ```
     - None: 값이 없음을 표현하기 위한 None 타입
       - 일반적으로 반환 값이 없는 함수에서 사용하기도 함
+    - 시퀀스형 주요 공통 연산자
+      - s[i]: s의 i번째 항목, 0에서 시작
+      - s[i:j]: s의 i에서 j까지의 슬라이스
+      - s[i:j:k]: s의 i에서 j까지 스텝 k의 슬라이스
+      - s + t: s와 t 이어 붙이기
+      - s * n 또는 n * s: s를 그 자신에 n번 더하는 것
+      - x in s: s의 항목 중 하나가 x와 같으면 True, 그렇지 않으면 False
+      - x not in s: s의 항목 중 하나가 x와 같으면 False, 그렇지 않으면 True
+      - len(s): s의 길이
+      - min(s): s의 가장 작은 항목
+      - max(s): s의 가장 큰 항목
 
 ## 💡 코드 작성 주의사항
 - 대소문자 구분
@@ -209,9 +220,3 @@
 ## 💡 코드 스타일 가이드
 - [PEP8](https://peps.python.org/pep-0008/)
 - [구글 스타일 가이드](https://google.github.io/styleguide/pyguide.html)
-
-
-
-
-
-
