@@ -84,10 +84,8 @@
 
 - Blockquotes: 인용문
   - \>로 인용문을 작성
-    > There is nothing noble in being superior to your fellow men.  
-    True nobility lies in being superior to your former self.  
-    남보다 뛰어나다는 것은 고결한 것이 아니다.  
-    진정한 고결함은 예전의 자신보다 뛰어난 데 있다.  
+    > There is nothing noble in being superior to your fellow men. True nobility lies in being superior to your former self.  
+    남보다 뛰어나다는 것은 고결한 것이 아니다. 진정한 고결함은 예전의 자신보다 뛰어난 데 있다.  
     \- 어니스트 헤밍웨이-
 
 - 텍스트 강조
