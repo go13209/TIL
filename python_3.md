@@ -58,6 +58,21 @@
     |.count(x)|원하는 값의 개수를 반환|
     |.sort()|원본 리스트를 정렬하고 변경 <br> * sorted 함수는 원본 변경 없이 정렬된 리스트를 반환|
     |.reverse()|순서를 반대로 뒤집음|
+  - List Comprehension
+    - 표현식과 제어문을 통해 특정한 값을 가진 리스트를 간결하게 생성하는 방법
+    - [\<expression> for <변수> in \<iterable>]
+    - [\<expression> for <변수> in \<iterable> if <조건식>]
+    ```
+    1~3의 세제곱의 결과가 담긴 리스트를 만드시오.
+    (1)
+    cubic_list = []
+    for number in range(1, 4):
+      cubic_list.append(number**3)
+    print(cubic_list)
+
+    (2)
+    print([number**3 for number in range(1, 4)])
+    ```
 - 튜플(tuple): 변경 불가능한 값의 나열(반복 가능 / 변경 불가능)
   - 순서를 가지며 서로 다른 타입의 요소를 가질 수 있음
   - 항상 소괄호(()) 형태로 정의하며 요소는 콤마로 구분
@@ -131,3 +146,18 @@
     |.items()|딕셔너리의 모든 키-값의 쌍을 담은 뷰 반환|
     |.get(k, v)|키 k의 값을 반환하는데 키 k가 딕셔너리에 없을 경우 v를 반환|
     |.pop(k, v)|키 k의 값을 반환하고 키 k인 항목을 딕셔너리에서 삭제하는데 키 k가 딕셔너리에 없을 경우 v를 반환|
+  - Dictionary Comprehension
+    - 표현식과 제어문을 통해 특정한 값을 가진 리스트를 간결하게 생성하는 방법
+    - {key: value for <변수> in \<iterable>}
+    - {key: value for <변수> in \<iterable> if <조건식>}
+    ```
+    1~3의 세제곱 결과가 담긴 딕셔너리를 만드시오.
+    (1)
+    cubic_dict = {}
+    for number in range(1, 4):
+      cubic_dict[number] = number ** 3
+    print(cubic_dict)
+
+    (2)
+    print({number: number**3 for number in range(1, 4)})
+    ```

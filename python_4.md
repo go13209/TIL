@@ -73,6 +73,27 @@
     3 5
     <class 'int'> <class 'int'>
     ```
+- enumerate 함수
+  - enumerate(iterable, start=0)
+  - 열거 객체를 돌려줌
+  ```
+  enumerate(members)
+  # <enumerate at 0x105d3e100>
+  
+  list(enumerate(members))
+  # [(0, '민수'), (1, '영희'), (2, '철수')]
+
+  list(enumerate(members, start=1))
+  # [(1, '민수'), (2, '영희'), (3, '철수')]
+  ```
+- lambda \[parameter] : 표현식
+  - 람다 함수: 표현식을 계산한 결괏값을 반환하는 함수로, 이름이 없는 함수여서 익명 함수라고도 불림
+  - 특징
+    - return 문을 가질 수 없음
+    - 간편 조건문 외 조건문이나 반복문을 가질 수 없음
+  - 장점
+    - 함수를 정의해서 사용하는 것보다 간결하게 사용 가능
+    - def를 사용할 수 없는 곳에서도 사용 가능
 
 ## 💡 사용자 정의 함수
 - 함수 선언은 def 키워드 활용

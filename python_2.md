@@ -88,6 +88,22 @@
   else:
     Run this code block
   ```
+- 조건 표현식(Conditional Expression)
+  - 조건 표현식을 일반적으로 조건에 따라 값을 할당할 때 활용
+  - <true인 경우 값> if \<expression> else <false인 경우 값>
+  ```
+  num = 2
+  if num % 2:
+    result = '홀'
+  else:
+    result = '짝'
+  print(result)
+
+  <조건 표현식>
+  num = 2
+  result = '홀' if num % 2 else '짝'
+  print(result)
+  ```
   ### 실습 예제
   - 조건문을 통해 변수 num의 값의 홀수/짝수 여부를 출력하시오. 이때 num은 input을 통해 사용자로부터 입력 받으시오.
     ```
