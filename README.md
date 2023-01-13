@@ -12,5 +12,5 @@
   - [Python - 자료 구조](python_3.md)
   - [Python - 함수](/python_4.md)
   - [Python - 에러/예외, 예외 처리](/python_5.md)
-  - [Python - 파일 입출력, JSON 파일 활용](./python_6.md)
+  - [Python - 파일 입출력, JSON 파일 활용, 외부 패키지 활용](./python_6.md)
   - [Python - 클래스, 인스턴스](/python_7.md)
