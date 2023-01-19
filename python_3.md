@@ -140,14 +140,16 @@
   - 딕셔너리에 키와 값의 쌍을 추가할 수 있으며 이미 해당하는 키가 있다면 기존 값이 변경됨
   - 키가 없는 경우 KeyError 발생
   - 딕셔너리는 기본적으로 key를 순회하며 key를 통해 값을 활용
+  - 해시 함수와 해시 테이블을 이용하기 때문에 삽입, 삭제, 수정, 조회 연산의 속도가 리스트보다 빠름
+
   - 딕셔너리 메서드
     |문법|설명|
     |----|---|
     |.keys()|딕셔너리의 모든 키를 담은 뷰 반환|
     |.values()|딕셔너리의 모든 값을 담은 뷰 반환|
     |.items()|딕셔너리의 모든 키-값의 쌍을 담은 뷰 반환|
-    |.get(k, v)|키 k의 값을 반환하는데 키 k가 딕셔너리에 없을 경우 v를 반환|
-    |.pop(k, v)|키 k의 값을 반환하고 키 k인 항목을 딕셔너리에서 삭제하는데 키 k가 딕셔너리에 없을 경우 v를 반환|
+    |.get(key, default)|내부에 존재하는 key에 대한 value 반환, 존재하지 않는 key에 대해서는 default 값 반환|
+    |.pop(key, default)|내부에 존재하는 key에 대한 value 삭제 및 반환, 존재하지 않는 key에 대해서는 KeyError 발생 <br> 두 번째 인자로 default(기본) 값을 지정하여 key가 딕셔너리에 없을 경우 default 값을 반환하고 KeyError 방지 가능|
   - Dictionary Comprehension
     - 표현식과 제어문을 통해 특정한 값을 가진 리스트를 간결하게 생성하는 방법
     - {key: value for <변수> in \<iterable>}
@@ -163,3 +165,35 @@
     (2)
     print({number: number**3 for number in range(1, 4)})
     ```
+  - Counter 객체
+    - Counter는 해시 가능한 객체를 세기 위한 dict 서브 클래스임
+    - elements()
+      - 개수만큼 반복되는 요소에 대한 이터레이터를 반환
+      - 요소는 처음 발견되는 순서대로 반환
+      - 요소의 개수가 1보다 작으면 elements()는 이를 무시함
+      ```
+      from collections import Counter
+
+      c = Counter(a=4, b=2, c=0, d=-2)
+      sorted(c.elements())
+      # ['a', 'a', 'a', 'a', 'b', 'b']
+      ```
+    - most_common([n])
+      - n개의 가장 흔한 요소와 그 개수를 가장 흔한 것부터 가장 적은 것 순으로 나열한 리스트를 반환
+      - n이 생략되거나 None이면, most_common()은 계수기의 모든 요소를 반환
+      - 개수가 같은 요소는 처음 발견된 순서를 유지
+      ```
+      from collections import Counter
+
+      Counter('abracadabra').most_common(3)
+      # [('a', 5), ('b', 2), ('r', 2)]
+      ```
+    - total()
+      - 합계를 계산함
+      ```
+      from collections import Counter
+      
+      c = Counter(a=10, b=5, c=0)
+      c.total()
+      # 15
+      ```
