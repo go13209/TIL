@@ -15,16 +15,16 @@
     - 예시: 문장을 구분할 때 중괄호({,}) 대신 들여쓰기를 사용
 - Expressive Language
   - 같은 작업에 대해서도 C나 자바로 작성할 때보다 더 간결하게 작성 가능
-  ```
-  자바
+  ```java
+  // 자바
   public class HelloPython {
     public static void main(string[] args) {
       system.out.println("Hello Python!");
     }
   }
   ```
-  ```
-  파이썬
+  ```python
+  # 파이썬
   print('Hello Python!')
   ```
 - 크로스 플랫폼 언어
@@ -156,15 +156,15 @@
 
 ## 💡 실습 예제
 - x = 10, y = 20 일 때, 각각 값을 바꿔서 저장하는 코드를 작성하시오.
-  ```
-  방법 1) 임시변수 활용  
+  ```python
+  # 방법 1) 임시변수 활용  
   tmp = x  
   x = y  
   y = tmp  
   print(x, y)
   ```
-  ```
-  방법 2) Pythonic!  
+  ```python
+  # 방법 2) Pythonic!  
   y, x = x, y  
   print(x, y)
   ```

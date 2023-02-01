@@ -64,15 +64,15 @@
     - 표현식과 제어문을 통해 특정한 값을 가진 리스트를 간결하게 생성하는 방법
     - [\<expression> for <변수> in \<iterable>]
     - [\<expression> for <변수> in \<iterable> if <조건식>]
-    ```
-    1~3의 세제곱의 결과가 담긴 리스트를 만드시오.
-    (1)
+    ```python
+    # 1~3의 세제곱의 결과가 담긴 리스트를 만드시오.
+    # (1)
     cubic_list = []
     for number in range(1, 4):
       cubic_list.append(number**3)
     print(cubic_list)
 
-    (2)
+    # (2)
     print([number**3 for number in range(1, 4)])
     ```
 - 튜플(tuple): 변경 불가능한 값의 나열(반복 가능 / 변경 불가능)
@@ -89,7 +89,7 @@
     - n부터 m-1까지 숫자의 시퀀스
   - 범위 및 스텝 지정: range(n, m, s)
     - n부터 m-1까지 s만큼 증가시킨 숫자의 시퀀스
-    ```
+    ```python
     # 0부터 특정 숫자까지
     list(range(3))
     # [0, 1, 2]
@@ -154,15 +154,15 @@
     - 표현식과 제어문을 통해 특정한 값을 가진 리스트를 간결하게 생성하는 방법
     - {key: value for <변수> in \<iterable>}
     - {key: value for <변수> in \<iterable> if <조건식>}
-    ```
-    1~3의 세제곱 결과가 담긴 딕셔너리를 만드시오.
-    (1)
+    ```python
+    # 1~3의 세제곱 결과가 담긴 딕셔너리를 만드시오.
+    # (1)
     cubic_dict = {}
     for number in range(1, 4):
       cubic_dict[number] = number ** 3
     print(cubic_dict)
 
-    (2)
+    # (2)
     print({number: number**3 for number in range(1, 4)})
     ```
   - Counter 객체
@@ -171,7 +171,7 @@
       - 개수만큼 반복되는 요소에 대한 이터레이터를 반환
       - 요소는 처음 발견되는 순서대로 반환
       - 요소의 개수가 1보다 작으면 elements()는 이를 무시함
-      ```
+      ```python
       from collections import Counter
 
       c = Counter(a=4, b=2, c=0, d=-2)
@@ -182,7 +182,7 @@
       - n개의 가장 흔한 요소와 그 개수를 가장 흔한 것부터 가장 적은 것 순으로 나열한 리스트를 반환
       - n이 생략되거나 None이면, most_common()은 계수기의 모든 요소를 반환
       - 개수가 같은 요소는 처음 발견된 순서를 유지
-      ```
+      ```python
       from collections import Counter
 
       Counter('abracadabra').most_common(3)
@@ -190,7 +190,7 @@
       ```
     - total()
       - 합계를 계산함
-      ```
+      ```python
       from collections import Counter
       
       c = Counter(a=10, b=5, c=0)

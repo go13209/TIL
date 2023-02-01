@@ -6,7 +6,7 @@
       - %s : 문자열(string)
       - %d : 정수(decimal)
       - %f : 실수(float)
-      ```
+      ```python
       name = 'Kim'
       score = 4.5
 
@@ -19,7 +19,7 @@
       # 내 성적은 4.500000
       ```
   2. f-string
-      ```
+      ```python
       name = 'Kim'
       score = 4.5
       print(f'Hello, {name}! 성적은 {score}')
@@ -34,7 +34,7 @@
 - 암시적 형 변환(Implicit Typecasting): 사용자가 의도하지 않고 파이썬 내부적으로 자료형을 변환하는 경우
   - bool
   - Numeric type(int, float, complex)
-    ```
+    ```python
     True + 3
     # 4
     
@@ -51,7 +51,7 @@
     - str(형식에 맞는 문자열만 가능), int -> float
   - str
     - int, float, list, tuple, dict -> str
-  ```
+  ```python
   # 문자열은 암시적 타입 변환이 되지 않음
   '3' + 4
   TypeError: can only concatenate str (not "int") to str
@@ -82,7 +82,7 @@
   - 조건이 참인 경우 들여쓰기 되어 있는 코드 블럭 실행
   - 이외의 경우 else 이후 들여쓰기 되어 있는 코드 블럭 실행
     - else는 선택적으로 활용 가능
-  ```
+  ```python
   if < expression >:
     Run this code block
   else:
@@ -91,7 +91,7 @@
 - 조건 표현식(Conditional Expression)
   - 조건 표현식을 일반적으로 조건에 따라 값을 할당할 때 활용
   - <true인 경우 값> if \<expression> else <false인 경우 값>
-  ```
+  ```python
   num = 2
   if num % 2:
     result = '홀'
@@ -99,14 +99,14 @@
     result = '짝'
   print(result)
 
-  <조건 표현식>
+  # 조건 표현식
   num = 2
   result = '홀' if num % 2 else '짝'
   print(result)
   ```
   ### 실습 예제
   - 조건문을 통해 변수 num의 값의 홀수/짝수 여부를 출력하시오. 이때 num은 input을 통해 사용자로부터 입력 받으시오.
-    ```
+    ```python
     num = int(input())
     if num % 2 == 1:
       print('홀수')
@@ -114,8 +114,8 @@
       print('짝수')
     ```
 - 복수 조건문: 복수의 조건식을 활용할 경우 elif를 활용하여 표현
-  ```
-  if < expressio >:
+  ```python
+  if < expression >:
     Run this code block
   elif < expression >:
     Run this code block
@@ -126,7 +126,7 @@
   ```
   ### 실습 예제
   - 미세먼지 농도에 따른 등급이 있을 때, dust 값에 따라 등급을 출력하는 조건식을 작성하시오.
-    ```
+    ```python
     dust = 80
 
     if dust > 150:
@@ -142,7 +142,7 @@
     # 조건식을 동시에 검사하는 것이라 아니라 순차적으로 비교하는 것이기 때문에 '150 >= dust > 80' 식으로 적을 필요가 없다.
     ```
 - 중첩 조건문: 조건문은 다른 조건문에 중첩되어 사용할 수 있음
-  ```
+  ```python
   if < expression >:
     Run this code block
     if < expression >:
@@ -152,7 +152,7 @@
   ```
   ### 실습 예제
   - 미세먼지 실습 예제에 중첩 조건문을 활용하여 미세먼지 농도(dust 값)가 300이 넘는 경우 '실외 활동을 자제하세요'라는 메시지를 추가로 출력하고 음수인 경우 '값이 잘못되었습니다'라는 메시지를 출력하시오.
-    ```
+    ```python
     dust = -10
 
     if dust > 150:
@@ -185,13 +185,13 @@
   - 조건이 참인 경우 들여쓰기 되어 있는 코드 블록이 실행됨
   - 코드 블록이 모두 실행되고 다시 조건식을 검사하며 반복적으로 실행됨
   - while 문은 무한 루프를 하지 않도록 종료 조건이 반드시 필요함
-  ```
+  ```python
   while < expression >:
     Run this code block
   ```
   ### 실습 예제
   - 1부터 사용자가 입력한 양의 정수까지의 총합을 구하는 코드를 작성하시오.
-    ```
+    ```python
     # 값 초기화
     n = 0
     total = 0
@@ -213,7 +213,7 @@
   ```
   ### 실습 예제
   - 사용자가 입력한 문자를 한 글자씩 세로로 출력하시오.
-    ```
+    ```python
     chars = input()
     # 사용자가 'hello'를 입력한 경우
 
@@ -230,7 +230,7 @@
 ## 💡 반복문 제어
 - break
   - break 문을 만나면 반복문은 종료됨
-  ```
+  ```python
   for i in range(10):
     if i > 1:
       print('0과 1만 필요해!')
@@ -243,7 +243,7 @@
   ```
 - continue
   - continue 이후의 코드 블록은 수행하지 않고 다음 반복을 수행
-  ```
+  ```python
   for i in range(6):
     if i % 2 == 0:
       continue
@@ -257,7 +257,7 @@
 - for-else
   - 끝까지 반복문을 실행한 이후에 else 문을 실행
     - break를 통해 중간에 종료되는 경우 else 문은 실행되지 않음
-  ```
+  ```python
   for char in 'apple':
     if char == 'b':
       print('b!')
@@ -265,9 +265,9 @@
   else:
     print('b가 없습니다')
 
-    b가 없습니다.
+    # b가 없습니다.
   ```
-  ```
+  ```python
   for char in 'banana':
     if char == 'b':
       print('b!')
@@ -275,5 +275,5 @@
   else:
     print('b가 없습니다')
 
-    b!
+    # b!
   ```

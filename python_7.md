@@ -10,8 +10,8 @@
   - 프로그램을 여러 개의 독립된 객체들과 그 객체들 간의 상호작용으로 파악하는 프로그래밍 방법
   - 프로그램을 유연하고 변경이 용이하게 만들기 때문에 대규모 소프트웨어 개발에 많이 사용됨
   - 소프트웨어 개발과 보수를 간편하게 하고 보다 직관적인 코드 분석을 가능하게 함
-  ```
-  < 객체 지향 프로그래밍 예시 >
+  ```python
+  # 객체 지향 프로그래밍 예시
   class Rectangle:
     def __init__(self, x, y):
       self.x = x
@@ -54,7 +54,7 @@
     - is
       - 동일한(identical)
       - 두 변수가 동일한 객체를 가리키는 경우 True
-    ```
+    ```python
     a = [1, 2, 3]
     b = [1, 2, 3]
     print(a == b, a is b)
@@ -80,7 +80,7 @@
   - 인스턴스나 클래스를 사용하지 않는 메서드
   - @staticmethod 데코레이터를 사용하여 정의
   - 호출 시 **어떠한 인자로 전달되지 않음**(클래스 및 인스턴스 정보에 접근/수정 불가)
-  ```
+  ```python
   class MyClass:
   
     def method(self):
@@ -120,7 +120,7 @@
   - 각 인스턴스들의 고유한 변수
 - 생성자 메소드에서 self.\<name>으로 정의
 - 인스턴스가 생성된 이후 \<instance>.\<name>으로 접근 및 할당
-  ```
+  ```python
   class Person:
     def __init__(self, name):
       self.name = name # 인스턴스 변수 정의
@@ -156,7 +156,7 @@
         - 프린트 함수를 호출할 때 자동으로 호출
         - 어떤 인스턴스를 출력하면 \_\_str__의 return 값이 출력
       - \_\_gt__ : 부등호 연산자(>, greater than)
-  ```
+  ```python
   class Circle:
     
     def __init__(self, r):

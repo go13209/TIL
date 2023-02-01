@@ -53,7 +53,7 @@
 - map 함수
   - map(function, iterable)
   - 순회 가능한 데이터구조(iterable)의 모든 요소에 함수(function)를 적용하고 그 결과를 map object로 반환
-    ```
+    ```python
     numbers = [1, 2, 3]
     result = map(str, numbers)
     print(result, type(result))
@@ -64,7 +64,7 @@
     # 리스트 형 변환을 통해 결과를 직접 확인
     ```
   - 알고리즘 문제 풀이 시 input 값들을 숫자로 바로 활용하고 싶을 때 사용
-    ```
+    ```python
     n, m = map(int, input().split())
 
     print(n, m)
@@ -76,7 +76,7 @@
 - enumerate 함수
   - enumerate(iterable, start=0)
   - 열거 객체를 돌려줌
-  ```
+  ```python
   enumerate(members)
   # <enumerate at 0x105d3e100>
   
@@ -101,7 +101,7 @@
   - parameter가 있는 경우 함수명(값1, 값2, ...)로 호출
   > parameter: 함수를 실행할 때 함수 내부에서 사용되는 식별자  
   Argument: 함수를 호출할 때 넣어주는 값
-  ```
+  ```python
   def function(ham): # parameter: ham
     return ham
   
@@ -122,21 +122,21 @@
   - 선택 argument: 값을 전달하지 않아도 되는 경우는 기본값이 전달
 - positional arguments
   - 기본적으로 함수 호출 시 argument는 위치에 따라 함수 내에 전달됨
-  ```
+  ```python
   def add(x, y): # add(2, 3)
     return x + y
   ```
 - keyword arguments
   - 직접 변수의 이름으로 특정 argument를 전달할 수 있음
   - keyword argument 다음에 positional argument를 활용할 수 없음
-  ```
+  ```python
   def add(x, y): # add(x = 2, y = 5) / add(2, y = 5)
     return x + y
   ```
 - default arguments values
   - 기본값을 지정하여 함수 호출 시 argument 값을 설정하지 않도록 함
     - 정의된 것보다 더 적은 개수의 argument들로 호출될 수 있음
-  ```
+  ```python
   def add(x, y = 0): # add(2)
     return x + y  
   ```
@@ -144,7 +144,7 @@
   - 여러 개의 positional argument를 하나의 필수 parameter로 받아서 사용
     - 몇 개의 positional arguments를 받을지 모르는 함수를 정의할 때 유용
   - argument들은 튜플로 묶여 처리되며 parameter에 *를 붙여 표현
-  ```
+  ```python
   def add(*args): # add(2) / add(2, 3, 4, 5)
     for arg in args:
     print(arg)
@@ -152,7 +152,7 @@
 - 정해지지 않은 개수의 keyword arguments
   - 함수가 임의의 개수 argument를 keyword argument로 호출될 수 있도록 지정
   - argument들은 딕셔너리로 묶여 처리되며 parameter에 **를 붙여 표현
-  ```
+  ```python
   def family(**kwargs):
     for key, value in kwargs:
       print(key, ':', value)
@@ -172,7 +172,7 @@
     - built-in scope: 파이썬이 실행된 이후부터 영원히 유지
     - global scope: 모듈이 호출된 시점 이후 혹은 인터프리터가 끝날 때까지 유지
     - local scope: 함수가 호출될 때 생성되고 함수가 종료될 때까지 유지
-  ```
+  ```python
   def func():
     a = 20
     print('local', a)
@@ -194,7 +194,7 @@
   - 현재 코드 블록 전체에 적용되며 나열된 식별자(이름)이 global variable임을 나타냄
     - global에 나열된 이름은 같은 코드 블록에서 global 앞에 등장할 수 없음
     - global에 나열된 이름은 parameter, for 루프 대상, 클래스/함수 정의 등으로 정의되지 않아야 함
-  ```
+  ```python
   a = 10
   def func():
     global a
