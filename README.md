@@ -20,7 +20,10 @@
   - [취업특강 2 - 코딩 테스트 준비 가이드](/취업특강_2.md)
 - 7~9주차 (2023.02.08 ~ 2023.02.21)
   - [데이터베이스 기본](/database.md)
-  - [SQL](/sql.md)
+  - [SQL 기본 정의](/sql_1.md)
+  - [SQL Single Table Queries](/sql_2.md)
+  - [SQL Managing Tables](/sql_3.md)
+  - [SQL Modifying Data](/sql_4.md)
 
 ## 💡 혼자풀이 공부 내용
 
