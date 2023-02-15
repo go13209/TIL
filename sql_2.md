@@ -184,3 +184,16 @@
 - HAVING clause
   - 집계 항목에 대한 세부 조건을 지정
   - 주로 GROUP BY와 함께 사용되며 GROUP BY가 없다면 WHERE처럼 동작
+  ```sql
+  -- 테이블 customers에서 country 필드를 그룹화하여 각 그룹에 대한 creditLimit의 평균값이 80,000을 초과하는 데이터만 조회
+
+  SELECT
+    country,
+    AVG(CreditLimit)
+  FROM
+    customers
+  GROUP BY
+    country
+  HAVING
+    AVG(CreditLimit) > 80000;
+  ```
