@@ -28,6 +28,7 @@
   - [SQL Managing Tables](/sql_3.md)
   - [SQL Modifying Data](/sql_4.md)
   - [SQL Multi Table Queries](/sql_5.md)
+  - [SQL Nested Queries](/sql_6.md)
 <br><br/>  
 ## 💡 혼자풀이 공부 내용
 - [(python) join 메서드](./혼자풀이_공부/join.md)
