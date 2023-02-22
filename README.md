@@ -37,6 +37,10 @@
 
 ## 💡 혼자풀이 공부 내용
 
-- [(python) join 메서드](./혼자풀이_공부/join.md)
-- [(SQL) 날짜 추출](<./혼자풀이_공부/(SQL)날짜_추출.md>)
-- [(SQL) 문자열 추출](<./혼자풀이_공부/(SQL)문자열_추출.md>)
+- [(Python) Counter 클래스](<혼자풀이_공부/(Python)Counter.md>)
+- [(Python) enumerate 함수](<혼자풀이_공부/(Python)enumerate.md>)
+- [(Python) zip 함수](<혼자풀이_공부/(Python)zip.md>)
+- [(Python) get 메소드](<혼자풀이_공부/(Python)get.md>)
+- [(Python) join 메소드](<혼자풀이_공부/(Python)join.md>)
+- [(SQL) 날짜 추출](<혼자풀이_공부/(SQL)날짜_추출.md>)
+- [(SQL) 문자열 추출](<혼자풀이_공부/(SQL)문자열_추출.md>)
