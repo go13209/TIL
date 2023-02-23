@@ -38,6 +38,7 @@
 
 ## 💡 혼자풀이 공부 내용
 
+- [(Python) 자릿수](<혼자풀이_공부/(Python)자릿수.md>)
 - [(Python) Counter 클래스](<혼자풀이_공부/(Python)Counter.md>)
 - [(Python) enumerate 함수](<혼자풀이_공부/(Python)enumerate.md>)
 - [(Python) zip 함수](<혼자풀이_공부/(Python)zip.md>)
