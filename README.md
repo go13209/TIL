@@ -32,7 +32,8 @@
   - [SQL 심화](sql_7.md)
     <br><br/>
 - 9~12주차 (2023.02.22 ~ 2023.03.19)
-  - [HTML, CSS](html_css.md)
+  - [HTML / CSS 기초](web_html_css.md)
+  - [Web - The box model](web_box_model.md)
     <br><br/>
 
 ## 💡 혼자풀이 공부 내용

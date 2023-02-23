@@ -1,4 +1,4 @@
-# ⭐ HTML / CSS
+# ⭐ HTML / CSS 기초
 
 ## 💡 HTML(Hyper Text Markup Language)
 
