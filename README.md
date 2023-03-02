@@ -35,6 +35,7 @@
   - [HTML / CSS 기초](web_html_css.md)
   - [Web - The box model](web_box_model.md)
   - [Web - CSS Layout](web_css_layout.md)
+  - [Web - Semantic web](web_semantic_web.md)
     <br><br/>
 
 ## 💡 혼자풀이 공부 내용
