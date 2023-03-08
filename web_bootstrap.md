@@ -26,3 +26,7 @@
 - Gutters
   - Grid system에서 column 사이의 padding 영역
   - gx-\* : 수평 / gy-\* : 수직 / g-\* : 수평 수직
+- Breakpoints
+  - 웹 페이지를 다양한 화면 크기에서 적절하게 배치하기 위한 분기점
+  - 화면 너비에 따라 6개의 분기점 제공(xs, sm, md, lg, xl, xxl)
+  - breakpoints마다 설정된 최대 너비 값 "이상으로" 화면이 커지면 grid system 동작이 변경됨
