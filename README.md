@@ -37,6 +37,7 @@
   - [Web - CSS Layout](web_css_layout.md)
   - [Web - Semantic web](web_semantic_web.md)
   - [Web - Bootstrap](web_bootstrap.md)
+  - [Web - JavaScript](web_js.md)
     <br><br/>
 
 ## 💡 혼자풀이 공부 내용
