@@ -89,3 +89,140 @@
   - element.style.property
     - element 스타일 속성값을 변경
     - 예시: element.style.backgroundColor = "red";
+
+## 💡 Basic syntax of JavaScript
+- 변수 선언 키워드
+  - let
+    - `블록 스코프`를 갖는 지역 변수를 선언
+    - 재할당 가능 & 재선언 불가능
+    > 블록 스코프(Block Scope)
+    >  - if, for, 함수 등의 **중괄호({}) 내부**를 가리킴
+    >  - 블록 스코프를 가지는 변수는 블록 바깥에서 접근 불가능
+  - const
+    - 블록 스코프를 갖는 지역 변수를 선언
+    - 재할당 불가능 & 재선언 불가능
+- 데이터 타입
+  - 원시 자료형
+    - 변수에 값이 직접 저장되는 자료형(불변, 값이 복사)
+    - Number: 정수 또는 숫자를 표현하는 자료형
+    - String: 텍스트 데이터를 표현하는 자료형
+      - 덧셈을 통해 문자열끼리 붙일 수 있음
+      - **'Template Literal'을 사용하여 문자열 사이에 변수 삽입 가능(따옴표가 아닌 backtick을 사용)**
+      ```js
+      const age = 10
+      const message = `홍길동은 ${age}세입니다.`
+      console.log(message)
+      ```
+    - Boolean: true와 false
+      - **조건문 또는 반복문에서 boolean이 아닌 데이터 타입은 '자동 형 변환 규칙'에 따라 true 또는 false로 변환됨**
+
+      |데이터 타입|false|true|
+      |----------|:------:|:----:|
+      |undefined|항상 false|X|
+      |null|항상 false|X|
+      |Number|0, -0, NaN|나머지 모든 경우|
+      |String|빈 문자열|나머지 모든 경우|
+
+    - null: 변수의 값이 없음을 의도적으로 표현할 때 사용
+    - undefined: 변수 선언 이후 직접 값을 할당하지 않으면 자동으로 할당됨
+  - 참조 자료형
+    - 객체의 주소가 저장되는 자료형(가변, 주소가 복사)
+    - Objects(Object, Array, Function)
+- 연산자
+  - 할당 연산자
+    - 오른쪽에 있는 피연산자의 평가 결과를 왼쪽 피연산자에 할당하는 연산자
+    - 다양한 연산에 대한 단축 연산자 지원
+    - increment(++)
+      - 피연산자의 값을 1 증가시키는 연산자
+    - decrement(--)
+      - 피연산자의 값을 1 감소시키는 연산자
+    - += 또는 -=와 같이 더 분명한 표현으로 적는 것을 권장함
+  - 비교 연산자
+    - 피연산자들(숫자, 문자, Boolean 등)을 비교하고 결과값을 boolean으로 반환하는 연산자
+  - 동등 연산자(==)
+    - 두 피연산자가 같은 값으로 평가되는지 비교 후 boolean 값을 반환
+    - 비교할 때 암묵적 타입 변환을 통해 타입을 일치시킨 후 같은 값인지 비교
+    - 두 피연산자가 모두 객체일 경우 메모리의 같은 객체를 바라보는지 판별
+    - 예상치 못한 결과가 발생할 수 있으므로 **특별한 경우를 제외하고 사용하지 않음**
+  - 일치 연산자(===)
+    - 두 피연산자의 값과 타입이 모두 같은 경우 true를 반환
+    - 같은 객체를 가리키거나, 같은 타입이면서 같은 값인지를 비교
+    - 엄격한 비교가 이뤄지며 암묵적 타입 변환이 발생하지 않음
+  - 논리 연산자
+    - and 연산은 '&&' 연산자
+    - or 연산은 '||' 연산자
+    - not 연산은 '!' 연산자
+- 조건문
+  - if
+    - 조건 표현식의 결과값을 boolean 타입으로 변환 후 참/거짓을 판단
+    ```js
+    const name = 'manager'
+
+    if (name === 'admin') {
+      console.log('관리자님 환영합니다.')
+    } else if (name === 'manager') {
+      console.log('매니저님 환영합니다.')
+    } else {
+      console.log(`${name}님 환영합니다.`)
+    }
+    ```
+- 반복문
+  - while
+    - 조건문이 참이기만 문장을 계속해서 수행
+    ```js
+    while (조건문) {
+      // do something
+    }
+    ```
+    ```js
+    let i = 0
+
+    while (i < 6) {
+      console.log(i)
+      i += 1
+    }
+    ```
+  - for
+    - 특정한 조건이 거짓으로 판별될 때까지 반복
+    ```js
+    for ([초기문]; [조건문]; [증감문];) {
+      // do something
+    }
+    ```
+    ```js
+    for (let i = 0; i < 6; i++) {
+      console.log(i)
+    }
+    ```
+  - for...in
+    - 객체(object)의 속성을 순회할 때 사용
+    - 객체의 속성에 대해 반복
+    ```js
+    for (variable in object) {
+      statements
+    }
+    ```
+    ```js
+    const fruits = { a: 'apple', b: 'banana' }
+
+    for (const key in fruits) {
+      console.log(key) // a, b
+      console.log(fruits[key]) // apple, banana
+    }
+    ```
+
+  - for...of
+    - 반복 가능한 객체(배열, 문자열 등)를 순회할 때 사용
+    - 객체의 요소에 대한 반복
+    ```js
+    for (variable of iterable) {
+      statements
+    }
+    ```
+    ```js
+    const numbers = [0, 1, 2, 3]
+
+    for (const number of numbers) {
+      console.log(number) // 0, 1, 2, 3
+    }
+    ```
