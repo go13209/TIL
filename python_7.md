@@ -29,7 +29,7 @@
 
   r2 = Rectangle(300, 20)
   r2.area()
-  r2.circumference
+  r2.circumference()
   ```
   ```
   - 사각형: 클래스(class)
