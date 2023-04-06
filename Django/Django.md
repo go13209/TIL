@@ -77,7 +77,7 @@
         
         서버 실행 후에는 http://127.0.0.1:8000 에 접속해 제대로 작동하는지 확인한다
         
-        ![Untitled](Django%2023d3a9c8a3044f4fa230758fa118abfa/Untitled.png)
+        ![Untitled](Django/Untitled.png)
         
     8. 생성한 프로젝트 내에 앱 생성
         
@@ -115,7 +115,7 @@
     10. 데이터 흐름에 따른 코드 작성
         1. 클라이언트로부터 특정 페이지를 요청 받는다.
         
-        ![Untitled](Django%2023d3a9c8a3044f4fa230758fa118abfa/Untitled%201.png)
+        ![Untitled](Django/Untitled%201.png)
         
         1. 프로젝트 폴더 내의 urls.py 파일은 받은 요청을 토대로 앱 내의 views 모듈에 정의된 특정 뷰 함수를 호출한다.
         
