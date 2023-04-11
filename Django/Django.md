@@ -928,3 +928,83 @@
         ```
         
         **update_session_auth_hash(request, user)** : 암호 변경 시 세션 무효화를 방지한다.
+        
+    
+
+- Django Static Files
+    - Static Files: 변경되지 않고 고정적으로 제공되는 서버의 파일, 즉 개발 리소스의 정적인 파일이다.
+    - static 파일 경로
+        - 기본 경로: app/static
+        - 추가 경로: STATICFILES_DIRS 설정
+        
+        ```python
+        # settings.py
+        
+        # 기본 경로
+        **STATIC_URL = '/static/'**
+        
+        # 추가 경로
+        **STATICFILES_DIRS = [
+        		BASE_DIR / 'static',
+        ]**
+        ```
+        
+    - Media Files: 사용자가 웹에서 업로드하는 정적 파일
+        - 이미지 업로드에는 ImageField라는 모델 필드를 사용한다.
+            - ImageField를 사용하려면 Pillow 라이브러리를 설치해야 한다.
+            - DB에는 이미지가 직접 저장되지 않고 이미지 파일의 경로 문자열이 저장된다.
+            - 이미지 업로드 시 form 요소에 enctype 속성을 추가한다.
+                
+                ```html
+                <!-- articles/create.html -->
+                
+                <h1>CREATE</h1>
+                <form action="{% url 'articles:create' %}" method="POST" **enctype="multipart/form-data"**>
+                	{% csrf_token %}
+                	{{ form.as_p }}
+                	<input type="submit">
+                </form>
+                ```
+                
+            - 이미지 업로드 시 view 함수에는 업로드 파일에 대한 추가 코드를 작성한다.
+                
+                ```python
+                # articles/views.py
+                
+                def create(request):
+                		if request.method == 'POST':
+                				form = ArticleForm(request.POST, **request.FILES**)
+                				...
+                ```
+                
+            - 업로드한 이미지는 url 속성을 통해 파일의 경로 값으로 불러올 수 있다.
+                
+                ```html
+                <!-- articles/detail.html -->
+                
+                <img src="**{{ article.image.url }}**" alt="img">
+                ```
+                
+        - media 파일 설정
+            - MEDIA_ROOT: 미디어 파일이 위치하는 디렉토리의 절대 경로
+            - MEDIA_URL: MEDIA_ROOT에서 제공하는 미디어 파일에 대한 주소 생성
+            
+            ```python
+            # settings.py
+            
+            **MEDIA_ROOT = BASE_DIR / 'media'
+            
+            MEDIA_URL = '/media/'**
+            ```
+            
+            ```python
+            # crud(프로젝트)/urls.py
+            
+            **from django.conf import settings
+            from django.conf.urls.static import static**
+            
+            urlpatterns = [
+            		path('admin/', admin.site.urls),
+            		path(...)
+            ] **+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)**
+            ```
