@@ -1008,3 +1008,43 @@
             		path(...)
             ] **+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)**
             ```
+            
+        
+
+- Django 1 : N 관계
+    - Foreign Key: 테이블의 필드 중에서 다른 테이블의 행과 식별할 수 있는 키이다.
+    - **ForeignKey(to, on_delete)**
+        - django에서 1:N 관계를 설정할 때 사용하는 모델 필드이다.
+        - 1:N 관계에서 N측에 명시한다.
+        - to: 참조하는 모델 class 이름을 적는다.
+            - User 모델을 외래 키로 참조하는 경우 **settings.AUTH_USER_MODEL**을 사용한다.
+        - on_delete: 외래 키가 참조하는 객체가 삭제되었을 때 연결된 하위 객체를 어떻게 처리할지 결정하는 설정이다.
+            - CASCADE: 부모 객체가 삭제됐을 때 이를 참조하는 하위 객체도 함께 삭제된다.
+            - [참고자료(Django 공식문서)](https://docs.djangoproject.com/en/3.2/ref/models/fields/#arguments)
+    - 역참조: 나를 참조하는 테이블을 참조하는 것으로 1:N 관계에서 1이 N을 참조한다.
+        
+        **article.comment_set.all()
+        모델 인스턴스.related manager.QuerySet API**
+        
+        - related manager: 1:N 또는 N:M 관계에서 역참조 시에 사용한다.
+        - 1:N 관계에서 생성되는 related manager 이름은 참조하는 **“모델명_set”** 이름 규칙으로 만들어진다.
+    - 코멘트 생성 구현 코드
+        
+        ```python
+        # articles/views.py
+        
+        def comment_create(request, pk):
+        		article = Article.objects.get(pk=pk)
+        		comment_form = CommentForm(request.POST)
+        		if comment_form.is_valid():
+        				comment = comment_form.**save(commit=False)**
+        				comment.article = article
+        				comment.user = request.user
+        				comment.save()
+        				return redirect('articles:detail', article.pk)
+        		context = {
+        				'article': article,
+        				'comment_form': comment_form,
+        		}
+        		return render(reqeust, 'articles/detail.html', context)
+        ```
