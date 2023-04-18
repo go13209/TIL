@@ -1048,3 +1048,83 @@
         		}
         		return render(reqeust, 'articles/detail.html', context)
         ```
+        
+
+- Django M : N 관계
+    - ManyToManyField: 다대다 관계 설정 시 사용하는 모델 필드로 중개 테이블을 자동으로 생성해준다.
+    - **ManyToManyField(to, **options)**
+        - M:N 관계를 맺는 두 모델 어디에 위치해도 상관없다. 단, 참조와 역참조 방향에 주의한다.
+        - to: 참조하는 모델 class 이름을 적는다.
+        - 옵션으로 사용할 수 있는 인자
+            - related_name: 역참조 시 사용하는 이름을 설정할 수 있다. _set 과 동일한 기능이다.
+            - through: 중개 테이블을 직접 작성할 경우 through 뒤에 중개 테이블에 해당하는 모델명을 적는다.
+            - symmetrical: 동일한 모델, 즉 ‘self’를 참조할 때, 대칭 관계 설정에 사용한다.
+                - 기본값은 True이다. 대칭을 원하지 않으면 False로 설정한다.
+                - 대칭 관계일 경우, source 모델의 인스턴스가 target 모델의 인스턴스를 참조하면 자동으로 target 모델 인스턴스도 source 모델 인스턴스를 참조한다.
+                - 예를 들면, 대칭 관계에서는 인스타그램에서 한 유저를 팔로우하면 자동으로 해당 유저도 나를 팔로우하는 맞팔 상태가 된다.
+    - 팔로우 구현 코드
+        
+        ```python
+        # accounts/models.py
+        
+        class User(AbstractUser):
+        		followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
+        ```
+        
+        ```python
+        # accounts/views.py
+        
+        @login_required
+        def follow(request, user_pk):
+        		User = get_user_model()
+        		person = User.objects.get(pk=user_pk)
+        		if person != request.user:
+        				if person.followers.filter(pk=request.user.pk).exists():
+        						person.followers.remove(request.user)
+        				else:
+        						person.followers.add(request.user)
+        		return redirect('articles:profile', person.username)
+        ```
+        
+        ```html
+        <!-- accounts/profile.html -->
+        
+        <div>
+        	<div>
+        		팔로잉 : {{ person.followings.all|length }} / 팔로워 : {{ person.followers.all|length}}
+        	</div>
+        	{% if request.user != person %}
+        		<div>
+        			<form action="{% url 'accounts:follow' person.pk %}" method="POST">
+        				{% csrf_token %}
+        				{% if request.user in person.followers.all %}
+        					<input type="submit" value="Unfollow">
+        				{% else%}
+        					<input type="submit" value="Follow">
+        				{% endif%}
+        			</form>
+        		</div>
+        	{% endif %}
+        </div>
+        ```
+        
+
+- Fixtures
+    - fixtures: 실제 DB의 데이터를 json 형식으로 django에 삽입할 때 사용한다.
+        - fixtures를 사용하여 모델의 초기 데이터를 제공할 수 있다.
+    - fixtures 명령어
+        - dumpdata: 데이터베이스의 모든 데이터를 추출하여 json 파일로 만드는 명령어
+            
+            **$ python -Xutf8 manage.py dumpdata —indent N(숫자) app_name.ModelName > filename.json**
+            
+            **-Xutf8** : window 환경에서 데이터에 한글이 있어 encoding codec 에러가 발생하는 것을 방지한다.
+            **—indent N(숫자)** : 입력한 숫자크기의 공백을 사용하여 들여쓰기를 추가해 데이터 파일을 보기에 편하게 만들어준다. 해당 옵션이 없을 경우 한 줄에 모든 데이터가 추출되어 보기 불편하다.
+            
+            **app_name.ModelName** : app_name.ModelName을 여러 개 나열하면 모든 모델 데이터를 하나의 파일에 추출하는 것도 가능하지만 권장하지 않는다. 
+            
+        - loaddata: fixtures 데이터를 데이터베이스로 불러오는 명령어
+            
+            **$ python manage.py loaddata filename.json**
+            
+            fixtures 파일은 app 내의 fixtures 폴더 안에 있어야 로드가 가능하다.
+            한꺼번에 여러 파일을 로드할 수 있으나 모델 관계에 따라 순서가 중요할 수 있다.
