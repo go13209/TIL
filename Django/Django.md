@@ -1128,3 +1128,133 @@
             
             fixtures 파일은 app 내의 fixtures 폴더 안에 있어야 로드가 가능하다.
             한꺼번에 여러 파일을 로드할 수 있으나 모델 관계에 따라 순서가 중요할 수 있다.
+
+
+- API / REST / REST API
+    - **API (Application Programming Interface)**
+        - 애플리케이션과 프로그래밍으로 소통하는 방법
+        - 다른 소프트웨어 시스템과 통신하기 위해 따라야 하는 규칙을 정의한다.
+        - 웹 API는 클라이언트와 웹 리소스 사이의 게이트웨이 역할을 한다.
+    - **REST (Representational State Transfer)**
+        - API 작동 방식에 대한 조건을 부과하는 소프트웨어 아키텍처
+        - API Server를 개발하기 위한 일종의 소프트웨어 설계 방법론
+        - URI는 정보의 자원을 표현한다.
+        - 자원에 대한 행위는 HTTP Method(GET, POST, PUT, DELETE)로 표현한다.
+        - 대표 HTTP Request Methods
+            
+            
+            | METHOD | 역할 |
+            | --- | --- |
+            | POST | POST를 통해 해당 URI를 요청하여 리소스를 생성한다. |
+            | GET | 해당 리소스를 조회한다.
+            리소스를 조회하고 해당 도큐먼트에 대한 자세한 정보를 가져온다. |
+            | PUT | 요청한 주소의 리소스를 수정한다. |
+            | DELETE | 지정된 리소스를 삭제한다. |
+        - HTTP Response Status codes
+            - 클라이언트의 HTTP 요청이 성공적으로 완료되었는지 여부를 나타낸다.
+            - 대표적인 상태 코드
+            
+            | 상태 코드 | 의미 |
+            | --- | --- |
+            | 200 | 클라이언트의 요청을 정상적으로 수행했음을 의미한다. |
+            | 201 | POST를 통한 리소스 생성 작업 시 해당 리소스가 성공적으로 생성되었음을 의미한다. |
+            | 204 | 서버가 클라이언트의 요청(변경 또는 삭제)을 성공적으로 처리했으나 현재 페이지에서 벗어나지 않아도 된다는 것을 의미한다.
+            따라서 별도의 콘텐츠를 제공하지 않는다.  |
+            | 400 | 클라이언트의 요청이 부적절할 경우 사용하는 응답 코드이다. |
+            | 405 | 클라이언트가 요청이 허용되지 않는 메서드인 경우 사용하는 응답 코드이다. |
+            | 500 | 서버에 문제가 있을 경우 사용하는 응답 코드이다. |
+    - **REST API**
+        - 두 컴퓨터 시스템이 인터넷을 통해 정보를 안전하게 교환하기 위해 사용하는 인터페이스
+        - REST라는 API 디자인 아키텍처를 지켜 구현한 API
+    
+
+- Django REST Framework (DRF)
+    - Django에서 RESTful API 서버를 쉽게 구축할 수 있도록 도와주는 오픈소스 라이브러리이다.
+    - 이 프레임워크를 통하여 생성한 Model을 바탕으로 조건에 맞는 API를 개발할 수 있다.
+    - DRF 기능을 사용하려면 먼저 Django Rest Framework를 설치한 뒤 settings.py 파일에 rest_framework를 추가한다.
+        
+        **$ pip install djangorestframework**
+        
+        ```python
+        # project/settings.py
+        
+        INSTALLED_APPS = [
+        		...
+        		'rest_framework',
+        		...
+        ]
+        ```
+        
+    
+    - Serialization(직렬화)
+        - 쿼리셋이나 모델 인스턴스와 같은 데이터 구조나 객체 상태를 JSON 또는 XML 데이터 형태로 변환하여 여러 시스템에서 활용할 수 있도록 하는 것이다.
+        - ModelSerializer
+            - Model을 JSON으로 쉽게 바꿀 수 있도록 해준다.
+            - Model에서 정의한 필드를 자동으로 추가하여 Serializer 클래스를 만든다.
+    
+    - DRF 단일 모델의 CRUD 구현 코드
+        
+        ```python
+        # articles/serializers.py
+        
+        from rest_framework import serializers
+        from .models import Article
+        
+        class ArticleListSerializer(serializers.ModelSerializer):
+            class Meta:
+                model = Article
+                fields = ('id', 'title', 'content',)
+        
+        class ArticleSerializer(serializers.ModelSerializer):
+            class Meta:
+                model = Article
+                fields = '__all__
+        ```
+        
+        ```python
+        # articles/views.py
+        
+        from rest_framework.response import Response
+        from rest_framework.decorators import api_view
+        from rest_framework import status
+        from .models import Article
+        from .serializers import ArticleListSerializer, ArticleSerializer
+        
+        **@api_view(['GET', 'POST'])**
+        def article_list(request):
+            if request.method == 'GET':
+                articles = Article.objects.all()
+                serializer = ArticleListSerializer(articles, many=True)
+                return Response(serializer.data)
+            
+            elif request.method == 'POST':
+                serializer = ArticleSerializer(data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
+        		    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        @api_view(['GET', 'DELETE', 'PUT'])
+        def article_detail(request, article_pk):
+            article = Article.objects.get(pk=article_pk)
+            if request.method == 'GET':
+                serializer = ArticleSerializer(article)
+                return Response(serializer.data)
+        
+            elif request.method == 'DELETE':
+                article.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            
+            elif request.method == 'PUT':
+                serializer = ArticleSerializer(article, data=request.data)
+                if serializer.is_valid(**raise_exception=True**):
+                    serializer.save()
+                    return Response(serializer.data)
+        ```
+        
+        **‘api_view’ decorator**
+        - DRF view 함수가 응답해야 하는 HTTP 메서드 목록을 받는다.
+        - DRF view 함수에서는 필수로 작성해야 한다.
+        
+        **raise_exception**
+        - is_valid()의 인자로 사용하면 유효성 검사 결과 오류가 있을 경우 자동으로 HTTP 400(Bad_Request) 응답을 반환한다.
