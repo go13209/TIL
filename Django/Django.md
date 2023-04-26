@@ -1192,69 +1192,183 @@
             - Model을 JSON으로 쉽게 바꿀 수 있도록 해준다.
             - Model에서 정의한 필드를 자동으로 추가하여 Serializer 클래스를 만든다.
     
-    - DRF 단일 모델의 CRUD 구현 코드
+
+- DRF 단일 모델의 CRUD 구현 코드
+    
+    ```python
+    # articles/serializers.py
+    
+    from rest_framework import serializers
+    from .models import Article
+    
+    class ArticleListSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Article
+            fields = ('id', 'title', 'content',)
+    
+    class ArticleSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Article
+            fields = '__all__
+    ```
+    
+    ```python
+    # articles/views.py
+    
+    from rest_framework.response import Response
+    from rest_framework.decorators import api_view
+    from rest_framework import status
+    from .models import Article
+    from .serializers import ArticleListSerializer, ArticleSerializer
+    
+    **@api_view(['GET', 'POST'])**
+    def article_list(request):
+        if request.method == 'GET':
+            articles = Article.objects.all()
+            serializer = ArticleListSerializer(articles, many=True)
+            return Response(serializer.data)
         
-        ```python
-        # articles/serializers.py
+        elif request.method == 'POST':
+            serializer = ArticleSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+    		    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @api_view(['GET', 'DELETE', 'PUT'])
+    def article_detail(request, article_pk):
+        article = Article.objects.get(pk=article_pk)
+        if request.method == 'GET':
+            serializer = ArticleSerializer(article)
+            return Response(serializer.data)
+    
+        elif request.method == 'DELETE':
+            article.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
         
-        from rest_framework import serializers
-        from .models import Article
-        
-        class ArticleListSerializer(serializers.ModelSerializer):
-            class Meta:
-                model = Article
-                fields = ('id', 'title', 'content',)
-        
-        class ArticleSerializer(serializers.ModelSerializer):
-            class Meta:
-                model = Article
-                fields = '__all__
-        ```
-        
-        ```python
-        # articles/views.py
-        
-        from rest_framework.response import Response
-        from rest_framework.decorators import api_view
-        from rest_framework import status
-        from .models import Article
-        from .serializers import ArticleListSerializer, ArticleSerializer
-        
-        **@api_view(['GET', 'POST'])**
-        def article_list(request):
-            if request.method == 'GET':
-                articles = Article.objects.all()
-                serializer = ArticleListSerializer(articles, many=True)
+        elif request.method == 'PUT':
+            serializer = ArticleSerializer(article, data=request.data)
+            if serializer.is_valid(**raise_exception=True**):
+                serializer.save()
                 return Response(serializer.data)
-            
-            elif request.method == 'POST':
-                serializer = ArticleSerializer(data=request.data)
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response(serializer.data, status=status.HTTP_201_CREATED)
-        		    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    ```
+    
+    **‘api_view’ decorator**
+    - DRF view 함수가 응답해야 하는 HTTP 메서드 목록을 받는다.
+    - DRF view 함수에서는 필수로 작성해야 한다.
+    
+    **raise_exception**
+    - is_valid()의 인자로 사용하면 유효성 검사 결과 오류가 있을 경우 자동으로 HTTP 400(Bad_Request) 응답을 반환한다.
+    
+
+- DRF 1 : N 관계 모델의 CRUD 구현 코드
+    
+    ```python
+    # articles/serializers.py
+    
+    from rest_framework import serializers
+    from .models import Article, Comment
+    
+    class ArticleListSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Article
+            fields = ('id', 'title', 'content',)
+    
+    class CommentSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Comment
+            fields = '__all__'
+            read_only_fields = ('article',)
+    
+    class ArticleSerializer(serializers.ModelSerializer):
+        **class MyCommentSerializer(serializers.ModelSerializer):
+            class Meta:
+                model = Comment
+                fields = ('id', 'content',)
+    
+        comment_set = MyCommentSerializer(many=True, read_only=True)
+        comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)**
+    
+        class Meta:
+            model = Article
+            fields = '__all__'
+    ```
+    
+    ```python
+    # articles/views.py
+    
+    from rest_framework.response import Response
+    from rest_framework.decorators import api_view
+    from rest_framework import status
+    from .models import Article, Comment
+    from .serializers import ArticleListSerializer, ArticleSerializer, CommentSerializer
+    
+    @api_view(['GET', 'POST'])
+    def article_list(request):
+        if request.method == 'GET':
+            articles = Article.objects.all()
+            serializer = ArticleListSerializer(articles, many=True)
+            return Response(serializer.data)
         
-        @api_view(['GET', 'DELETE', 'PUT'])
-        def article_detail(request, article_pk):
-            article = Article.objects.get(pk=article_pk)
-            if request.method == 'GET':
-                serializer = ArticleSerializer(article)
+        elif request.method == 'POST':
+            serializer = ArticleSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    @api_view(['GET', 'DELETE', 'PUT'])
+    def article_detail(request, article_pk):
+        article = Article.objects.get(pk=article_pk)
+        if request.method == 'GET':
+            serializer = ArticleSerializer(article)
+            return Response(serializer.data)
+    
+        elif request.method == 'DELETE':
+            article.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        
+        elif request.method == 'PUT':
+            serializer = ArticleSerializer(article, data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
                 return Response(serializer.data)
+    
+    @api_view(['GET'])
+    def comment_list(request):
+        comments = Comment.objects.all()
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+    
+    @api_view(['GET', 'DELETE', 'PUT'])
+    def comment_detail(request, comment_pk):
+        comment = Comment.objects.get(pk=comment_pk)
+        if request.method == 'GET':
+            serializer = CommentSerializer(comment)
+            return Response(serializer.data)
+    
+        elif request.method == 'DELETE':
+            comment.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
         
-            elif request.method == 'DELETE':
-                article.delete()
-                return Response(status=status.HTTP_204_NO_CONTENT)
-            
-            elif request.method == 'PUT':
-                serializer = ArticleSerializer(article, data=request.data)
-                if serializer.is_valid(**raise_exception=True**):
-                    serializer.save()
-                    return Response(serializer.data)
-        ```
-        
-        **‘api_view’ decorator**
-        - DRF view 함수가 응답해야 하는 HTTP 메서드 목록을 받는다.
-        - DRF view 함수에서는 필수로 작성해야 한다.
-        
-        **raise_exception**
-        - is_valid()의 인자로 사용하면 유효성 검사 결과 오류가 있을 경우 자동으로 HTTP 400(Bad_Request) 응답을 반환한다.
+        elif request.method == 'PUT':
+            serializer = CommentSerializer(comment, data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data)
+    
+    @api_view(['POST'])
+    def comment_create(request, article_pk):
+        article = Article.objects.get(pk=article_pk)
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.**save(article=article)**
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    ```
+    
+    **save() 메서드**
+    - 특정 serializer 인스턴스를 저장하는 과정에서 외래 키가 필요하면 save 메서드를 통해 추가적인 데이터를 받는다.
+    -  단, 유효성 검사를 통과한 이후에 데이터를 받기 때문에 해당 필드를 read_only_fields(읽기 전용 필드)에 등록해야 오류가 발생하지 않는다.
+    
+    **역참조**
+    - PrimaryKeyRelatedField()
+    - Nested relationships
