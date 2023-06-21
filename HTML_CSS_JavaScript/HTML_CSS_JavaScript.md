@@ -178,9 +178,9 @@
                     - **'Template Literal'을 사용하여 문자열 사이에 변수 삽입 가능(따옴표가 아닌 backtick을 사용)**
                     
                     ```jsx
-                    const age = 10
-                    **const message = `홍길동은 ${age}세입니다.`**
-                    console.log(message)
+                    const age = 10;
+                    const message = `홍길동은 ${age}세입니다.`;
+                    console.log(message);
                     ```
                     
                 - Boolean: true와 false
@@ -218,20 +218,41 @@
                 - 조건 표현식의 결괏값을 boolean 타입으로 변환 후 참/거짓을 판단
                 
                 ```jsx
-                const name = 'manager'
+                const name = 'manager';
                 
                 if (name === 'admin') {
-                  console.log('관리자님 환영합니다.')
+                  console.log('관리자님 환영합니다.');
                 } else if (name === 'manager') {
-                  console.log('매니저님 환영합니다.')
+                  console.log('매니저님 환영합니다.');
                 } else {
-                  console.log(`${name}님 환영합니다.`)
+                  console.log(`${name}님 환영합니다.`);
+                }
+                ```
+                
+            - switch
+                - 특정 변수를 다양한 상황(케이스)와 비교하여 조건에 따라 다른 동작을 수행
+                - break는 switch 조건문을 멈추는 역할
+                    - break가 없다면 조건과 일치하는 case의 동작 부분을 수행한 뒤 그 다음 동작도 수행하게 되므로 case별로 동작을 구분하고 싶다면 break문을 작성해야 한다.
+                - default문은 if 조건문의 ‘else’와 같은 역할
+                
+                ```jsx
+                const number = 10;
+                
+                switch (number) {
+                	case 1:
+                		console.log(number);
+                		break;
+                	case 10:
+                		console.log(number);
+                		break;
+                	default:
+                		console.log('해당하는 조건이 없습니다');
                 }
                 ```
                 
         - 반복문
             - while
-                - 조건문이 참이기만 문장을 계속해서 수행
+                - 테스트 조건이 거짓이 될 때까지 지정된 구문을 계속해서 수행
                 
                 ```jsx
                 while (조건문) {
@@ -240,12 +261,25 @@
                 ```
                 
                 ```jsx
-                let i = 0
+                let i = 0;
                 
                 while (i < 6) {
-                  console.log(i)
-                  i += 1
+                  console.log(i);
+                  i += 1;
                 }
+                ```
+                
+            - do…while
+                - while문과 동일
+                - 단, 구문이 실행된 뒤에 테스트 조건이 평가되므로 구문은 무조건 한 번은 실행됨
+                
+                ```jsx
+                let i = 0;
+                
+                do {
+                	console.log(i);
+                	i += 1;
+                } while (i < 6);
                 ```
                 
             - for
@@ -258,8 +292,8 @@
                 ```
                 
                 ```jsx
-                for (let i = 0; i < 6; i++) {
-                  console.log(i)
+                for (let i = 0; i < 6; i++;) {
+                  console.log(i);
                 }
                 ```
                 
@@ -274,10 +308,10 @@
                 ```
                 
                 ```jsx
-                const fruits = { a: 'apple', b: 'banana' }
+                const fruits = { a: 'apple', b: 'banana' };
                 
                 for (const key in fruits) {
-                  console.log(key)// a, bconsole.log(fruits[key])// apple, banana
+                  console.log(key);
                 }
                 ```
                 
@@ -292,9 +326,123 @@
                 ```
                 
                 ```jsx
-                const numbers = [0, 1, 2, 3]
+                const numbers = [0, 1, 2, 3];
                 
                 for (const number of numbers) {
-                  console.log(number)// 0, 1, 2, 3
+                  console.log(number);
                 }
+                ```
+                
+    - Functions
+        - 모든 JavaScript 함수는 Function 객체
+        
+        ```jsx
+        function name ([param[, param2[, ...paramN]]]) {
+        	statements
+        	return value
+        }
+        ```
+        
+        - 인자
+            - 함수의 입력 값 = 인자 = Argument
+        - 매개변수
+            - param, param2, ... paramN
+            - 함수의 입력 변수 = 매개변수 = Parameter
+            - 매개변수와 인자의 개수가 불일치하는 경우
+                - 매개변수 > 인자
+                    - 기본 함수 매개변수(default function parameter) 사용
+                    
+                    ```jsx
+                    function sum(a, b = 0) {
+                    	console.log(a + b);
+                    }
+                    
+                    sum(10); //10
+                    sum(10, 20); //30
+                    ```
+                    
+                - 매개변수 < 인자
+                    - 나머지 매개변수(rest parameter) 사용
+                    
+                    ```jsx
+                    function print(a, b, ...rest) {
+                    	console.log(a);
+                    	console.log(b);
+                    	console.log(rest);
+                    }
+                    
+                    sum(10, 20, 30, 40, 50);
+                    //10
+                    //20
+                    //[30, 40, 50]
+                    ```
+                    
+        - 함수 표현식과 화살표 함수 표현식
+            - 함수 표현식
+                - 익명 함수 사용 가능
+                - 호이스팅 없음(사용 권장)
+                
+                > **호이스팅이란?
+                -** 인터프리터가 변수와 함수의 메모리 공간을 선언 전에 미리 할당하는 것
+                - 변수를 정의하는 코드보다 사용하는 코드가 앞서 등장할 수 있다.
+                > 
+                
+                ```jsx
+                const funcName = function () {
+                	statements
+                }
+                ```
+                
+            - 화살표 함수 표현식
+                - 함수 표현식의 간결한 표현법
+                    - function 키워드 제거 후 매개변수와 중괄포 사이에 화살표(⇒) 작성
+                    - 함수의 매개변수가 하나 뿐이라면 매개변수의 () 생략 가능
+                        - 인수가 하나도 없을 땐 빈 괄호 또는 _로 표시할 수 있다. 단, 이 때 괄호는 생략할 수 없다.
+                    - 함수 본문의 표현식이 한 줄이라면 {}와 return 생략 가능
+                        - 본문이 여러 줄로 구성되었다면 중괄호를 사용해야 한다. 단, 이 경우는 반드시 `return` 지시자를 사용해 반환 값을 명기해 주어야 한다.
+                
+                ```jsx
+                function hello() {
+                	console.log('Hello!');
+                	console.log('World!');
+                };
+                
+                hello();
+                ```
+                
+                ```jsx
+                const hello = () => {
+                	console.log('Hello!');
+                	console.log('World!');
+                };
+                
+                hello();
+                ```
+                
+                ```jsx
+                function sum(a, b) {
+                	return a + b;
+                };
+                
+                console.log(sum(10, 20));
+                ```
+                
+                ```jsx
+                const sum = (a, b) => a + b;
+                
+                console.log(sum(10, 20));
+                ```
+                
+                ```jsx
+                function greeting(user) {
+                	console.log(`Hello, ${user}!`);
+                }
+                
+                greeting('홍길동');
+                ```
+                
+                ```jsx
+                const greeting = user => console.log(`Hello, ${user}!`);
+                
+                greeting('홍길동');
                 ```

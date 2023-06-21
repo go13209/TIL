@@ -39,7 +39,7 @@
         현재는 3.2 버전이 LTS 버전이다. (참고: [https://www.djangoproject.com/download/](https://www.djangoproject.com/download/))
         
         **pip list**
-        해당 명령어를 통해 가상환경에 설치된 패키지 목록을 볼 수 있다. ****
+        해당 명령어를 통해 가상환경에 설치된 패키지 목록을 볼 수 있다. 
         
     4. 의존성 파일 생성(패키지 설치 시마다 진행)
         
@@ -95,7 +95,7 @@
         
         INSTALLED_APPS = [
         		# local app
-        		**'articles',**
+        		'articles',
         
         		# 기본 django app
         		'django.contrib.admin',
@@ -110,7 +110,7 @@
         위의 예시는 articles라는 앱을 생성한 후 등록한 것이다.
         project 폴더 내의 settings.py 파일에 생성한 앱의 이름을 등록한다.
         
-        *** 반드시 앱을 생성한 후에 등록해야 하며, 반대로 등록 후 생성은 불가능하다.**
+        **반드시 앱을 생성한 후에 등록해야 하며, 반대로 등록 후 생성은 불가능하다.**
         
     10. 데이터 흐름에 따른 코드 작성
         1. 클라이언트로부터 특정 페이지를 요청 받는다.
@@ -124,11 +124,11 @@
         
         from django.contrib import admin
         from django.urls import path
-        **from articles import views**
+        from articles import views
         
         urlpatterns = [
         		path('admin/', admin.site.urls),
-        		**path('articles/', views.index)**
+        		path('articles/', views.index)
         ]
         ```
         
@@ -145,14 +145,14 @@
         # Create your views here.
         # 특정 기능을 수행하는 view 함수들을 작성
         # 모든 view 함수는 첫번째 인자로 요청 객체를 필수적으로 받는다.
-        **def index(request):
-        		return render(request, 'index.html')**
+        def index(request):
+        		return render(request, 'index.html')
         ```
         
         1. 앱 내에 templates 폴더를 생성하고 그 안에 템플릿 페이지 작성
         
         * templates 폴더는 자동으로 생성되지 않기 때문에 개발자가 **직접 생성**해야 한다.
-        *** 폴더명은 반드시 templates 로 한다.**
+        **폴더명은 반드시 templates 로 한다.**
 
 - Django MTV 디자인 패턴
     
@@ -314,7 +314,7 @@
         
         ```python
         urlpatterns = [
-        		**path('articles/<int:num>/', ...),**
+        		path('articles/<int:num>/', ...),
         ]
         
         # URL 주소에 변수를 포함해 숫자를 받고 있기 때문에 중복된 템플릿 주소를 입력할 필요가 없다.
@@ -328,12 +328,12 @@
         ```python
          # firstpjt/urls.py
         
-        from django.urls import path, **include**
+        from django.urls import path, include
         
         urlpatterns = [
         		path('admin/', admin.site.urls),
-        		**path('articles/', include('articles.urls')),**
-        		**path('pages/', include('pages.urls')),**
+        		path('articles/', include('articles.urls')),
+        		path('pages/', include('pages.urls')),
         ]
         
         # firstpjt 라는 프로젝트 폴더 내의 urls.py 파일은 각 앱의 urls.py 파일을 참조한다.
@@ -343,7 +343,7 @@
          # articles/urls.py
         
         from django.urls import path
-        **from . import views**
+        from . import views
         
         urlpatterns = [
         		path('index/', views.index),
@@ -356,7 +356,7 @@
          # pages/urls.py
         
         from django.urls import path
-        **from . import views**
+        from . import views
         
         urlpatterns = [
         		path('index/', views.index),
@@ -368,7 +368,7 @@
         - 이를 해결하기 위해 URL에 이름을 지정하고 그 이름을 대신 사용할 수 있다.
         - url 태그 : 주어진 URL 패턴의 이름과 일치하는 절대 경로 주소를 반환한다.
         
-        **{% url ‘url-name’ arg1 arg2 %}**
+        {% url ‘url-name’ arg1 arg2 %}
         
         ```python
         # articles/urls.py
@@ -377,9 +377,9 @@
         from . import views
         
         urlpatterns = [
-        		**path('index/', views.index, name='index'),
+        		path('index/', views.index, name='index'),
         		path('throw/', views.throw, name='throw'),
-        		path('catch/', views.catch, name='catch'),**
+        		path('catch/', views.catch, name='catch'),
         ]
         ```
         
@@ -390,7 +390,7 @@
         
         {% block content %}
         	<h1>Hello, {{ name }}</h1>
-        	**<a href='{% url 'throw' %}'>throw</a>**
+        	<a href='{% url 'throw' %}'>throw</a>
         {% block content %}
         ```
         
@@ -405,7 +405,7 @@
         
         from django.urls import path
         from . import views
-        **app_name = 'articles'**
+        app_name = 'articles'
         
         urlpatterns = [
         	...
@@ -413,7 +413,7 @@
         ```
         
         ```html
-        **{% url 'articles:index' %}**
+        {% url 'articles:index' %}
         ```
         
 
@@ -425,9 +425,9 @@
         # articles/models.py
         
         class Article(models.Model):
-        		**title** = models.**CharField(max_length=10)**
-        		**content** = models.**TextField()**
-        		# **클래스 변수명** = models.**model Field 클래스(model Field 클래스의 키워드 인자)**
+        		title = models.CharField(max_length=10)
+        		content = models.TextField()
+        		# 클래스 변수명 = models.model Field 클래스(model Field 클래스의 키워드 인자)
         ```
         
         1. **클래스 변수명** : 테이블의 각 필드 이름
@@ -478,12 +478,12 @@
             from django.contrib import admin
             from .models import Article
             
-            **admin.site.register(Article)**
+            admin.site.register(Article)
             ```
             
     - 데이터베이스 초기화 방법
         1. migration 파일을 삭제한다.
-        2. db.sqlite3 파일을 삭제한다. *** migrations 폴더는 지워서는 안 된다.**
+        2. db.sqlite3 파일을 삭제한다. **migrations 폴더는 지워서는 안 된다.**
 
 - Django ORM
     - 객체와 관계형 데이터베이스를 연결해주는 것으로, 객체 지향 프로그래밍 언어를 사용해 호환되지 않는 시스템 간에 데이터를 변환하는 프로그래밍 기술이다.
@@ -510,7 +510,7 @@
         
         INSTALLED_APPS = [
         		'articles',
-        		**'django_extensions',**
+        		'django_extensions',
         		...,
         ]
         ```
@@ -540,8 +540,8 @@
                 article.content = 'django!'
                 # 인스턴스 변수(content)에 값 할당
                 
-                **article.save()
-                # save 메서드를 호출해야 DB에 데이터가 저장된다.**
+                article.save()
+                # save 메서드를 호출해야 DB에 데이터가 저장된다.
                 ```
                 
             2. 두 번째 방법
@@ -550,8 +550,8 @@
                 article = Article(title='second', content='django!')
                 # Article(class)의 변수 값을 모두 입력하여 article(인스턴스) 만들기
                 
-                **article.save()
-                # save 메서드를 호출해야 DB에 데이터가 저장된다.**
+                article.save()
+                # save 메서드를 호출해야 DB에 데이터가 저장된다.
                 ```
                 
             3. 세 번째 방법
@@ -642,9 +642,9 @@
             from .models import Article
             
             class ArticleForm(forms.ModelForm):
-            		**class Meta:**
+            		class Meta:
             				model = Article
-            				**fields = '__all__'**
+            				fields = '__all__'
             ```
             
             - ModelForm의 정보는 Meta class에 작성한다. 특정 필드만 지정하거나 exclude 속성을 사용해 모델에서 일부 필드만 화면에 출력되도록 할 수 있다.
@@ -729,9 +729,9 @@
         
         AUTH_USER_MODEL = 'myapp(앱 이름).MyUser(모델명)'
         
-        **# 프로젝트 중간에는 AUTH_USER_MODEL을 변경할 수 없다.
+        # 프로젝트 중간에는 AUTH_USER_MODEL을 변경할 수 없다.
         # 따라서 User model 대체 작업은 첫 migrate 실행 전에 마쳐야 한다.
-        # 이미 진행한 경우 데이터베이스 초기화 후 변경한다.**
+        # 이미 진행한 경우 데이터베이스 초기화 후 변경한다.
         ```
         
         ```python
@@ -774,7 +774,7 @@
         from django.contrib.auth import login as auth_login
         
         def login(request):
-        		**if request.user.is_authenticated:**
+        		if request.user.is_authenticated:
                 return redirect('articles:index')
         
         		if request.method == 'POST':
@@ -802,10 +802,10 @@
         ```python
         # accounts/views.py
         
-        **from django.contrib.auth.decorators import login_required**
+        from django.contrib.auth.decorators import login_required
         from django.contrib.auth import logout as auth_logout
         
-        **@login_required**
+        @login_required
         def logout(request):
         		auth_logout(request)
         		return redirect('articles:index')
@@ -830,11 +830,11 @@
         
         class CustomUserCreationForm(UserCreationForm):
         		class Meta(UserCreationForm.Meta):
-        				**model = get_user_model()**
+        				model = get_user_model()
         
         class CustomUserChangeForm(UserChangeForm):
         		class Meta:
-        				**model = get_user_model()**
+        				model = get_user_model()
         				fields = ('email', 'first_name', 'last_name')
         ```
         
@@ -855,8 +855,8 @@
                 form = CustomUserCreationForm(request.POST)
                 if form.is_valid() :
                     user = form.save()
-                    **auth_login(request, user)
-        						# 회원 가입 후 자동으로 로그인까지 되도록 한다.**
+                    auth_login(request, user)
+        						# 회원 가입 후 자동으로 로그인까지 되도록 한다.
                     return redirect('articles:index')
             else:
                 form = CustomUserCreationForm()
@@ -893,8 +893,8 @@
         def delete(request):
             if request.user.is_authenticated:
                 request.user.delete()
-                **auth_logout(request)
-        				# 회원탈퇴를 하면서 사용자의 세션 정보까지 지운다.**
+                auth_logout(request)
+        				# 회원탈퇴를 하면서 사용자의 세션 정보까지 지운다.
             return redirect('articles:index')
         ```
         
@@ -908,7 +908,7 @@
         # accounts/views.py
         
         from django.contrib.auth.forms import PasswordChangeForm
-        **from django.contrib.auth import update_session_auth_hash**
+        from django.contrib.auth import update_session_auth_hash
         from django.contrib.auth.decorators import login_required
         
         @login_required
@@ -917,7 +917,7 @@
                 form = PasswordChangeForm(request.user, request.POST)
                 if form.is_valid():
                     user = form.save()
-                    **update_session_auth_hash(request, user)**
+                    update_session_auth_hash(request, user)
                     return redirect('articles:index')
             else:
                 form = PasswordChangeForm(request.user)
@@ -941,12 +941,12 @@
         # settings.py
         
         # 기본 경로
-        **STATIC_URL = '/static/'**
+        STATIC_URL = '/static/'
         
         # 추가 경로
-        **STATICFILES_DIRS = [
+        STATICFILES_DIRS = [
         		BASE_DIR / 'static',
-        ]**
+        ]
         ```
         
     - Media Files: 사용자가 웹에서 업로드하는 정적 파일
@@ -959,7 +959,7 @@
                 <!-- articles/create.html -->
                 
                 <h1>CREATE</h1>
-                <form action="{% url 'articles:create' %}" method="POST" **enctype="multipart/form-data"**>
+                <form action="{% url 'articles:create' %}" method="POST" enctype="multipart/form-data">
                 	{% csrf_token %}
                 	{{ form.as_p }}
                 	<input type="submit">
@@ -973,7 +973,7 @@
                 
                 def create(request):
                 		if request.method == 'POST':
-                				form = ArticleForm(request.POST, **request.FILES**)
+                				form = ArticleForm(request.POST, request.FILES)
                 				...
                 ```
                 
@@ -982,7 +982,7 @@
                 ```html
                 <!-- articles/detail.html -->
                 
-                <img src="**{{ article.image.url }}**" alt="img">
+                <img src="{{ article.image.url }}" alt="img">
                 ```
                 
         - media 파일 설정
@@ -992,21 +992,21 @@
             ```python
             # settings.py
             
-            **MEDIA_ROOT = BASE_DIR / 'media'
+            MEDIA_ROOT = BASE_DIR / 'media'
             
-            MEDIA_URL = '/media/'**
+            MEDIA_URL = '/media/'
             ```
             
             ```python
             # crud(프로젝트)/urls.py
             
-            **from django.conf import settings
-            from django.conf.urls.static import static**
+            from django.conf import settings
+            from django.conf.urls.static import static
             
             urlpatterns = [
             		path('admin/', admin.site.urls),
             		path(...)
-            ] **+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)**
+            ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
             ```
             
         
@@ -1037,7 +1037,7 @@
         		article = Article.objects.get(pk=pk)
         		comment_form = CommentForm(request.POST)
         		if comment_form.is_valid():
-        				comment = comment_form.**save(commit=False)**
+        				comment = comment_form.save(commit=False)
         				comment.article = article
         				comment.user = request.user
         				comment.save()
@@ -1221,7 +1221,7 @@
     from .models import Article
     from .serializers import ArticleListSerializer, ArticleSerializer
     
-    **@api_view(['GET', 'POST'])**
+    @api_view(['GET', 'POST'])
     def article_list(request):
         if request.method == 'GET':
             articles = Article.objects.all()
@@ -1248,7 +1248,7 @@
         
         elif request.method == 'PUT':
             serializer = ArticleSerializer(article, data=request.data)
-            if serializer.is_valid(**raise_exception=True**):
+            if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(serializer.data)
     ```
@@ -1281,13 +1281,13 @@
             read_only_fields = ('article',)
     
     class ArticleSerializer(serializers.ModelSerializer):
-        **class MyCommentSerializer(serializers.ModelSerializer):
+        class MyCommentSerializer(serializers.ModelSerializer):
             class Meta:
                 model = Comment
                 fields = ('id', 'content',)
     
         comment_set = MyCommentSerializer(many=True, read_only=True)
-        comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)**
+        comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)
     
         class Meta:
             model = Article
@@ -1361,7 +1361,7 @@
         article = Article.objects.get(pk=article_pk)
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.**save(article=article)**
+            serializer.save(article=article)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
     ```
     
