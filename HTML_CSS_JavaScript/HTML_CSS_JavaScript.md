@@ -446,3 +446,155 @@
                 
                 greeting('홍길동');
                 ```
+
+    - Method
+        - 객체 속성에 정의된 함수
+        - **‘this’ 키워드를 사용해 객체에 대한 특정한 작업을 수행할 수 있음**
+        - 문자열 메소드
+            - toUpperCase() : 문자열을 대문자로 변환해 반환
+            - toLowerCase() : 문자열을 소문자로 변환해 반환
+            - trim() : 원본 문자열을 수정하지 않고, 문자열 양 끝의 공백을 제거한 새로운 문자열을 반환
+                - trimStart() : 문자열 시작 부분의 공백을 제거
+                - trimEnd() : 문자열 끝 부분의 공백을 제거
+            - repeat(count) : 주어진 횟수만큼 반복해 붙인 새로운 문자열을 반환
+            - padStart(length[, str]) : 현재 문자열의 시작을 다른 문자열로 채워 주어진 길이를 만족하는 새로운 문자열을 반환
+            - padEnd(length[, str]) : 현재 문자열의 끝을 다른 문자열로 채워 주어진 길이를 만족하는 새로운 문자열을 반환
+            - indexOf(value[, index]) : (주어진 인덱스 위치에서부터 찾기 시작하여) 주어진 값과 일치하는 첫 번째 인덱스를 반환하며 일치하는 값이 없으면 -1을 반환
+            - includes(str[, index]) : (주어진 인덱스 위치에서부터 찾기 시작하여) 주어진 문자열이 원본 문자열에 포함되어 있는지를 판별하고, 결과를 true 또는 false 로 반환하며 검색 시 대소문자를 구분
+            - startsWith(str[, index]) : (주어진 인덱스 위치에서부터) 원본 문자열이 특정 문자로 시작하는지 확인하여 결과를 true 혹은 false로 반환
+            - endsWith(str[, length]) : (찾고자 하는 문자열의 길이값 범위 내에서) 원본 문자열이 특정 문자로 끝나는지 확인하여 결과를 true 혹은 false로 반환
+            - replace(str, NewStr) : 주어진 문자열을 교체 문자열로 바꾸어 새로운 문자열을 반환하며 첫 번째 문자열만 변경
+            - replaceAll(str, NewStr) : 주어진 문자열과 일치하는 모든 부분을 교체 문자열로 바꾸어 새로운 문자열을 반환
+            - substring(indexStart[, indexEnd]) : 원본 문자열의 시작 인덱스부터 종료 인덱스 전까지 문자열의 부분 문자열을 반환
+            - split(seperator) : 원본 문자열을 지정한 구분자를 이용하여 여러 개의 문자열로 나누어 반환
+            - slice(indexStart[, indexEnd]) : 원본 문자열의 시작 인덱스부터 종료 인덱스 전까지 문자열의 일부를 추출하여 새로운 문자열을 반환
+        - 배열 메소드
+            - push(element1[, ...[, elementN]]) :  배열의 끝에 하나 이상의 요소를 추가
+            - pop() : 배열에서 마지막 요소를 제거하고 그 요소를 반환
+            - unshift([...elementN]) : 새로운 요소를 배열의 맨 앞쪽에 추가
+            - shift() : 배열에서 첫 번째 요소를 제거하고 제거된 요소를 반환
+            - forEach() : 주어진 함수를 배열 요소 각각에 대해 실행
+                
+                ```jsx
+                arr.forEach(callback(currentvalue[, index[, array]])[, thisArg])
+                ```
+                
+                - callback : 각 요소에 대해 실행할 함수
+                    - currentValue : 처리할 현재 요소
+                    - index : 처리할 현재 요소의 인덱스
+                    - array : forEach()를 호출한 배열
+                - thisArg : callback을 실행할 때 this로 사용할 값
+                
+                ```jsx
+                const arraySparse = [1,3,,7]
+                let numCallbackRuns = 0
+                
+                arraySparse.forEach(function(element){
+                  console.log(element)
+                  numCallbackRuns++
+                })
+                
+                console.log("numCallbackRuns: ", numCallbackRuns)
+                
+                // 1
+                // 3
+                // 7
+                // numCallbackRuns: 3
+                ```
+                
+            - map() : 배열 내의 모든 요소 각각에 대하여 주어진 함수를 호출한 결과를 모아 새로운 배열을 반환
+                
+                ```jsx
+                arr.map(callback(currentValue[, index[, array]])[, thisArg])
+                ```
+                
+                - callback : 새로운 배열 요소를 생성하는 함수
+                    - currentValue : 처리할 현재 요소
+                    - index : 처리할 현재 요소의 인덱스
+                    - array : map()을 호출한 배열
+                - thisArg : callback을 실행할 때 this로 사용되는 값
+                
+                ```jsx
+                const numbers = [1, 4, 9];
+                const doubles = numbers.map(function(num) {
+                  return num * 2;
+                });
+                
+                // doubles는 [2, 8, 18]
+                // numbers는 [1, 4, 9]
+                ```
+                
+            - includes(str[, index]) : (주어진 인덱스 위치에서부터 찾기 시작하여) 배열이 특정 요소를 포함하고 있는지를 판별하고, 결과를 true 또는 false 로 반환하며 검색 시 대소문자를 구분
+            - find(callback[, thisArg]) : 주어진 판별 함수를 만족하는 첫 번째 요소의 값을 반환하며 그런 요소가 없다면 undefined를 반환
+            - findIndex(callback(element[, index[, array]])[, thisArg]) : 주어진 판별 함수를 만족하는 배열의 첫 번째 요소에 대한 인덱스를 반환하며 만족하는 요소가 없으면 -1을 반환
+            - fill(value[, start[, end]]) : 배열의 (지정한) 시작 인덱스부터 (지정한) 끝 인덱스의 이전까지 정적인 값 하나로 채움
+            - slice([begin[, end]]) : 어떤 배열의 begin 부터 end 이전까지에 대한 복사본을 새로운 배열 객체로 반환하며 원본 배열은 바뀌지 않음
+            - splice(start[, deleteCount[, item1[, item2[, ...]]]]) : 배열의 기존 요소를 삭제 또는 교체하거나 새 요소를 추가하여 배열의 내용을 변경
+                
+                ```jsx
+                const months = ['Jan', 'March', 'April', 'June'];
+                months.splice(1, 0, 'Feb');
+                // Inserts at index 1
+                console.log(months);
+                // Array ["Jan", "Feb", "March", "April", "June"]
+                
+                months.splice(4, 1, 'May');
+                // Replaces 1 element at index 4
+                console.log(months);
+                // Array ["Jan", "Feb", "March", "April", "May"]
+                ```
+                
+            - join([separator]) : 배열의 모든 요소를 연결해 하나의 문자열로 만듦
+            - concat([value1[, value2[, ...[, valueN]]]]) : 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열을 반환
+            - filter(callback(element[, index[, array]])[, thisArg]) : 주어진 함수의 테스트를 통과하는 모든 요소를 모아 새로운 배열로 반환
+            - reduce(callback[, initialValue]) : 배열의 각 요소에 대해 주어진 리듀서 (reducer) 함수를 실행하고, 하나의 결과값을 반환
+                
+                ```jsx
+                const array1 = [1, 2, 3, 4];
+                
+                // 0 + 1 + 2 + 3 + 4
+                const initialValue = 0;
+                const sumWithInitial = array1.reduce(
+                  (accumulator, currentValue) => accumulator + currentValue,
+                  initialValue
+                );
+                
+                console.log(sumWithInitial);
+                // 10
+                ```
+                
+            
+    - Object
+        - 키(key)와 값(value)로 구성된 속성(property)들의 집합
+        - 객체 축약 표현
+            
+            ```jsx
+            const name = '홍길동';
+            const country = 'Korea';
+            
+            const user = {
+            	name,
+            	country,
+            };
+            
+            console.log(user);
+            // {name: '홍길동', country: 'Korea'}
+            ```
+            
+        - 메소드 축약 표현
+            
+            ```jsx
+            const obj = {
+            	greeting() {
+            		console.log('Hi!');
+            	},
+            };
+            
+            obj.greeting();
+            // Hi!
+            ```
+            
+        - Object.keys(obj) : 주어진 객체의 속성 이름들로 이루어진 배열을 반환
+        - Object.values(obj) : 주어진 객체의 속성 값들로 이루어진 배열을 반환
+        - Object.entries(obj) : 주어진 객체의 모든 프로퍼티를 [key, value] 쌍의 배열 형태로 반환
+            - 정적 메소드는 생성된 객체에 내장되어 있는 것이 아니라 Object, Array 클래스가 가지고 있기 때문에 앞에 Object 또는 Array 등을 붙여야 사용 가능
