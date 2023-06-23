@@ -598,3 +598,30 @@
         - Object.values(obj) : 주어진 객체의 속성 값들로 이루어진 배열을 반환
         - Object.entries(obj) : 주어진 객체의 모든 프로퍼티를 [key, value] 쌍의 배열 형태로 반환
             - 정적 메소드는 생성된 객체에 내장되어 있는 것이 아니라 Object, Array 클래스가 가지고 있기 때문에 앞에 Object 또는 Array 등을 붙여야 사용 가능
+        
+    - Event
+        - 어떤 동작이나 상태 등의 사건이 발생하는 것 (예: 사용자가 키보드를 누르거나 마우스를 클릭하는 등의 사건)
+        - 특정 이벤트를 감지하는 Event Listener를 사용해서 Event Handler를 지정하여 이벤트에 대한 반응(동작)을 처리
+        - .addEventListener(event type, handler)
+            - 특정 이벤트가 발생하면 특정 함수 실행
+            
+            ```jsx
+            // 버튼 클릭시 숫자가 1씩 증가
+            <body>
+            	<button id='btn'>버튼</button>
+            	<p id='counter'>0</p>
+            	<script>
+            		let counterNumber = 0
+            		const btn = document.querySelector(#btn)
+            
+            		btn.addEventListener('click', () => {
+            			counterNumber += 1
+            			const pTag = document.querySelector('#counter')
+            			pTag.textContent = counterNumber
+            		})
+            	</script>
+            </body>
+            ```
+            
+        - .removeEventListener(event type, handler) : 특정 이벤트가 발생하면 등록된 이벤트 리스너를 삭제
+        - .preventDefault() : 현재 이벤트의 기본 동작을 중단
