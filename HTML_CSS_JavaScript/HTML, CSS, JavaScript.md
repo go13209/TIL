@@ -172,17 +172,51 @@
           - 변수 선언 이후 직접 값을 할당하지 않으면 자동으로 할당됨
 
       - 참조 자료형
+
         - 객체의 주소가 저장되는 자료형(가변, 주소가 복사)
         - Objects(Object, Array, Function)
+
           - 배열(Array): 값의 순서 있는 집합
             - 대괄호([ ]) 사용
             - 인덱스를 사용해 특정 요소를 찾거나 새 값을 해당 칸에 넣을 수 있음
           - 객체(Object): 키-값 쌍들의 집합
+
             - 중괄호({ }) 사용
             - 객체에서 만드는 모든 키들은 문자열로 변환됨(기호 제외)
             - 점 또는 대괄호를 사용해 객체 속성에 접근 가능
               - 대괄호를 쓰면 표현식 사용 가능
               - 변수 같은 유동적인 것을 키로 쓰고 싶으면 대괄호를 사용
+            - Object.keys(obj) : 주어진 객체의 속성 이름들로 이루어진 배열을 반환
+            - Object.values(obj) : 주어진 객체의 속성 값들로 이루어진 배열을 반환
+            - Object.entries(obj) : 주어진 객체의 모든 프로퍼티를 [key, value] 쌍의 배열 형태로 반환
+              - 정적 메소드는 생성된 객체에 내장되어 있는 것이 아니라 Object, Array 클래스가 가지고 있기 때문에 앞에 Object 또는 Array 등을 붙여야 사용 가능
+            - 객체 축약 표현
+
+              ```jsx
+              const name = "홍길동";
+              const country = "Korea";
+
+              const user = {
+                name,
+                country,
+              };
+
+              console.log(user);
+              // {name: '홍길동', country: 'Korea'}
+              ```
+
+            - 메소드 축약 표현
+
+              ```jsx
+              const obj = {
+                greeting() {
+                  console.log("Hi!");
+                },
+              };
+
+              obj.greeting();
+              // Hi!
+              ```
 
     - 연산자
 
@@ -361,18 +395,23 @@
         }
         ```
 
-      - do…while
+      - for...of
 
-        - while문과 동일
-        - 단, 구문이 실행된 뒤에 테스트 조건이 평가되므로 구문은 무조건 한 번은 실행됨
+        - 반복 가능한 객체(배열, 문자열 등)를 순회할 때 사용
+        - 객체의 요소에 대한 반복
 
         ```jsx
-        let i = 0;
+        for (variable of iterable) {
+          statements;
+        }
+        ```
 
-        do {
-          console.log(i);
-          i += 1;
-        } while (i < 6);
+        ```jsx
+        const numbers = [0, 1, 2, 3];
+
+        for (let number of numbers) {
+          console.log(number);
+        }
         ```
 
       - for...in
@@ -389,28 +428,23 @@
         ```jsx
         const fruits = { a: "apple", b: "banana" };
 
-        for (const key in fruits) {
-          console.log(key);
+        for (let key in fruits) {
+          console.log(fruits[key]);
         }
         ```
 
-      - for...of
+      - do…while
 
-        - 반복 가능한 객체(배열, 문자열 등)를 순회할 때 사용
-        - 객체의 요소에 대한 반복
-
-        ```jsx
-        for (variable of iterable) {
-          statements;
-        }
-        ```
+        - while문과 동일
+        - 단, 구문이 실행된 뒤에 테스트 조건이 평가되므로 구문은 무조건 한 번은 실행됨
 
         ```jsx
-        const numbers = [0, 1, 2, 3];
+        let i = 0;
 
-        for (const number of numbers) {
-          console.log(number);
-        }
+        do {
+          console.log(i);
+          i += 1;
+        } while (i < 6);
         ```
 
   - Method
@@ -553,135 +587,122 @@
     - Math.abs(x) : 주어진 숫자의 절대값 반환
     - Math.pow(x, y) : x를 y 값으로 거듭제곱한 수 반환
 
-  - Object
-
-    - 키(key)와 값(value)로 구성된 속성(property)들의 집합
-    - 객체 축약 표현
-
-      ```jsx
-      const name = "홍길동";
-      const country = "Korea";
-
-      const user = {
-        name,
-        country,
-      };
-
-      console.log(user);
-      // {name: '홍길동', country: 'Korea'}
-      ```
-
-    - 메소드 축약 표현
-
-      ```jsx
-      const obj = {
-        greeting() {
-          console.log("Hi!");
-        },
-      };
-
-      obj.greeting();
-      // Hi!
-      ```
-
-    - Object.keys(obj) : 주어진 객체의 속성 이름들로 이루어진 배열을 반환
-    - Object.values(obj) : 주어진 객체의 속성 값들로 이루어진 배열을 반환
-    - Object.entries(obj) : 주어진 객체의 모든 프로퍼티를 [key, value] 쌍의 배열 형태로 반환
-      - 정적 메소드는 생성된 객체에 내장되어 있는 것이 아니라 Object, Array 클래스가 가지고 있기 때문에 앞에 Object 또는 Array 등을 붙여야 사용 가능
-
-  - DOM 선택 및 조작
-    > **DOM (Document Object Model, 문서 객체 모델) -** XML이나 HTML 문서에 접근하기 위한 인터페이스로, 문서 내의 모든 요소를 정의하고, 각각의 요소에 접근하는 방법을 제공
-    - 자바스크립트는 DOM을 조작할 수 있는 프로그래밍 언어 중 하나
-      >
-    - document.querySelector(selector)
-      - 제공한 선택자와 일치하는 element 한 개 선택
-      - 제공한 CSS selector를 만족하는 첫 번째 element 객체를 반환(없다면 null 반환)
-    - document.querySelectorAll(selector)
-      - 제공한 선택자와 일치하는 여러 element를 선택
-      - 매칭할 하나 이상의 셀렉터를 포함하는 유효한 CSS selector를 인자(문자열)로 받음
-      - 제공한 CSS selector를 만족하는 NodeList를 반환
-    - 속성(attribute) 조작
-      - 클래스 속성 조작
-        - element.classList
-          - 요소의 클래스 목록을 DOMTokenList(유사 배열) 형태로 반환
-        - element.classList.add()
-          - 지정한 클래스 값을 추가
-        - element.classList.remove()
-          - 지정한 클래스 값을 제거
-      - 일반 속성 조작
-        - element.getAttribute()
-          - 해당 요소에 지정된 값을 반환
-        - element.setAttribute()
-          - 지정된 요소의 속성값을 설정
-          - 속성이 이미 있으면 값이 업데이트 / 그렇지 않으면 지정된 이름과 값으로 새 속성이 추가
-        - element.removeAttribute()
-          - 요소에서 지정된 이름을 가진 속성 제거
-    - HTML 콘텐츠 조작
-      - element.textContent
-        - 요소의 텍스트 콘텐츠를 표현
-    - DOM 조작
-      - document.createElement()
-        - 지정한 이름의 HTML 요소를 만들어 반환
-      - element.appendChild()
-        - 지정한 요소에 자식 노드를 생성
-      - element.removeChild()
-        - 지정한 요소에서 지정한 자식 노드를 제거
-    - style 조작
-      - element.style.property
-        - element 스타일 속성값을 변경
-        - 예시: element.style.backgroundColor = "red";
   - Functions
 
+    - 함수: 코드의 재사용 가능한 일부로, 언제든 사용할 수 있도록 이름을 붙여놓은 것
+    - 코드의 중복을 줄이는 데 유용하며 코드의 가독성을 높임
     - 모든 JavaScript 함수는 Function 객체
 
-    ```jsx
-    function name (**[param[, param2[, ...paramN]]]**) {
-    	statements
-    	return value
-    }
-    ```
+      ```jsx
+      function name (**[param[, param2[, ...paramN]]]**) {
+      	statements
+      	return value
+      }
+      ```
 
-    - 인자
-      - 함수의 입력 값 = 인자 = Argument
-    - 매개변수
+      - 인자
+        - 함수에 입력하는 값 = 인자 = 인수 = Argument
+      - 매개변수
 
-      - param, param2, ... paramN
-      - 함수의 입력 변수 = 매개변수 = Parameter
-      - 매개변수와 인자의 개수가 불일치하는 경우
+        - param, param2, ... paramN
+        - 함수의 입력 변수 = 매개변수 = Parameter
+        - 매개변수와 인자의 개수가 불일치하는 경우
 
-        - 매개변수 > 인자
+          - 매개변수 > 인자
 
-          - 기본 함수 매개변수(default function parameter) 사용
+            - 기본 함수 매개변수(default function parameter) 사용
 
-          ```jsx
-          function sum(a, b = 0) {
-            console.log(a + b);
+            ```jsx
+            function sum(a, b = 0) {
+              console.log(a + b);
+            }
+
+            sum(10); //10
+            sum(10, 20); //30
+            ```
+
+          - 매개변수 < 인자
+
+            - 나머지 매개변수(rest parameter) 사용
+
+            ```jsx
+            function print(a, b, ...rest) {
+              console.log(a);
+              console.log(b);
+              console.log(rest);
+            }
+
+            sum(10, 20, 30, 40, 50);
+            //10
+            //20
+            //[30, 40, 50]
+            ```
+
+    - 함수의 범위
+
+      - 함수 안에서 선언된 변수는 함수 안에서만 사용 가능
+
+      ```jsx
+      const bird = "mandarin duck";
+
+      function birdWatch() {
+        const bird = "golden pheasant";
+        bird; //"golden pheasant"
+      }
+
+      bird; //"mandarin duck"
+      ```
+
+      - 블록 스코프(Block Scope) : 중괄호 사이의 범위(함수, 조건문, 반복문 포함)
+
+        - let, const로 선언된 변수는 블록 스코프 방식을 따르기 때문에 블록 내부에서 선언된 변수는 해당 블록에서만 접근 가능
+
+        ```jsx
+        let radius = 8;
+
+        if (radius > 0) {
+          const PI = 3.14;
+          let circle = 2 * PI * radius;
+        }
+
+        console.log(radius); //8
+        console.log(PI); //NOT DEFINED
+        console.log(circle); //NOT DEFINED
+        ```
+
+        - var는 함수 스코프를 따르므로 함수 내부에서는 변수 접근이 가능
+
+        ```jsx
+        function hello() {
+        	for (var i = 0; i < 10; i++) {
+        		...
+        	}
+        	console.log(i); //10 (var로 선언하면 블록에 의한 범위 제한이 없음)
+        }
+        hello(); //10
+        ```
+
+      - 렉시컬 스코프(Lexical Scope) : 함수를 어디에 선언하느냐에 따라 상위 스코프가 결정됨
+
+        - 중첩된 함수나 내부 함수는 상위 몇 레벨 위에 있든 상관없이 부모 함수나 조부모 함수 등이 액세스하는 동일한 항목에 액세스할 수 있음
+
+        ```jsx
+        function outer() {
+          let hero = "Spiderman";
+
+          function inner() {
+            let cryForHelp = `${hero}, please save me!`;
+            console.log(cryForHelp);
           }
 
-          sum(10); //10
-          sum(10, 20); //30
-          ```
-
-        - 매개변수 < 인자
-
-          - 나머지 매개변수(rest parameter) 사용
-
-          ```jsx
-          function print(a, b, ...rest) {
-            console.log(a);
-            console.log(b);
-            console.log(rest);
-          }
-
-          sum(10, 20, 30, 40, 50);
-          //10
-          //20
-          //[30, 40, 50]
-          ```
+          inner();
+        }
+        ```
 
     - 함수 표현식과 화살표 함수 표현식
 
       - 함수 표현식
+        - = 기호 뒤에 오는 오른쪽 부분이 함수를 만들고, 그 함수를 변수 안에 저장함
         - 익명 함수 사용 가능
         - 호이스팅 없음(사용 권장)
           > **호이스팅이란? -** 인터프리터가 변수와 함수의 메모리 공간을 선언 전에 미리 할당하는 것
@@ -747,6 +768,82 @@
         greeting("홍길동");
         ```
 
+    - this 키워드
+
+      - 메서드에 있는 객체를 가리킬 때 사용
+
+      ```jsx
+      const cat = {
+        name: "Rosie",
+        color: "black",
+        breed: "bombay",
+        meow() {
+          console.log(`${this.name} says MEOWWWW`);
+        },
+      };
+
+      cat.meow(); //Rosie says MEOWWW
+      // 여기서는 this가 cat이라는 객체를 가리킴
+      ```
+
+      - 사용된 함수의 호출 컨텍스트에 따라 값이 달라짐
+
+      ```jsx
+      const cat = {
+        name: "Rosie",
+        color: "black",
+        breed: "bombay",
+        meow() {
+          console.log(`${this.name} says MEOWWWW`);
+        },
+      };
+
+      const meow2 = cat.meow;
+      meow2(); // says MEOWWW
+      // 여기서는 this가 cat이라는 객체가 아닌 윈도우 객체를 가리킴
+      ```
+
+  - DOM 선택 및 조작
+    > **DOM (Document Object Model, 문서 객체 모델) -** XML이나 HTML 문서에 접근하기 위한 인터페이스로, 문서 내의 모든 요소를 정의하고, 각각의 요소에 접근하는 방법을 제공
+    - 자바스크립트는 DOM을 조작할 수 있는 프로그래밍 언어 중 하나
+      >
+    - document.querySelector(selector)
+      - 제공한 선택자와 일치하는 element 한 개 선택
+      - 제공한 CSS selector를 만족하는 첫 번째 element 객체를 반환(없다면 null 반환)
+    - document.querySelectorAll(selector)
+      - 제공한 선택자와 일치하는 여러 element를 선택
+      - 매칭할 하나 이상의 셀렉터를 포함하는 유효한 CSS selector를 인자(문자열)로 받음
+      - 제공한 CSS selector를 만족하는 NodeList를 반환
+    - 속성(attribute) 조작
+      - 클래스 속성 조작
+        - element.classList
+          - 요소의 클래스 목록을 DOMTokenList(유사 배열) 형태로 반환
+        - element.classList.add()
+          - 지정한 클래스 값을 추가
+        - element.classList.remove()
+          - 지정한 클래스 값을 제거
+      - 일반 속성 조작
+        - element.getAttribute()
+          - 해당 요소에 지정된 값을 반환
+        - element.setAttribute()
+          - 지정된 요소의 속성값을 설정
+          - 속성이 이미 있으면 값이 업데이트 / 그렇지 않으면 지정된 이름과 값으로 새 속성이 추가
+        - element.removeAttribute()
+          - 요소에서 지정된 이름을 가진 속성 제거
+    - HTML 콘텐츠 조작
+      - element.textContent
+        - 요소의 텍스트 콘텐츠를 표현
+    - DOM 조작
+      - document.createElement()
+        - 지정한 이름의 HTML 요소를 만들어 반환
+      - element.appendChild()
+        - 지정한 요소에 자식 노드를 생성
+      - element.removeChild()
+        - 지정한 요소에서 지정한 자식 노드를 제거
+    - style 조작
+      - element.style.property
+        - element 스타일 속성값을 변경
+        - 예시: element.style.backgroundColor = "red";
   - Event
 
     - 어떤 동작이나 상태 등의 사건이 발생하는 것 (예: 사용자가 키보드를 누르거나 마우스를 클릭하는 등의 사건)
