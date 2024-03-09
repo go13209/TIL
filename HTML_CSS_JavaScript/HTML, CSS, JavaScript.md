@@ -510,7 +510,7 @@
         - thisArg : callback을 실행할 때 this로 사용할 값
 
         ```jsx
-        const arraySparse = [1, 3, , 7];
+        const arraySparse = [1, 3, 7];
         let numCallbackRuns = 0;
 
         arraySparse.forEach(function (element) {
@@ -551,12 +551,49 @@
       - find(callback[, thisArg]) : 주어진 판별 함수를 만족하는 첫 번째 요소의 값을 반환하며 그런 요소가 없다면 undefined를 반환
       - findIndex(callback(element[, index[, array]])[, thisArg]) : 주어진 판별 함수를 만족하는 배열의 첫 번째 요소에 대한 인덱스를 반환하며 만족하는 요소가 없으면 -1을 반환
       - filter(callback(element[, index[, array]])[, thisArg]) : 주어진 함수의 테스트를 통과하는 모든 요소를 모아 새로운 배열로 반환
+
+        ```jsx
+        const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        const odds = nums.filter((n) => {
+          return n % 2 === 1;
+        });
+        // [1, 3, 5, 7, 9]
+
+        const smallNums = nums.filter((n) => n < 5);
+        // [1, 2, 3, 4]
+        ```
+
+      - some(), every() : 배열의 어느 한 요소라도, 또는 모든 요소가 조건을 충족하는지 확인하여 true/false 반환
+
+        ```jsx
+        const words = ["dog", "jelly", "log", "cupcake", "bag"];
+
+        words.some((word) => {
+          return word.length > 4;
+        });
+        // true
+
+        words.some((word) => word[0] === "z");
+        // false
+        ```
+
+        ```jsx
+        const words = ["dog", "dig", "log", "bag"];
+
+        words.every((word) => {
+          return word.length === 3;
+        });
+        // true
+
+        words.every((word) => word[0] === "d");
+        // false
+        ```
+
       - reduce(callback[, initialValue]) : 배열의 각 요소에 대해 주어진 리듀서 (reducer) 함수를 실행하고, 하나의 결과값을 반환
 
         ```jsx
         const array1 = [1, 2, 3, 4];
 
-        // 0 + 1 + 2 + 3 + 4
         const initialValue = 0;
         const sumWithInitial = array1.reduce(
           (accumulator, currentValue) => accumulator + currentValue,
@@ -699,6 +736,41 @@
         }
         ```
 
+    - this 키워드
+
+      - 메서드에 있는 객체를 가리킬 때 사용
+
+      ```jsx
+      const cat = {
+        name: "Rosie",
+        color: "black",
+        breed: "bombay",
+        meow() {
+          console.log(`${this.name} says MEOWWWW`);
+        },
+      };
+
+      cat.meow(); //Rosie says MEOWWW
+      // 여기서는 this가 cat이라는 객체를 가리킴
+      ```
+
+      - 사용된 함수의 호출 컨텍스트에 따라 값이 달라짐
+
+      ```jsx
+      const cat = {
+        name: "Rosie",
+        color: "black",
+        breed: "bombay",
+        meow() {
+          console.log(`${this.name} says MEOWWWW`);
+        },
+      };
+
+      const meow2 = cat.meow;
+      meow2(); // says MEOWWW
+      // 여기서는 this가 cat이라는 객체가 아닌 윈도우 객체를 가리킴
+      ```
+
     - 함수 표현식과 화살표 함수 표현식
 
       - 함수 표현식
@@ -716,11 +788,11 @@
       - 화살표 함수 표현식
 
         - 함수 표현식의 간결한 표현법
-          - function 키워드 제거 후 매개변수와 중괄포 사이에 화살표(⇒) 작성
-          - 함수의 매개변수가 하나 뿐이라면 매개변수의 () 생략 가능
-            - 인수가 하나도 없을 땐 빈 괄호 또는 \_로 표시할 수 있다. 단, 이 때 괄호는 생략할 수 없다.
-          - 함수 본문의 표현식이 한 줄이라면 {}와 return 생략 가능
-            - 본문이 여러 줄로 구성되었다면 중괄호를 사용해야 한다. 단, 이 경우는 반드시 `return` 지시자를 사용해 반환 값을 명기해 주어야 한다.
+        - function 키워드 제거 후 매개변수와 중괄호 사이에 화살표(⇒) 작성
+        - 함수의 매개변수가 하나 뿐이라면 매개변수의 () 생략 가능
+        - 인수가 하나도 없을 땐 빈 괄호 또는 \_로 표시할 수 있다. 단, 이 때 괄호는 생략할 수 없다.
+        - 함수 본문의 표현식이 한 줄이라면 {}와 return 생략 가능
+          - 본문이 여러 줄로 구성되었다면 중괄호를 사용해야 한다. 단, 이 경우는 반드시 `return` 지시자를 사용해 반환 값을 명기해 주어야 한다.
 
         ```jsx
         function hello() {
@@ -768,39 +840,57 @@
         greeting("홍길동");
         ```
 
-    - this 키워드
+        - 화살표 함수로 선언한 함수에는 this가 없어 그 상위 환경에서의 this를 참조하게 된다.
 
-      - 메서드에 있는 객체를 가리킬 때 사용
+        ```jsx
+        const person = {
+          firstName: "Jane",
+          lastName: "Doe",
+          fullName: () => {
+            return `${this.firstName} ${this.lastName}`;
+          },
+        };
+
+        person.fullName(); // undefined undefined
+        // this 키워드가 윈도우 객체를 가리키기 때문
+        ```
+
+    - setTimeout() : 만료된 후 함수나 지정한 코드 조각을 실행하는 타이머를 설정
 
       ```jsx
-      const cat = {
-        name: "Rosie",
-        color: "black",
-        breed: "bombay",
-        meow() {
-          console.log(`${this.name} says MEOWWWW`);
-        },
-      };
+      console.log("Hello");
+      setTimeout(() => {
+        console.log("...are you still there?");
+      }, 3000);
+      console.log("Goodbye");
 
-      cat.meow(); //Rosie says MEOWWW
-      // 여기서는 this가 cat이라는 객체를 가리킴
+      // Hello
+      // Goodbye
+      // (3초 후) ...are you still there?
       ```
 
-      - 사용된 함수의 호출 컨텍스트에 따라 값이 달라짐
+    - setInterval() : 각 호출 사이에 고정된 시간 지연으로 함수를 반복적으로 호출
 
       ```jsx
-      const cat = {
-        name: "Rosie",
-        color: "black",
-        breed: "bombay",
-        meow() {
-          console.log(`${this.name} says MEOWWWW`);
-        },
-      };
+      setInterval(() => {
+        console.log(Math.floor(Math.random() * 10) + 1);
+      }, 2000);
 
-      const meow2 = cat.meow;
-      meow2(); // says MEOWWW
-      // 여기서는 this가 cat이라는 객체가 아닌 윈도우 객체를 가리킴
+      // (2초 후) 8
+      // (2초 후) 9
+      // (2초 후) 2
+      ```
+
+    - clearInterval() : 시간이 지정된 반복 작업을 취소
+
+      - setInterval()의 반환값을 변수에 할당하여 취소할 반복 작업을 식별
+
+      ```jsx
+      const id = setInterval(() => {
+        console.log(Math.floor(Math.random() * 10) + 1);
+      }, 2000);
+
+      clearInterval(id);
       ```
 
   - DOM 선택 및 조작
