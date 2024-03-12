@@ -661,6 +661,7 @@
           - 매개변수 < 인자
 
             - 나머지 매개변수(rest parameter) 사용
+              - 남은 인수를 모아 배열로 나타냄
 
             ```jsx
             function print(a, b, ...rest) {
@@ -669,11 +670,67 @@
               console.log(rest);
             }
 
-            sum(10, 20, 30, 40, 50);
+            print(10, 20, 30, 40, 50);
             //10
             //20
             //[30, 40, 50]
             ```
+
+    - 스프레드(spread, 전개) 구문
+
+      - 스프레드 구문을 사용하면 배열이나 문자열과 같이 반복 가능한 문자를 0개 이상의 인수 또는 요소로 확장하여, 0개 이상의 키-값의 쌍으로 객체로 확장시킬 수 있다.
+
+      ```jsx
+      const nums = [9, 3, 2, 5];
+      Math.max(nums); //NaN
+      Math.max(...nums); //9
+
+      console.log(..."hello"); //h e l l o
+
+      const dogs = ["Lucy", "Bori", "Choco"];
+      const cats = ["Leo", "Cheese"];
+      const allPets = [...cats, ...dogs]; //["Leo", "Cheese", "Lucy", "Bori", "Choco"]
+
+      const obj1 = { foo: "bar", x: 42 };
+      const obj2 = { foo: "baz", y: 13 };
+      const mergedObj = { ...obj1, ...obj2 }; //{ foo: "baz", x: 42, y: 13 }
+      ```
+
+    - 구조 분해 할당 구문
+
+      - 배열이나 객체의 속성을 해체하여 그 값을 개별 변수에 담을 수 있게 하는 JavaScript 표현식
+
+      ```jsx
+      const scores = [100, 97, 85, 76, 40, 10];
+      const [gold, silver, bronze, ...everyoneElse] = scores;
+
+      gold; //100
+      silver; //97
+      bronze; //85
+      everyoneElse; //[76, 40, 10]
+
+      const user = {
+        email: "abc@abc.com",
+        firstName: "Nancy",
+        lastName: "Lewis",
+        born: 1989,
+        state: "California",
+      };
+
+      const {
+        email,
+        firstName,
+        lastName,
+        born: birthYear,
+        died: deathYear = "N/A",
+      } = user;
+
+      email; //"abc@abc.com"
+      firstName; //"Nancy"
+      lastName; //"Lewis"
+      birthYear; //1989
+      deathYear; //"N/A"
+      ```
 
     - 함수의 범위
 
