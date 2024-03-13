@@ -951,46 +951,114 @@
       ```
 
   - DOM 선택 및 조작
+
     > **DOM (Document Object Model, 문서 객체 모델) -** XML이나 HTML 문서에 접근하기 위한 인터페이스로, 문서 내의 모든 요소를 정의하고, 각각의 요소에 접근하는 방법을 제공
+
     - 자바스크립트는 DOM을 조작할 수 있는 프로그래밍 언어 중 하나
       >
-    - document.querySelector(selector)
-      - 제공한 선택자와 일치하는 element 한 개 선택
-      - 제공한 CSS selector를 만족하는 첫 번째 element 객체를 반환(없다면 null 반환)
-    - document.querySelectorAll(selector)
-      - 제공한 선택자와 일치하는 여러 element를 선택
-      - 매칭할 하나 이상의 셀렉터를 포함하는 유효한 CSS selector를 인자(문자열)로 받음
-      - 제공한 CSS selector를 만족하는 NodeList를 반환
-    - 속성(attribute) 조작
-      - 클래스 속성 조작
-        - element.classList
-          - 요소의 클래스 목록을 DOMTokenList(유사 배열) 형태로 반환
-        - element.classList.add()
-          - 지정한 클래스 값을 추가
-        - element.classList.remove()
-          - 지정한 클래스 값을 제거
-      - 일반 속성 조작
-        - element.getAttribute()
-          - 해당 요소에 지정된 값을 반환
-        - element.setAttribute()
-          - 지정된 요소의 속성값을 설정
-          - 속성이 이미 있으면 값이 업데이트 / 그렇지 않으면 지정된 이름과 값으로 새 속성이 추가
-        - element.removeAttribute()
-          - 요소에서 지정된 이름을 가진 속성 제거
-    - HTML 콘텐츠 조작
-      - element.textContent
-        - 요소의 텍스트 콘텐츠를 표현
-    - DOM 조작
-      - document.createElement()
-        - 지정한 이름의 HTML 요소를 만들어 반환
-      - element.appendChild()
-        - 지정한 요소에 자식 노드를 생성
-      - element.removeChild()
-        - 지정한 요소에서 지정한 자식 노드를 제거
-    - style 조작
-      - element.style.property
-        - element 스타일 속성값을 변경
-        - 예시: element.style.backgroundColor = "red";
+    - 선택(select)
+      - document.getElementById(id)
+        - 주어진 문자열과 일치하는 id 속성을 가진 요소를 찾고, 이를 나타내는 element 객체를 반환(없다면 null 반환)
+      - document.getElementsByTagName(name)
+        - 인자로 전달된 태그명에 해당하는 모든 요소를 유사 배열 객체로 반환(없다면 빈 집합 반환)
+      - document.getElementsByClassName(name)
+        - 인자로 전달된 클래스 이름을 가진 모든 요소를 유사 배열 객체로 반환(없다면 빈 집합 반환)
+      - document.querySelector(selector)
+        - 제공한 선택자와 일치하는 element 한 개 선택
+        - 제공한 CSS selector를 만족하는 첫 번째 element 객체를 반환(없다면 null 반환)
+      - document.querySelectorAll(selector)
+        - 제공한 선택자와 일치하는 여러 element를 선택
+        - 매칭할 하나 이상의 셀렉터를 포함하는 유효한 CSS selector를 인자(문자열)로 받음
+        - 제공한 CSS selector를 만족하는 NodeList를 반환
+    - 조작(manipulate)
+
+      - HTML 콘텐츠 조작
+        - element.innerText
+          - 요소와 그 자손의 렌더링 된 텍스트 콘텐츠를 나타냄
+          - "사람이 읽을 수 있는" 요소만 처리
+          - 스타일링을 고려하며, "숨겨진" 요소의 텍스트는 반환하지 않음
+        - node.textContent
+          - 노드와 그 자손의 텍스트 콘텐츠를 표현
+          - \<script>와 \<style> 요소를 포함한 모든 요소의 콘텐츠를 가져옴
+          - 노드의 모든 요소를 반환
+        - element.innerHTML
+          - 요소 내에 포함 된 HTML 또는 XML 마크업을 가져오거나 설정
+      - 속성(attribute) 조작
+        - 일반 속성 조작
+          - element.getAttribute(attributeName)
+            - 해당 요소에 지정된 값을 반환
+          - element.setAttribute(name, value)
+            - 지정된 요소의 속성값을 설정
+            - 속성이 이미 있으면 값이 업데이트 / 그렇지 않으면 지정된 이름과 값으로 새 속성이 추가
+          - element.removeAttribute(attributeName)
+            - 요소에서 지정된 이름을 가진 속성 제거
+        - 클래스 속성 조작
+          - element.classList
+            - 요소의 클래스 목록을 DOMTokenList(유사 배열) 형태로 반환
+          - element.classList.add(string)
+            - 지정한 클래스 값을 추가
+          - element.classList.remove(string)
+            - 지정한 클래스 값을 제거
+          - element.classList.contains(string)
+            - 지정한 클래스 값이 요소의 클래스 속성에 존재하는지 확인하여 true/false로 반환
+          - element.classList.toggle(string)
+            - 지정한 클래스 값이 요소의 클래스 속성에 존재한다면 해당 클래스 값을 제거하고, 존재하지 않으면 해당 클래스 값을 추가
+      - style 조작
+
+        - element.style.property
+
+          - element 스타일 속성값을 변경
+          - 식별자에 대시(-) 기호를 쓰지 않기 때문에 카멜 케이스로 표현
+          - 인라인 스타일로 적용됨
+
+          ```jsx
+          const h1 = document.querySelector("h1");
+
+          h1.style.color = "green";
+          h1.style.backgroundColor = "red";
+          h1.style.border = "2px solid pink";
+          ```
+
+      - 계층 조작
+        - node.parentElement
+          - 노드의 부모 요소를 반환(없으면 null 반환)
+        - node.childElementCount
+          - 주어진 요소의 자식 요소 개수를 반환
+        - element.children
+          - 요소의 모든 자식 요소를 담은 유사 배열 객체 반환(없다면 빈 집합 반환)
+        - element.nextElementSibling
+          - 지정한 요소와 같은 부모를 가진 요소 중 지정한 요소 바로 뒤의 요소를 반환(지정한 요소가 목록의 마지막 요소인 경우 null 반환)
+        - element.previousElementSibling
+          - 지정한 요소와 같은 부모를 가진 요소 중 지정한 요소 바로 앞의 요소를 반환(지정한 요소가 목록의 첫 번째 요소인 경우 null 반환)
+      - 요소 조작
+        - document.createElement(name)
+          - 인자로 전달된 태그명의 HTML 요소를 만들어 반환
+        - element.appendChild(node)
+          - 지정한 요소에 자식 노드를 생성
+        - element.append(param1, param2, /_ …, _/ paramN)
+          - 지정한 요소의 마지막 자식 요소 뒤에 일련의 노드 또는 문자열 객체를 삽입
+          - 문자열은 동등한 텍스트 노드로 삽입됨
+        - element.prepend(param1, param2, /_ …, _/ paramN)
+          - 지정한 요소의 첫 번째 자식 요소 앞에 일련의 노드 또는 문자열 객체를 삽입
+          - 문자열은 동등한 텍스트 노드로 삽입됨
+        - targetElement.insertAdjacentElement(position, element)
+          - 지정한 요소에 대해 주어진 위치에 주어진 요소를 삽입
+          - position
+            - beforebegin : 타겟 요소 자체 이전
+            - afterbegin : 타겟 요소의 내부의 첫 번째 자식 노드 이전
+            - beforeend : 타겟 요소 내부의 마지막 자식 노드 이후
+            - afterend : 타겟 요소 자체 이후
+        - element.after(param1, param2, /_ …, _/ paramN)
+          - 지정한 요소 바로 뒤에 일련의 노드 또는 문자열 객체를 삽입
+          - 문자열은 동등한 텍스트 노드로 삽입됨
+        - element.before(param1, param2, /_ …, _/ paramN)
+          - 지정한 요소 바로 앞에 일련의 노드 또는 문자열 객체를 삽입
+          - 문자열은 동등한 텍스트 노드로 삽입됨
+        - element.removeChild(node)
+          - 지정한 요소에서 지정한 자식 노드를 제거
+        - element.remove()
+          - 지정한 요소를 제거
+
   - Event
 
     - 어떤 동작이나 상태 등의 사건이 발생하는 것 (예: 사용자가 키보드를 누르거나 마우스를 클릭하는 등의 사건)
@@ -1013,7 +1081,7 @@
       			const pTag = document.querySelector('#counter')
       			pTag.textContent = counterNumber
       		})
-      	</script>
+      	</>
       </body>
       ```
 
