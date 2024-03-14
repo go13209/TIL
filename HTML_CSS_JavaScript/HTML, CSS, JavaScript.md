@@ -1063,27 +1063,41 @@
 
     - 어떤 동작이나 상태 등의 사건이 발생하는 것 (예: 사용자가 키보드를 누르거나 마우스를 클릭하는 등의 사건)
     - 특정 이벤트를 감지하는 Event Listener를 사용해서 Event Handler를 지정하여 이벤트에 대한 반응(동작)을 처리
+    - 이벤트 종류
+      - onclick : 포인터가 어느 요소 안에 위치하는 동안, 버튼을 클릭하면 이벤트 발생
+      - ondbclick : 포인터가 어느 요소 안에 위치하는 동안, 버튼을 더블 클릭하면 이벤트 발생
+      - onmouseenter : 포인터가 어느 요소 내에 있도록 처음 이동할 때 이벤트 발생
+      - onmouseover : 포인터가 어느 요소 위로 이동하면 이벤트 발생
     - .addEventListener(event type, handler)
 
       - 특정 이벤트가 발생하면 특정 함수 실행
+      - 실행하려는 이벤트나 콜백이 하나 이상일 때 사용 가능
 
       ```jsx
       // 버튼 클릭시 숫자가 1씩 증가
       <body>
-      	<button id='btn'>버튼</button>
-      	<p id='counter'>0</p>
-      	<script>
-      		let counterNumber = 0
-      		const btn = document.querySelector(#btn)
+        <button id='btn'>버튼</button>
+        <p id='counter'>0</p>
+        <script>
+          let counterNumber = 0
+          const btn = document.querySelector(#btn)
 
-      		btn.addEventListener('click', () => {
-      			counterNumber += 1
-      			const pTag = document.querySelector('#counter')
-      			pTag.textContent = counterNumber
-      		})
-      	</>
+          btn.addEventListener('click', () => {
+            counterNumber += 1
+            const pTag = document.querySelector('#counter')
+            pTag.textContent = counterNumber
+          })
+        </script>
       </body>
       ```
 
-    - .removeEventListener(event type, handler) : 특정 이벤트가 발생하면 등록된 이벤트 리스너를 삭제
+    - .removeEventListener(event type, handler)
+      - 특정 이벤트가 발생하면 등록된 이벤트 리스너를 삭제
     - .preventDefault() : 현재 이벤트의 기본 동작을 중단
+    - 이벤트 버블링
+      - 특정 요소에서 이벤트가 발동하고, 이어서 부모 요소의 이벤트가 발동하고 최상단의 부모 요소를 만날 때까지 반복되면서 핸들러가 동작하는 현상
+      - event.stopPropagation() : 현재 이벤트가 캡처링/버블링 단계에서 더 이상 전파되지 않도록 방지
+    - 이벤트 위임
+
+      - 요소마다 핸들러를 할당하지 않고, 요소의 공통 조상에 이벤트 핸들러를 단 하나만 할당하여 여러 요소를 한꺼번에 다룬다.
+      - 공통 조상에 할당한 핸들러에서 event.target을 이용하면 실제 어디서 이벤트가 발생했는지 알 수 있고, 이를 이용해 이벤트를 핸들링한다.
