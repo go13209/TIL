@@ -1101,3 +1101,23 @@
 
       - 요소마다 핸들러를 할당하지 않고, 요소의 공통 조상에 이벤트 핸들러를 단 하나만 할당하여 여러 요소를 한꺼번에 다룬다.
       - 공통 조상에 할당한 핸들러에서 event.target을 이용하면 실제 어디서 이벤트가 발생했는지 알 수 있고, 이를 이용해 이벤트를 핸들링한다.
+
+  - 비동기
+
+    - 콜 스택
+
+      - 자바스크립트 해석기가 여러 함수를 호출하는 스크립트에서 해당 위치를 추적하는 데 사용하는 메커니즘
+      - 후입선출(LIFO, Last In First Out)
+      - 콜 스택에 함수 호출을 추가하고 값이 반환될 때마다 삭제함
+
+      ```jsx
+      const multiply = (x, y) => x * y;
+
+      const square = (x) => multiply(x, x);
+
+      const isRightTriangle = (a, b, c) => {
+        return square(a) + square(b) === square(c);
+      };
+
+      isRightTriangle(3, 4, 5); //true
+      ```
