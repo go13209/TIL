@@ -1079,13 +1079,13 @@
         <button id='btn'>버튼</button>
         <p id='counter'>0</p>
         <script>
-          let counterNumber = 0
-          const btn = document.querySelector(#btn)
+          let counterNumber = 0;
+          const btn = document.querySelector('#btn');
 
           btn.addEventListener('click', () => {
-            counterNumber += 1
-            const pTag = document.querySelector('#counter')
-            pTag.textContent = counterNumber
+            counterNumber += 1;
+            const pTag = document.querySelector('#counter');
+            pTag.textContent = counterNumber;
           })
         </script>
       </body>
@@ -1120,4 +1120,98 @@
       };
 
       isRightTriangle(3, 4, 5); //true
+      ```
+
+    - 자바스크립트는 단일 스레드로 한 번에 하나의 작업만 수행하지만 웹 브라우저나 NodeJS 같은 멀티 스레드 환경에서 실행된다. 즉, 자바스크립트 자체는 싱글 스레드가 맞지만 자바스크립트 런타임은 싱글 스레드가 아니다.
+
+    - Promise
+
+      - 비동기 연산이 최종적으로 완료 혹은 성공했는지 실패했는지 알려주는 객체
+      - 프로미스 상태
+        - pending : 대기 상태
+        - resolve : 성공했을 때 실행, fulfilled(이행) 상태가 됨
+        - reject : 실패했을 때 실행, rejected(실패) 상태가 됨
+
+      ```jsx
+      // 예시 1
+
+      const delayedColorChange = (color, delay) => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            document.body.style.backgroundColor = color;
+            resolve();
+          }, delay);
+        });
+      };
+
+      delayedColorChange("red", 1000)
+        .then(() => delayedColorChange("orange", 1000))
+        .then(() => delayedColorChange("yellow", 1000))
+        .then(() => delayedColorChange("green", 1000))
+        .then(() => delayedColorChange("blue", 1000))
+        .then(() => delayedColorChange("indigo", 1000))
+        .then(() => delayedColorChange("violet", 1000));
+      ```
+
+      ```jsx
+      // 예시 2
+
+      const fakeRequestPromise = (url) => {
+        return new Promise((resolve, reject) => {
+          const delay = Math.floor(Math.random() * 4500) + 500;
+          setTimeout(() => {
+            if (delay > 4000) {
+              reject("Connection Timeout :(");
+            } else {
+              resolve(`Here is your fake data from ${url}`);
+            }
+          }, delay);
+        });
+      };
+
+      fakeRequestPromise("book.com/api/history/page1")
+        .then((data) => {
+          console.log("It worked! (page1)");
+          console.log(data);
+          return fakeRequestPromise("book.com/api/history/page2");
+        })
+        .then((data) => {
+          console.log("It worked! (page2)");
+          console.log(data);
+          return fakeRequestPromise("book.com/api/history/page3");
+        })
+        .then((data) => {
+          console.log("It worked! (page3)");
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log("A request failed!");
+          console.log(err);
+        });
+      ```
+
+    - async / await
+
+      - async : 비동기 함수를 선언하는 키워드로, 자동으로 promise를 반환
+      - await : promise가 값을 반환할 때까지 비동기 함수의 실행을 멈추기 위해 사용하며, promise를 반환하는 함수나 promise만 await를 사용 가능
+
+      ```jsx
+      const delayedColorChange = (color, delay) => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            document.body.style.backgroundColor = color;
+            resolve();
+          }, delay);
+        });
+      };
+
+      async function rainbow() {
+        await delayedColorChange("red", 1000);
+        await delayedColorChange("orange", 1000);
+        await delayedColorChange("yellow", 1000);
+        await delayedColorChange("green", 1000);
+        await delayedColorChange("blue", 1000);
+        await delayedColorChange("indigo", 1000);
+        await delayedColorChange("violet", 1000);
+      }
       ```
