@@ -1127,7 +1127,7 @@
     - Promise
 
       - 비동기 연산이 최종적으로 완료 혹은 성공했는지 실패했는지 알려주는 객체
-      - 프로미스 상태
+      - promise 상태
         - pending : 대기 상태
         - resolve : 성공했을 때 실행, fulfilled(이행) 상태가 됨
         - reject : 실패했을 때 실행, rejected(실패) 상태가 됨
@@ -1214,4 +1214,59 @@
         await delayedColorChange("indigo", 1000);
         await delayedColorChange("violet", 1000);
       }
+      ```
+
+  - AJAX와 API
+
+    - Ajax (Asynchronous JavaScript and XML, 에이잭스)
+      - 비동기적인 웹 애플리케이션의 제작을 위한 웹 개발 기법
+    - API (Application Programming Interface)
+      - 컴퓨터나 컴퓨터 프로그램 사이의 연결로, 일종의 소프트웨어 인터페이스
+      - 다른 종류의 소프트웨어에 서비스를 제공
+      - 웹 API : 웹 서버나 웹 브라우저를 위한 API
+    - JSON (JavaScript Object Notation)
+      - 자바스크립트 객체 문법으로 구조화된 데이터를 표현하기 위한 문자 기반의 표준 포맷
+      - 자바스크립트 객체 구문을 기반으로 하며 중괄호와 키-값 쌍을 갖는다는 점에서 자바스크립트와 유사
+      - 자바스크립트와 JSON의 차이
+        - 속성의 이름은 반드시 큰따옴표로 표시된 문자열이어야 한다.
+        - undefined는 값으로 사용할 수 없다.
+        - JSON.parse() : 문자열을 JSON으로서 구문 분석하고, 선택적으로 분석 결과의 값과 속성을 변환해 반환
+        - JSON.stringify() : 주어진 값에 해당하는 JSON 문자열을 반환
+    - Fetch API
+
+      - 자바스크립트를 통해 요청을 보내고 응답을 받을 수 있도록 해주는 메서드
+      - promise 객체 반환
+      - fetch 메서드는 promise를 반환하지만 이 때는 아직 사용자가 필요로 하는 JSON 데이터 형식이 아니기 때문에 .json() 메서드를 호출한다. 그러면 json 형식의 데이터로 resolve된 또 다른 promise를 반환한다.
+
+      ```jsx
+      const loadStarWarsPeople = async (id) => {
+        try {
+          const res = await fetch(`https://swapi.dev/api/people/${id}/`);
+          const data = await res.json();
+          console.log(data);
+        } catch (e) {
+          console.log("Error!", e);
+        }
+      };
+
+      loadStarWarsPeople(1);
+      ```
+
+    - Axios
+
+      - fetch 메서드처럼 요청을 보내고 응답을 받을 수 있는 라이브러리
+      - 응답 데이터를 기본적으로 json 타입으로 사용 가능
+      - 응답 객체는 data 프로퍼티에서 사용 가능
+
+      ```jsx
+      const getStarWarsPerson = async (id) => {
+        try {
+          const res = await axios.get(`https://swapi.dev/api/people/${id}/`);
+          console.log(res.data);
+        } catch (e) {
+          console.log("Error!", e);
+        }
+      };
+
+      getStarWarsPerson(5);
       ```
