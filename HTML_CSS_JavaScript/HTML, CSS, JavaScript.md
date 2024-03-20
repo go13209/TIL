@@ -1271,87 +1271,153 @@
       getStarWarsPerson(5);
       ```
 
-  - 객체 지향 프로그래밍(Object-Oriented Programming, OOP) - 객체 프로토타입(object prototype) - 모든 객체가 메소드와 속성들을 상속 받기 위한 템플릿 - 상속되는 속성과 메소드들은 객체 생성자의 `prototype`이라는 속성에 정의되어 있다. - 많은 브라우저에서 생성자의 `prototype` 속성에서 파생된 `__proto__` 속성을 통해 특정 객체의 프로토타입 객체에 접근할 수 있도록 구현되어 있다. - 팩토리 함수 - 객체를 생성하고 반환 - 함수 호출을 통해 객체를 생성 - 호출될 때마다 새로운 객체를 만들어주는 ‘생성기’ 역할
-            ```jsx
-            function makeColor(r, g, b) {
-            	const color = {};
-            	color.r = r;
-            	color.g = g;
-            	color.b = b;
-            	color.rgb = function() {
-            		const {r, g, b} = this;
-            		return `rgb(${r}, ${g}, ${b})`;
-            	};
-            	color.hex = function() {
-            		const {r, g, b} = this;
-            		return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-            	}
-            	return color;
+  - 객체 지향 프로그래밍(Object-Oriented Programming, OOP)
+
+    - 객체 프로토타입(object prototype)
+
+      - 모든 객체가 메소드와 속성들을 상속 받기 위한 템플릿
+      - 상속되는 속성과 메소드들은 객체 생성자의 `prototype`이라는 속성에 정의되어 있다.
+      - 많은 브라우저에서 생성자의 `prototype` 속성에서 파생된 `__proto__` 속성을 통해 특정 객체의 프로토타입 객체에 접근할 수 있도록 구현되어 있다.
+
+    - 팩토리 함수
+
+      - 객체를 생성하고 반환
+      - 함수 호출을 통해 객체를 생성
+      - 호출될 때마다 새로운 객체를 만들어주는 ‘생성기’ 역할
+
+        ```jsx
+        function makeColor(r, g, b) {
+          const color = {};
+          color.r = r;
+          color.g = g;
+          color.b = b;
+          color.rgb = function () {
+            const { r, g, b } = this;
+            return `rgb(${r}, ${g}, ${b})`;
+          };
+          color.hex = function () {
+            const { r, g, b } = this;
+            return (
+              "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+            );
+          };
+          return color;
+        }
+
+        const firstColor = makeColor(35, 255, 150);
+        firstColor.rgb(); // rgb(35, 255, 150)
+        firstColor.hex(); // #23ff96
+
+        const black = makeColor(0, 0, 0);
+        black.rgb(); // rgb(0, 0, 0)
+        black.hex(); // #000000
+
+        firstColor.hex === black.hex; // false
+        ```
+
+    - 생성자 함수
+
+      - `new` 연산자를 사용해 객체를 생성하고 초기화함
+      - 함수 이름의 첫 글자는 대문자로 시작
+      - 내부에서 `this`가 암시적으로 만들어지고, 마지막엔 `this`가 반환된다.
+      - 객체를 생성할 때마다 동일한 프로퍼티와 메서드를 갖는 객체를 생성할 수 있다.
+      - 특정 유형의 객체를 계속해서 만들어내는 ‘틀’ 역할
+
+        ```jsx
+        function Color(r, g, b) {
+          this.r = r;
+          this.g = g;
+          this.b = b;
+        }
+
+        Color.prototype.rgb = function () {
+          const { r, g, b } = this;
+          return `rgb(${r}, ${g}, ${b})`;
+        };
+
+        Color.prototype.hex = function () {
+          const { r, g, b } = this;
+          return (
+            "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+          );
+        };
+
+        const color1 = new Color(40, 50, 60);
+        const color2 = new Color(0, 0, 0);
+
+        color1.hex === color2.hex; // true
+        ```
+
+    - 클래스 함수
+
+      - 생성자 함수와 유사한 역할
+      - `new` 연산자를 사용해 객체를 생성하고 초기화함
+      - 함수 이름의 첫 글자는 대문자로 시작
+      - `class` 키워드를 사용하여 정의
+      - `constructor` 메서드를 사용해 객체를 생성할 때 객체의 초기 상태를 설정
+
+        ```jsx
+        class Color {
+          constructor(r, g, b) {
+            this.r = r;
+            this.g = g;
+            this.b = b;
+          }
+          rgb() {
+            return `rgb(${this.r}, ${this.g}, ${this.b})`;
+          }
+          hex() {
+            return (
+              "#" +
+              ((1 << 24) + (this.r << 16) + (this.g << 8) + this.b)
+                .toString(16)
+                .slice(1)
+            );
+          }
+        }
+
+        const c1 = new Color(255, 67, 89);
+        c1.rgb(); // rgb(255, 67, 89)
+        c1.hex(); // #ff4359
+
+        const c2 = new Color(255, 255, 255);
+
+        c1.hex === c2.hex; // true
+        ```
+
+      - 클래스 상속
+
+        - 다른 클래스로부터 메소드와 속성을 물려받는 것
+        - `extends` 키워드를 통해 상속
+        - `super` 키워드를 통해 부모 클래스의 생성자 호출
+
+          ```jsx
+          class Pet {
+            constructor(name, age) {
+              this.name = name;
+              this.age = age;
             }
-
-            const firstColor = makeColor(35, 255, 150);
-            firstColor.rgb(); // rgb(35, 255, 150)
-            firstColor.hex(); // #23ff96
-
-            const black = makeColor(0, 0, 0);
-            black.rgb(); // rgb(0, 0, 0)
-            black.hex(); // #000000
-
-            firstColor.hex === black.hex // false
-            ```
-
-        - 생성자 함수
-            - `new` 연산자를 사용해 객체를 생성하고 초기화함
-            - 함수 이름의 첫 글자는 대문자로 시작
-            - 내부에서 `this`가 암시적으로 만들어지고, 마지막엔 `this`가 반환된다.
-            - 객체를 생성할 때마다 동일한 프로퍼티와 메서드를 갖는 객체를 생성할 수 있다.
-            - 특정 유형의 객체를 계속해서 만들어내는 ‘틀’ 역할
-
-            ```jsx
-            function Color(r, g, b) {
-            	this.r = r;
-            	this.g = g;
-            	this.b = b;
+            eat() {
+              return `${this.name} is eating!`;
             }
+          }
 
-            Color.prototype.rgb = function() {
-            	const {r, g, b} = this;
-            	return `rgb(${r}, ${g}, ${b})`;
-            };
-
-            Color.prototype.hex = function() {
-            	const {r, g, b} = this;
-            	return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-            };
-
-            const color1 = new Color(40, 50, 60);
-            const color2 = new Color(0, 0, 0);
-
-            color1.hex === color2.hex // true
-            ```
-
-        - 클래스 함수
-            - 생성자 함수와 유사한 역할
-            - `new` 연산자를 사용해 객체를 생성하고 초기화함
-            - `class` 키워드를 사용하여 정의
-            - `constructor` 메서드를 사용해 객체를 생성할 때 객체의 초기 상태를 설정
-
-            ```jsx
-            class Color {
-            	constructor(r, g, b) {
-            		this.r = r;
-            		this.g = g;
-            		this.b = b;
-            	}
-            	rgb() {
-            		return `rgb(${this.r}, ${this.g}, ${this.b})`;
-            	}
-            	hex() {
-            		return '#' + ((1 << 24) + (this.r << 16) + (this.g << 8) + this.b).toString(16).slice(1);
-            	}
+          class Cat extends Pet {
+            constructor(name, age, favoriteFood = "tuna") {
+              super(name, age);
+              this.favoriteFood = favoriteFood;
             }
+            meow() {
+              return "MEOWWW!!";
+            }
+          }
 
-            const color1 = new Color(255, 67, 89);
-            c1.rgb(); // rgb(255, 67, 89)
-            c1.hex(); // #ff4359
-            ```
+          class Dag extends Pet {
+            bark() {
+              return "WOOOF!!";
+            }
+            eat() {
+              return `${this.name} scarfs his food!`;
+            }
+          }
+          ```
