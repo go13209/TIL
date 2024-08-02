@@ -241,36 +241,142 @@
   - 특정 값이 변경되었을 때만 연산을 다시 수행하고, 그렇지 않으면 이전에 계산된 값을 재사용한다.
   - `useMemo` 의 첫 번째 인수에는 어떻게 연산할지 정의하는 함수를 넣어주고, 두 번째 인수에는 배열을 넣어준다. 이 배열 안의 값이 바뀌면 등록한 함수를 호출해서 값을 연산해주고, 값이 바뀌지 않았다면 이전에 연산한 값을 재사용한다.
 
-  ```jsx
-  import React, { useMemo, useState } from "react";
+    ```jsx
+    import React, { useMemo, useState } from "react";
 
-  function App() {
-    const [count, setCount] = useState(0);
-    const [value, setValue] = useState(0);
+    function App() {
+      const [count, setCount] = useState(0);
+      const [value, setValue] = useState(0);
 
-    const expensiveCalculation = (num) => {
-      console.log("Calculating...");
-      // 아주 복잡한 계산이라고 가정
-      return num * 2;
+      const expensiveCalculation = (num) => {
+        console.log("Calculating...");
+        // 아주 복잡한 계산이라고 가정
+        return num * 2;
+      };
+
+      // count가 변경될 때만 expensiveCalculation을 재실행
+      const memoizedValue = useMemo(() => expensiveCalculation(count), [count]);
+
+      return (
+        <div>
+          <h1>useMemo Example</h1>
+          <p>Count: {count}</p>
+          <p>Memoized Value: {memoizedValue}</p>
+          <button onClick={() => setCount(count + 1)}>Increment Count</button>
+          <button onClick={() => setValue(value + 1)}>Increment Value</button>
+          <p>Value: {value}</p>
+        </div>
+      );
+    }
+
+    export default App;
+    ```
+
+- Callback Hook
+
+  - 컴포넌트가 불필요하게 재렌더링되는 것을 방지하기 위해 특정 함수를 메모이제이션하는 훅
+  - 첫 번째 인수에는 메모이제이션하려는 함수를 넣어주고, 두 번째 인수로는 의존성 배열을 넣어준다. 배열 안의 값들이 변경될 때만 함수가 새로 생성된다.
+
+    ```jsx
+    import React, { useState, useCallback } from "react";
+
+    // 자식 컴포넌트
+    const TodoItem = React.memo(({ todo, onToggle }) => {
+      console.log("TodoItem rendered:", todo.text);
+      return (
+        <div>
+          <input
+            type="checkbox"
+            checked={todo.completed}
+            onChange={() => onToggle(todo.id)}
+          />
+          {todo.text}
+        </div>
+      );
+    });
+
+    // 부모 컴포넌트
+    const TodoList = () => {
+      const [todos, setTodos] = useState([
+        { id: 1, text: "Learn React", completed: false },
+        { id: 2, text: "Learn useCallback", completed: false },
+      ]);
+
+      const [count, setCount] = useState(0);
+
+      // useCallback을 사용하여 onToggle 메모이제이션
+      const onToggle = useCallback((id) => {
+        setTodos((prevTodos) =>
+          prevTodos.map((todo) =>
+            todo.id === id ? { ...todo, completed: !todo.completed } : todo
+          )
+        );
+      }, []);
+
+      return (
+        <div>
+          <button onClick={() => setCount(count + 1)}>Re-render Parent</button>
+          <p>Parent render count: {count}</p>
+          {todos.map((todo) => (
+            <TodoItem key={todo.id} todo={todo} onToggle={onToggle} />
+          ))}
+        </div>
+      );
     };
 
-    // count가 변경될 때만 expensiveCalculation을 재실행
-    const memoizedValue = useMemo(() => expensiveCalculation(count), [count]);
+    export default TodoList;
+    ```
 
-    return (
-      <div>
-        <h1>useMemo Example</h1>
-        <p>Count: {count}</p>
-        <p>Memoized Value: {memoizedValue}</p>
-        <button onClick={() => setCount(count + 1)}>Increment Count</button>
-        <button onClick={() => setValue(value + 1)}>Increment Value</button>
-        <p>Value: {value}</p>
-      </div>
-    );
-  }
+    - **상태 관리**: `TodoList` 컴포넌트는 `todos`와 `count` 상태를 관리
+    - **`useCallback` 사용**: `onToggle` 함수는 `useCallback`을 사용하여 메모이제이션된다. 이 함수는 의존성 배열이 빈 배열(`[]`)이므로 컴포넌트가 처음 렌더링될 때만 생성되고 이후로는 동일한 함수를 계속 사용한다.
+    - **`React.memo`**: `TodoItem` 컴포넌트는 `React.memo`로 감싸져 있어, 전달된 props가 변경되지 않는 한 재렌더링되지 않는다. 여기서 `onToggle` prop이 변경되지 않기 때문에 `todos` 상태가 변경되지 않는 한 `TodoItem`은 다시 렌더링되지 않는다.
+    - **부모 컴포넌트의 재렌더링**: `Re-render Parent` 버튼을 클릭하면 `count` 상태가 증가하고 부모 컴포넌트가 재렌더링된다. 그러나 `onToggle` 함수는 재생성되지 않기 때문에 `TodoItem` 컴포넌트는 불필요하게 재렌더링되지 않는다.
 
-  export default App;
-  ```
+- useMemo와 useCallback의 차이점
+  - **`useMemo`**: 계산된 값을 메모이제이션한다. 즉, 값이 필요할 때만 계산을 다시 수행하고, 그렇지 않으면 이전에 계산된 값을 반환한다. 주로 무거운 계산을 피하기 위해 사용한다.
+  - **`useCallback`**: 함수를 메모이제이션한다. 주로 컴포넌트가 다시 렌더링될 때마다 함수가 재생성되는 것을 방지하기 위해 사용한다.
+- React.memo
+
+  - 컴포넌트의 props가 변경되지 않는 한 컴포넌트를 다시 렌더링하지 않도록 하는 역할
+  - 불필요한 렌더링을 피하여 성능을 최적화하는 데 유용하다.
+  - 기본적으로 `React.memo`는 함수형 컴포넌트를 인수로 받아, 해당 컴포넌트가 동일한 props로 다시 렌더링되지 않도록 한다.
+
+    ```jsx
+    import React, { useState, memo } from "react";
+
+    // 자식 컴포넌트
+    const ChildComponent = memo(({ count }) => {
+      console.log("ChildComponent rendered");
+      return <p>Child Count: {count}</p>;
+    });
+
+    // 부모 컴포넌트
+    const ParentComponent = () => {
+      const [parentCount, setParentCount] = useState(0);
+      const [childCount, setChildCount] = useState(0);
+
+      return (
+        <div>
+          <button onClick={() => setParentCount(parentCount + 1)}>
+            Increment Parent Count
+          </button>
+          <p>Parent Count: {parentCount}</p>
+          <button onClick={() => setChildCount(childCount + 1)}>
+            Increment Child Count
+          </button>
+          <ChildComponent count={childCount} />
+        </div>
+      );
+    };
+
+    export default ParentComponent;
+    ```
+
+    - **상태 관리**: `ParentComponent`는 `parentCount`와 `childCount` 두 개의 상태를 관리한다.
+    - **`React.memo` 사용**: `ChildComponent`는 `React.memo`로 감싸져 있어, 전달된 `count` prop이 변경되지 않는 한 재렌더링되지 않는다.
+    - **버튼 클릭 이벤트**: 두 개의 버튼이 각각 `parentCount`와 `childCount` 상태를 증가시킨다.
+    - `Increment Parent Count` 버튼을 클릭하면 `parentCount` 상태가 변경되어 `ParentComponent`가 재렌더링된다. 하지만 `ChildComponent`의 `count` prop은 변경되지 않기 때문에 `ChildComponent`는 재렌더링되지 않는다.
+    - `Increment Child Count` 버튼을 클릭하면 `childCount` 상태가 변경되어 `ChildComponent`의 `count` prop도 변경된다. 이때 `ChildComponent`는 재렌더링된다.
 
 - Ref Hook
 
@@ -308,5 +414,3 @@
 
     - 컴포넌트 안에서 조회 및 수정 할 수 있는 변수를 관리할 수 있다.
       - `useRef` 로 관리하는 변수는 값이 바뀐다고 해서 컴포넌트가 리렌더링되지 않는다. `useRef` 로 관리하고 있는 변수는 설정 후 바로 조회 할 수 있다.
-
--
