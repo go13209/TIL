@@ -4,7 +4,7 @@
   - 사용자 인터페이스를 만들기 위한 자바스크립트 라이브러리
   - 컴포넌트(component)라는 재사용 가능한 코드를 이용해 UI 구성
   - JSX(JavaScript XML)라는 문법 사용
-    > **JSX 코드**: \*\*\*\*자바스크립트 파일에 작성된 HTML 코드
+    > **JSX 코드**: 자바스크립트 파일에 작성된 HTML 코드
     - JSX 요소는 HTML과 마찬가지로 속성을 가지며 서로 중첩 가능
     - JSX는 정확히 하나의 부모 태그를 가져야 하며, 다른 요소는 내부에 중첩 가능
     - react-dom/client에서 createRoot()를 사용하여 지정된 DOM 요소에 React 루트를 만들 수 있다.
@@ -175,6 +175,43 @@
 
         - 위의 경우, 첫 번째 `setCount(count + 1)`이 실행될 때 `count`는 현재 값에서 1만 증가하게 되고, 두 번째 `setCount(count + 1)`도 여전히 같은 현재 값을 참조하기 때문에 `count`는 총 1만 증가하게 된다. 하지만 콜백 함수를 사용하면 상태 업데이트가 순차적으로 올바르게 처리된다.
 
+- Ref Hook
+
+  - useRef
+
+    - 렌더링에 필요하지 않은 값을 참조할 수 있는 React Hook
+    - `useRef(initialValue)`
+      - 매개변수 `initialValue`: ref 객체의 `current`프로퍼티 초기 설정값으로, 여기에는 어떤 유형의 값이든 지정할 수 있다. 이 인자는 초기 렌더링 이후부터는 무시된다.
+      - 반환값: `useRef`는 단일 프로퍼티를 가진 객체를 반환
+        - `current`: 처음에는 전달한 `initialValue`로 설정되며 나중에 다른 값으로 바꿀 수 있다. ref 객체를 JSX 노드의 `ref` 속성으로 React에 전달하면 React는 `current`프로퍼티를 설정한다.
+      - 다음 렌더링에서 `useRef`는 동일한 객체를 반환한다.
+    - ref를 변경해도 리렌더링을 촉발하지 않는다.
+    - ref를 사용하여 DOM을 조작하는 것이 일반적이다.
+
+      ```jsx
+      // 텍스트 input에 초점 맞추기
+
+      import { useRef } from "react";
+
+      export default function Form() {
+        const inputRef = useRef(null);
+
+        function handleClick() {
+          inputRef.current.focus();
+        }
+
+        return (
+          <>
+            <input ref={inputRef} />
+            <button onClick={handleClick}>Focus the input</button>
+          </>
+        );
+      }
+      ```
+
+    - 컴포넌트 안에서 조회 및 수정 할 수 있는 변수를 관리할 수 있다.
+      - `useRef` 로 관리하는 변수는 값이 바뀐다고 해서 컴포넌트가 리렌더링되지 않는다. `useRef` 로 관리하고 있는 변수는 설정 후 바로 조회 할 수 있다.
+
 - Effect Hook
 
   - effect
@@ -234,43 +271,42 @@
 
   - 컴포넌트의 성능을 최적화하는 데 사용되는 Hook
   - Memo는 “memoized”를 의미하며, 이는 이전에 계산 한 값을 재사용한다는 의미
-    > **Memoization**
-    >
-    > - 기존에 수행한 연산의 결과값을 어딘가에 저장해두고 동일한 입력이 들어오면 재활용하는 프로그래밍 기법
-    > - 중복 연산을 피할 수 있기 때문에 애플리케이션의 성능을 최적화할 수 있다.
+    > **Memoization -** 기존에 수행한 연산의 결과값을 어딘가에 저장해두고 동일한 입력이 들어오면 재활용하는 프로그래밍 기법
+    - 중복 연산을 피할 수 있기 때문에 애플리케이션의 성능을 최적화할 수 있다.
+      >
   - 특정 값이 변경되었을 때만 연산을 다시 수행하고, 그렇지 않으면 이전에 계산된 값을 재사용한다.
   - `useMemo` 의 첫 번째 인수에는 어떻게 연산할지 정의하는 함수를 넣어주고, 두 번째 인수에는 배열을 넣어준다. 이 배열 안의 값이 바뀌면 등록한 함수를 호출해서 값을 연산해주고, 값이 바뀌지 않았다면 이전에 연산한 값을 재사용한다.
 
-    ```jsx
-    import React, { useMemo, useState } from "react";
+  ```jsx
+  import React, { useMemo, useState } from "react";
 
-    function App() {
-      const [count, setCount] = useState(0);
-      const [value, setValue] = useState(0);
+  function App() {
+    const [count, setCount] = useState(0);
+    const [value, setValue] = useState(0);
 
-      const expensiveCalculation = (num) => {
-        console.log("Calculating...");
-        // 아주 복잡한 계산이라고 가정
-        return num * 2;
-      };
+    const expensiveCalculation = (num) => {
+      console.log("Calculating...");
+      // 아주 복잡한 계산이라고 가정
+      return num * 2;
+    };
 
-      // count가 변경될 때만 expensiveCalculation을 재실행
-      const memoizedValue = useMemo(() => expensiveCalculation(count), [count]);
+    // count가 변경될 때만 expensiveCalculation을 재실행
+    const memoizedValue = useMemo(() => expensiveCalculation(count), [count]);
 
-      return (
-        <div>
-          <h1>useMemo Example</h1>
-          <p>Count: {count}</p>
-          <p>Memoized Value: {memoizedValue}</p>
-          <button onClick={() => setCount(count + 1)}>Increment Count</button>
-          <button onClick={() => setValue(value + 1)}>Increment Value</button>
-          <p>Value: {value}</p>
-        </div>
-      );
-    }
+    return (
+      <div>
+        <h1>useMemo Example</h1>
+        <p>Count: {count}</p>
+        <p>Memoized Value: {memoizedValue}</p>
+        <button onClick={() => setCount(count + 1)}>Increment Count</button>
+        <button onClick={() => setValue(value + 1)}>Increment Value</button>
+        <p>Value: {value}</p>
+      </div>
+    );
+  }
 
-    export default App;
-    ```
+  export default App;
+  ```
 
 - Callback Hook
 
@@ -378,39 +414,155 @@
     - `Increment Parent Count` 버튼을 클릭하면 `parentCount` 상태가 변경되어 `ParentComponent`가 재렌더링된다. 하지만 `ChildComponent`의 `count` prop은 변경되지 않기 때문에 `ChildComponent`는 재렌더링되지 않는다.
     - `Increment Child Count` 버튼을 클릭하면 `childCount` 상태가 변경되어 `ChildComponent`의 `count` prop도 변경된다. 이때 `ChildComponent`는 재렌더링된다.
 
-- Ref Hook
+- Reducer Hook
 
-  - useRef
+  - 상태 관리를 위해 사용하는 훅
+  - reducer는 현재 상태와 액션 객체를 파라미터로 받아와서 새로운 상태를 반환해주는 함수
 
-    - 렌더링에 필요하지 않은 값을 참조할 수 있는 React Hook
-    - `useRef(initialValue)`
-      - 매개변수 `initialValue`: ref 객체의 `current`프로퍼티 초기 설정값으로, 여기에는 어떤 유형의 값이든 지정할 수 있다. 이 인자는 초기 렌더링 이후부터는 무시된다.
-      - 반환값: `useRef`는 단일 프로퍼티를 가진 객체를 반환
-        - `current`: 처음에는 전달한 `initialValue`로 설정되며 나중에 다른 값으로 바꿀 수 있다. ref 객체를 JSX 노드의 `ref` 속성으로 React에 전달하면 React는 `current`프로퍼티를 설정한다.
-      - 다음 렌더링에서 `useRef`는 동일한 객체를 반환한다.
-    - ref를 변경해도 리렌더링을 촉발하지 않는다.
-    - ref를 사용하여 DOM을 조작하는 것이 일반적이다.
+  ```jsx
+  const [state, dispatch] = useReducer(reducer, initialState);
+  ```
 
-      ```jsx
-      // 텍스트 input에 초점 맞추기
+  - 여기서 `state`는 우리가 앞으로 컴포넌트에서 사용할 수 있는 상태를 나타내고, `dispatch`는 액션을 발생시키는 함수를 의미한다.
+  - `useReducer`에 넣는 첫 번째 인수는 reducer 함수로, 현재 상태와 액션을 인수로 받아 새로운 상태를 반환하는 함수이다.
+  - 두 번째 인수는 초기 상태로, 상태의 초기값을 의미한다.
+  - 세 번째 인수는 초기화 함수(선택 사항)로, 초기 상태를 생성하는 함수이고 초기 상태 계산이 복잡한 경우 사용한다.
 
-      import { useRef } from "react";
+    ```jsx
+    import React, { useReducer } from "react";
 
-      export default function Form() {
-        const inputRef = useRef(null);
-
-        function handleClick() {
-          inputRef.current.focus();
-        }
-
-        return (
-          <>
-            <input ref={inputRef} />
-            <button onClick={handleClick}>Focus the input</button>
-          </>
-        );
+    // 리듀서 함수
+    const counterReducer = (state, action) => {
+      switch (action.type) {
+        case "increment":
+          return { count: state.count + 1 };
+        case "decrement":
+          return { count: state.count - 1 };
+        default:
+          return state;
       }
-      ```
+    };
 
-    - 컴포넌트 안에서 조회 및 수정 할 수 있는 변수를 관리할 수 있다.
-      - `useRef` 로 관리하는 변수는 값이 바뀐다고 해서 컴포넌트가 리렌더링되지 않는다. `useRef` 로 관리하고 있는 변수는 설정 후 바로 조회 할 수 있다.
+    // 초기 상태
+    const initialState = { count: 0 };
+
+    // 컴포넌트
+    const Counter = () => {
+      const [state, dispatch] = useReducer(counterReducer, initialState);
+
+      return (
+        <div>
+          <p>Count: {state.count}</p>
+          <button onClick={() => dispatch({ type: "increment" })}>
+            Increment
+          </button>
+          <button onClick={() => dispatch({ type: "decrement" })}>
+            Decrement
+          </button>
+        </div>
+      );
+    };
+
+    export default Counter;
+    ```
+
+    - **리듀서 함수**: `counterReducer`는 현재 상태(`state`)와 액션(`action`)을 받아 새로운 상태를 반환한다. 여기서는 `increment`와 `decrement` 두 가지 액션 타입을 처리한다.
+    - **초기 상태**: `initialState`는 `count`의 초기값을 0으로 설정한다.
+    - **컴포넌트**: `Counter` 컴포넌트는 `useReducer` 훅을 사용하여 상태와 디스패치 함수를 반환받는다. `state`는 현재 상태를 나타내고, `dispatch`는 액션을 디스패치하는 함수이다.
+    - **버튼 클릭 이벤트**: 각 버튼을 클릭하면 해당 액션 타입을 가진 객체를 `dispatch` 함수에 전달하여 상태를 업데이트한다.
+    - `Increment` 버튼을 클릭하면 `{ type: 'increment' }` 액션이 디스패치되어 `counterReducer`가 호출되고, `state.count`가 1 증가한다.
+    - `Decrement` 버튼을 클릭하면 `{ type: 'decrement' }` 액션이 디스패치되어 `counterReducer`가 호출되고, `state.count`가 1 감소한다.
+
+- Custom Hook
+  - 커스텀 훅은 재사용 가능한 로직을 캡슐화하여 여러 컴포넌트에서 쉽게 사용할 수 있도록 하는 함수
+  - 상태 관리, 사이드 이펙트 처리 등을 수행하는 로직을 공통된 함수로 분리함으로써 코드의 중복을 줄이고 가독성을 높일 수 있다.
+  - 커스텀 훅 만드는 방법
+    - **훅의 이름**: 커스텀 훅은 항상 `use`로 시작해야 한다. 이는 리액트가 이 함수가 훅임을 인식할 수 있게 한다.
+    - **리액트 훅 사용**: 커스텀 훅 내부에서 리액트의 훅(`useState`, `useEffect`, `useReducer` 등)을 사용할 수 있다.
+    - **반환 값**: 커스텀 훅은 필요한 값을 반환할 수 있다. 객체나 배열 형태로 반환하여 필요한 값들을 제공할 수 있다.
+    - 일반적으로 src 디렉터리에 hooks 라는 디렉터리를 만들어 그 안에 커스텀 훅 파일들을 저장한다.
+- Context API
+
+  - 컴포넌트 트리를 통해 전역적으로 값을 공유할 수 있게 해주는 기능
+  - props drilling(여러 단계에 걸쳐 props를 전달하는 과정)을 피할 수 있다.
+  - 사용법
+
+    1. Context 생성
+
+       - 먼저, `React.createContext()` 라는 함수를 사용하여 Context를 생성한다.
+
+         ```jsx
+         import React from "react";
+
+         const UserContext = React.createContext(null);
+
+         export default UserContext;
+         ```
+
+    2. Provider 생성
+
+       - Provider는 Context 값을 제공하는 역할을 한다. Provider를 사용할 때는 `value` 라는 값을 설정해주면 된다.
+
+         ```jsx
+         import React, { useState } from "react";
+         import UserContext from "./UserContext";
+
+         const UserProvider = ({ children }) => {
+           const [user, setUser] = useState({ name: "John Doe", age: 30 });
+
+           return (
+             <UserContext.Provider value={{ user, setUser }}>
+               {children}
+             </UserContext.Provider>
+           );
+         };
+
+         export default UserProvider;
+         ```
+
+    3. Consumer 사용
+
+       - Consumer를 사용하여 Context에서 제공된 값을 사용할 수 있다. Consumer는 함수형 컴포넌트와 클래스형 컴포넌트에서 모두 사용할 수 있다.
+
+         ```jsx
+         import React, { useContext } from "react";
+         import UserContext from "./UserContext";
+
+         const UserProfile = () => {
+           const { user, setUser } = useContext(UserContext);
+
+           const updateName = () => {
+             setUser({ ...user, name: "Jane Doe" });
+           };
+
+           return (
+             <div>
+               <h1>User Profile</h1>
+               <p>Name: {user.name}</p>
+               <p>Age: {user.age}</p>
+               <button onClick={updateName}>Change Name</button>
+             </div>
+           );
+         };
+
+         export default UserProfile;
+         ```
+
+    4. Provider로 감싸기
+
+       - Provider를 루트 컴포넌트나 필요한 컴포넌트 트리에 감싸서 Context를 제공할 수 있다.
+       - 이렇게 설정해주면 Provider에 의하여 감싸진 컴포넌트 중 어디서든 Context의 값을 바로 조회해서 사용할 수 있다.
+
+         ```jsx
+         import React from "react";
+         import ReactDOM from "react-dom";
+         import App from "./App";
+         import UserProvider from "./UserProvider";
+
+         ReactDOM.render(
+           <UserProvider>
+             <App />
+           </UserProvider>,
+           document.getElementById("root")
+         );
+         ```
