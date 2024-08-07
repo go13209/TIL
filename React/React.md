@@ -566,3 +566,81 @@
            document.getElementById("root")
          );
          ```
+
+- immer 라이브러리
+
+  - 불변성(Immutability)을 유지하면서 상태를 쉽게 업데이트할 수 있도록 도와주는 JS 라이브러리
+  - 리액트와 같이 상태 관리가 중요한 라이브러리와 함께 사용하면 매우 유용하다.
+  - 사용법
+
+    1. immer 설치
+
+       ```bash
+       npm install immer
+       ```
+
+    2. 코드의 상단에서 immer를 불러와 사용한다. 보통 `produce`라는 이름으로 불러온다.
+
+       ```jsx
+       import produce from "immer";
+       ```
+
+    3. `produce` 함수는 두 개의 인수를 받는다. 첫 번째 인수는 초기 상태이며, 두 번째 인수는 드래프트 상태를 변경하는 콜백 함수이다. 이 콜백 함수 내에서 드래프트 상태를 자유롭게 변경할 수 있다. 만약에 첫 번째 인수를 생략하고 바로 업데이트 함수를 넣어주면, 반환 값은 새로운 상태가 아닌 상태를 업데이트 해주는 함수가 된다.
+
+       ```jsx
+       import React, { useState } from "react";
+       import produce from "immer";
+
+       const App = () => {
+         const [state, setState] = useState({
+           user: { name: "John Doe", age: 30 },
+           todos: [
+             { id: 1, text: "Learn React", completed: false },
+             { id: 2, text: "Learn Immer", completed: false },
+           ],
+         });
+
+         const updateAge = () => {
+           setState(
+             produce((draft) => {
+               draft.user.age += 1;
+             })
+           );
+         };
+
+         const toggleTodo = (id) => {
+           setState(
+             produce((draft) => {
+               const todo = draft.todos.find((todo) => todo.id === id);
+               if (todo) {
+                 todo.completed = !todo.completed;
+               }
+             })
+           );
+         };
+
+         return (
+           <div>
+             <h1>User: {state.user.name}</h1>
+             <p>Age: {state.user.age}</p>
+             <button onClick={updateAge}>Increase Age</button>
+             <ul>
+               {state.todos.map((todo) => (
+                 <li key={todo.id}>
+                   <label>
+                     <input
+                       type="checkbox"
+                       checked={todo.completed}
+                       onChange={() => toggleTodo(todo.id)}
+                     />
+                     {todo.text}
+                   </label>
+                 </li>
+               ))}
+             </ul>
+           </div>
+         );
+       };
+
+       export default App;
+       ```
