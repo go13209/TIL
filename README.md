@@ -9,3 +9,4 @@
 - [HTML, CSS, JavaScript](https://harmonious-muskox-8ce.notion.site/HTML-CSS-JavaScript-d3e42dea28814ea3b8238ee32a3ae5be?pvs=4)
 - [Django](https://harmonious-muskox-8ce.notion.site/Django-23d3a9c8a3044f4fa230758fa118abfa)
 - [React](https://harmonious-muskox-8ce.notion.site/React-0c0d85758d764efbbc040c22121762fd?pvs=4)
+- [TypeScript](https://harmonious-muskox-8ce.notion.site/TypeScript-5a13f83b02b54d5d9465fa00c780ceb9?pvs=4)
