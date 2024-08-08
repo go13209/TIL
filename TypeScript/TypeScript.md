@@ -8,6 +8,8 @@
     - 이런 JavaScript의 문제점을 극복하기 위해서 타입 시스템을 추가하여 코드의 안정성과 유지보수성을 높인 TypeScript가 등장했다.
 - 기본 타입
 
+  ![Untitled](TypeScript/Untitled.png)
+
   - 숫자(number)
     - 부동 소수점 값
     - 16진수, 10진수 리터럴 및 2진수, 8진수 리터럴도 지원한다.
@@ -85,7 +87,7 @@
     ```
     - 기본적으로 `null`과 `undefined`는 다른 모든 타입의 하위 타입이다. 이건, null과 undefined를 `number` 같은 타입에 할당할 수 있다는 것을 의미한다. 하지만, `--strictNullChecks`를 사용하면, `null`과 `undefined`는 오직 `any`와 각자 자신들 타입에만 할당 가능하다.
   - never
-    - 절대 발생하지 않는 값의 타입
+    - 불가능을 의미하는 타입
     - 보통 오류를 던지거나 무한 루프에 사용된다.
     ```tsx
     function error(message: string): never {
@@ -119,6 +121,129 @@
       name: "Joy",
     };
     ```
+
+- 인터페이스
+
+- 함수
+
+  - TypeScript의 함수는 JavaScript의 함수에 타입을 추가한 것이다.
+  - 함수 선언
+    - 타입스크립트에서 함수를 선언할 때는 매개변수와 반환 값에 타입을 지정할 수 있다.
+      ```tsx
+      function add(x: number, y: number): number {
+        return x + y;
+      }
+      ```
+    - `x: number, y: number`: 함수의 매개변수 `x`와 `y`는 모두 `number` 타입이다.
+    - `: number`: 함수가 `number` 타입의 값을 반환함을 나타낸다.
+  - 함수 표현식
+    - 함수를 변수에 할당하는 방식으로 표현할 수 있다. 이때도 타입을 지정할 수 있다.
+      ```tsx
+      const subtract = function (x: number, y: number): number {
+        return x - y;
+      };
+      ```
+    - 또는 화살표 함수로 작성할 수 있다.
+      ```tsx
+      const multiply = (x: number, y: number): number => {
+        return x * y;
+      };
+      ```
+  - 매개변수의 기본 값
+
+    - 매개변수에 기본 값을 지정할 수 있다. 기본 값이 지정된 매개변수는 함수 호출 시 인자가 제공되지 않으면 기본 값이 사용된다.
+
+      ```tsx
+      function greet(name: string = "Guest"): string {
+        return `Hello, ${name}!`;
+      }
+
+      console.log(greet()); // "Hello, Guest!"
+      console.log(greet("Alice")); // "Hello, Alice!"
+      ```
+
+  - 선택적 매개변수
+
+    - 특정 매개변수가 필수가 아니도록 만들려면 매개변수 이름 뒤에 `?`를 붙여 표시하면 된다.
+
+      ```tsx
+      function introduce(name: string, age?: number): string {
+        if (age) {
+          return `My name is ${name} and I am ${age} years old.`;
+        } else {
+          return `My name is ${name}.`;
+        }
+      }
+
+      console.log(introduce("Alice", 25)); // "My name is Alice and I am 25 years old."
+      console.log(introduce("Bob")); // "My name is Bob."
+      ```
+
+  - 나머지 매개변수
+
+    - 나머지 매개변수를 사용해 여러 개의 인자를 배열로 받을 수 있다.
+
+      ```tsx
+      function sum(...numbers: number[]): number {
+        return numbers.reduce((total, num) => total + num, 0);
+      }
+
+      console.log(sum(1, 2, 3)); // 6
+      console.log(sum(10, 20, 30, 40)); // 100
+      ```
+
+  - 함수의 반환 타입
+    - 함수의 반환 타입을 명시적으로 지정할 수 있지만, 만약 반환 타입을 지정하지 않으면 자동으로 추론한다. 복잡한 함수의 경우 명시적으로 반환 타입을 지정하는 것이 좋다.
+      ```tsx
+      function multiply(x: number, y: number) {
+        return x * y;
+      }
+      // multiply 함수의 반환값이 number 타입임을 자동으로 추론
+      ```
+  - 함수 타입
+    - 함수 자체를 타입으로 정의할 수 있다. 함수 타입은 함수의 매개변수 타입과 반환 타입을 명시한다.
+      ```tsx
+      let myFunc: (x: number, y: number) => number = function (
+        a: number,
+        b: number
+      ): number {
+        return a + b;
+      };
+      ```
+  - 익명 함수와 콜백 함수
+
+    - 익명 함수(함수 이름이 없는 함수)를 사용할 수 있으며, 콜백 함수로 전달할 때 주로 사용된다.
+
+      ```tsx
+      function doOperation(
+        x: number,
+        y: number,
+        operation: (a: number, b: number) => number
+      ): number {
+        return operation(x, y);
+      }
+
+      console.log(doOperation(5, 3, (a, b) => a * b)); // 15
+      ```
+
+  - 오버로드
+
+    - 같은 이름의 함수를 여러 번 정의해 다양한 매개변수 조합을 처리할 수 있게 해준다. 이를 함수 오버로드라고 한다.
+
+      ```tsx
+      function double(value: string): string;
+      function double(value: number): number;
+      function double(value: any): any {
+        if (typeof value === "string") {
+          return value + value;
+        } else if (typeof value === "number") {
+          return value * 2;
+        }
+      }
+
+      console.log(double(10)); // 20
+      console.log(double("Hi")); // "HiHi"
+      ```
 
 - 리터럴 타입
   - 하나의 값만 포함하도록 값 자체로 만들어진 타입
