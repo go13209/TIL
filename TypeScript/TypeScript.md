@@ -124,6 +124,178 @@
 
 - 인터페이스
 
+  - 객체의 구조를 정의하기 위해 사용되는 일종의 계약
+  - 객체가 가져야 할 속성들과 그 속성들의 타입을 명확하게 지정할 수 있게 해준다.
+  - 인터페이스는 특정 타입에 대한 요구사항을 명시하며, 해당 요구사항을 충족하는 객체는 인터페이스를 구현(implement)한다.
+  - 인터페이스 기본 사용법
+
+    ```tsx
+    interface Person {
+      name: string;
+      age: number;
+    }
+
+    let person: Person = {
+      name: "Alice",
+      age: 25,
+    };
+    ```
+
+    - 인터페이스 정의
+      ```tsx
+      interface Person {
+        name: string;
+        age: number;
+      }
+      ```
+      - `Person`이라는 인터페이스를 정의했다.
+      - 이 인터페이스는 `name`과 `age`라는 두 개의 속성을 가지며, 각각 `string`과 `number` 타입이어야 한다.
+    - 인터페이스 사용
+      ```tsx
+      let person: Person = {
+        name: "Alice",
+        age: 25,
+      };
+      ```
+      - `person`이라는 객체는 `Person` 인터페이스를 따르기 때문에 `name`과 `age` 속성을 가지고, 각각 올바른 타입의 값을 가져야 한다.
+
+  - 선택적 속성
+
+    - 인터페이스에서 `?`를 사용하여 특정 속성을 선택적으로 만들 수 있다.
+
+      ```tsx
+      interface Person {
+        name: string;
+        age: number;
+        email?: string; // 선택적 속성
+      }
+
+      let person1: Person = {
+        name: "Bob",
+        age: 30,
+      };
+
+      let person2: Person = {
+        name: "Carol",
+        age: 28,
+        email: "carol@example.com",
+      };
+      ```
+
+    - `email` 속성은 선택 사항이다. `person1`은 `email` 속성이 없고, `person2`는 `email` 속성이 있다. 둘 다 유효한 `Person` 객체이다.
+
+  - 읽기 전용 속성
+
+    - 인터페이스에서 특정 속성을 읽기 전용으로 지정할 수 있다. 읽기 전용 속성은 객체가 생성된 이후에 변경할 수 없다.
+
+      ```tsx
+      interface Person {
+        readonly id: number;
+        name: string;
+        age: number;
+      }
+
+      let person: Person = {
+        id: 1,
+        name: "David",
+        age: 22,
+      };
+
+      // person.id = 2; // 오류! 'id'는 읽기 전용 속성입니다.
+      ```
+
+    - `id` 속성은 읽기 전용이므로, 객체가 생성된 이후에 수정할 수 없다.
+
+  - 함수 타입을 정의하는 인터페이스
+
+    - 인터페이스는 객체의 구조뿐만 아니라 함수 타입도 정의할 수 있다.
+
+      ```tsx
+      interface MathOperation {
+        (x: number, y: number): number;
+      }
+
+      let add: MathOperation = (a: number, b: number): number => {
+        return a + b;
+      };
+      ```
+
+    - `MathOperation` 인터페이스는 두 개의 `number` 매개변수를 받아 `number`를 반환하는 함수 타입을 정의한다.
+    - `add` 함수는 `MathOperation` 타입에 맞게 정의되었다.
+
+  - 확장
+
+    - 인터페이스는 다른 인터페이스를 확장할 수 있다. 이를 통해 여러 인터페이스를 결합하거나, 기존 인터페이스를 기반으로 새로운 인터페이스를 만들 수 있다.
+
+      ```tsx
+      interface Person {
+        name: string;
+        age: number;
+      }
+
+      interface Employee extends Person {
+        employeeId: number;
+      }
+
+      let employee: Employee = {
+        name: "Eve",
+        age: 35,
+        employeeId: 1234,
+      };
+      ```
+
+    - `Employee` 인터페이스는 `Person` 인터페이스를 확장하여, `name`과 `age`에 더해 `employeeId` 속성을 추가한다.
+
+  - 인덱서블 타입
+
+    - 인덱서블 타입 인터페이스는 객체나 배열에서 특정 키(또는 인덱스)로 값에 접근할 때 사용된다. 이때 사용할 키의 타입과 해당 키로 접근할 때 반환되는 값의 타입을 정의할 수 있다.
+    - **인덱스 시그니처**는 객체의 모든 속성이 특정 타입을 가져야 한다는 규칙을 정의한다. 이때, 다른 속성의 타입이 인덱스 시그니처에서 정의한 타입과 일치하지 않으면 타입 오류가 발생한다.
+
+      ```jsx
+      interface User {
+        [key: string]: string | number;
+        name: string; // 문자열
+        age: number; // 숫자
+      }
+
+      let user: User = {
+        name: "Alice",
+        age: 30,
+        email: "alice@example.com",
+      };
+      ```
+
+    - `User` 인터페이스에서 `[key: string]: string | number;`는 객체의 모든 속성이 `string`이나 `number` 타입을 가질 수 있다고 정의한다.
+    - `name`, `age`, `email` 속성 모두 이 조건을 만족하므로 올바르게 정의된 객체이다.
+
+  - 인터페이스와 클래스
+
+    - 인터페이스는 클래스가 특정 구조를 따르도록 강제할 수 있다. 클래스가 인터페이스를 구현하면, 그 인터페이스에 정의된 모든 속성이나 메서드를 클래스에서 구현해야 한다.
+
+      ```tsx
+      interface Animal {
+        name: string;
+        makeSound(): void;
+      }
+
+      class Dog implements Animal {
+        name: string;
+
+        constructor(name: string) {
+          this.name = name;
+        }
+
+        makeSound(): void {
+          console.log("Woof! Woof!");
+        }
+      }
+
+      let myDog = new Dog("Buddy");
+      myDog.makeSound(); // "Woof! Woof!"
+      ```
+
+    - `Dog` 클래스는 `Animal` 인터페이스를 구현했다. 따라서 `Animal` 인터페이스에 정의된 `name` 속성과 `makeSound` 메서드를 반드시 포함해야 한다.
+
 - 함수
 
   - TypeScript의 함수는 JavaScript의 함수에 타입을 추가한 것이다.
