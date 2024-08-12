@@ -417,6 +417,182 @@
       console.log(double("Hi")); // "HiHi"
       ```
 
+- 클래스
+
+  - 동일한 모양의 객체를 더 쉽게 생성하도록 도와주는 문법
+  - 클래스는 여러 개의 객체를 만들기 위한 템플릿으로, 클래스를 사용하면 같은 구조를 가진 여러 객체를 쉽게 생성할 수 있다.
+  - 접근 제한자 (Access Modifiers)
+
+    - `public` (공개 접근 제한자)
+
+      - 기본적으로 모든 속성과 메서드는 `public`이다.
+      - `public`으로 선언된 속성과 메서드는 클래스 외부에서도 접근할 수 있다.
+
+        ```tsx
+        class Person {
+          public name: string;
+
+          constructor(name: string) {
+            this.name = name;
+          }
+
+          public greet(): void {
+            console.log(`Hello, my name is ${this.name}.`);
+          }
+        }
+
+        let person = new Person("Alice");
+        console.log(person.name); // "Alice"
+        person.greet(); // "Hello, my name is Alice."
+        ```
+
+    - `private` (비공개 접근 제한자)
+
+      - `private`으로 선언된 속성과 메서드는 클래스 외부에서 접근할 수 없다.
+      - 클래스 내부에서만 접근이 가능하다.
+
+        ```tsx
+        class Person {
+          private name: string;
+
+          constructor(name: string) {
+            this.name = name;
+          }
+
+          public greet(): void {
+            console.log(`Hello, my name is ${this.name}.`);
+          }
+        }
+
+        let person = new Person("Alice");
+        console.log(person.name); // 오류!
+        person.greet(); // "Hello, my name is Alice."
+        ```
+
+    - `protected` (보호된 접근 제한자)
+
+      - `protected`는 `private`과 비슷하지만, 클래스 내부와 파생 클래스에서는 접근이 가능하다.
+      - 클래스 외부에서는 접근할 수 없다.
+
+        ```tsx
+        class Person {
+          protected name: string;
+
+          constructor(name: string) {
+            this.name = name;
+          }
+        }
+
+        class Employee extends Person {
+          private employeeId: number;
+
+          constructor(name: string, employeeId: number) {
+            super(name); // 부모 클래스의 생성자를 호출
+            this.employeeId = employeeId;
+          }
+
+          public getDetails(): string {
+            return `Name: ${this.name}, Employee ID: ${this.employeeId}`;
+          }
+        }
+
+        let employee = new Employee("Bob", 12345);
+        console.log(employee.getDetails()); // "Name: Bob, Employee ID: 12345"
+        console.log(employee.name); // 오류!
+        ```
+
+  - 상속 (Inheritance)
+
+    - 기존 클래스를 바탕으로 새로운 클래스를 만드는 기능
+    - 이를 통해 코드를 재사용하고, 객체 간의 관계를 정의할 수 있다.
+
+      ```tsx
+      class Person {
+        name: string;
+
+        constructor(name: string) {
+          this.name = name;
+        }
+
+        greet(): void {
+          console.log(`Hello, my name is ${this.name}.`);
+        }
+      }
+
+      class Employee extends Person {
+        employeeId: number;
+
+        constructor(name: string, employeeId: number) {
+          super(name); // 부모 클래스의 생성자를 호출
+          this.employeeId = employeeId;
+        }
+
+        showEmployeeId(): void {
+          console.log(`My employee ID is ${this.employeeId}.`);
+        }
+      }
+
+      let employee = new Employee("Charlie", 101);
+      employee.greet(); // "Hello, my name is Charlie."
+      employee.showEmployeeId(); // "My employee ID is 101."
+      ```
+
+      - `Employee` 클래스는 `Person` 클래스를 상속받아 `Employee`의 기능을 확장한다.
+      - `super(name);`는 부모 클래스의 생성자를 호출하는 역할을 한다. 호출 위치는 생성자의 최상단이어야만 한다.
+
+  - `readonly` 속성
+
+    - `readonly` 키워드를 사용하면, 초기화된 후에는 값을 변경할 수 없는 속성을 만들 수 있다.
+
+      ```tsx
+      class Person {
+        readonly id: number;
+        name: string;
+
+        constructor(id: number, name: string) {
+          this.id = id;
+          this.name = name;
+        }
+
+        changeName(newName: string): void {
+          this.name = newName;
+        }
+      }
+
+      let person = new Person(1, "David");
+      console.log(person.id); // 1
+      person.id = 2; // 오류! 'id'는 readonly 속성이므로 변경할 수 없다.
+      person.changeName("Daniel");
+      console.log(person.name); // "Daniel"
+      ```
+
+  - 클래스와 인터페이스
+
+    - 클래스는 인터페이스를 구현하여, 특정 구조를 강제할 수 있다. 클래스가 인터페이스를 구현(implements)하면, 그 인터페이스에 정의된 모든 속성과 메서드를 반드시 포함해야 한다.
+
+      ```tsx
+      interface Greeter {
+        greet(message: string): void;
+      }
+
+      class Person implements Greeter {
+        name: string;
+
+        constructor(name: string) {
+          this.name = name;
+        }
+
+        greet(message: string): void {
+          console.log(`${message}, my name is ${this.name}.`);
+        }
+      }
+
+      let person = new Person("Eve");
+      person.greet("Good morning"); // "Good morning, my name is Eve."
+      ```
+
+      - `Person` 클래스는 `Greeter` 인터페이스를 구현하고, 그 인터페이스에 정의된 `greet` 메서드를 포함한다.
+
 - 리터럴 타입
   - 하나의 값만 포함하도록 값 자체로 만들어진 타입
   ```tsx
