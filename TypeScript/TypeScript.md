@@ -593,6 +593,227 @@
 
       - `Person` 클래스는 `Greeter` 인터페이스를 구현하고, 그 인터페이스에 정의된 `greet` 메서드를 포함한다.
 
+- 제네릭
+
+  - 모든 타입의 값을 다 적용할 수 있는 범용적인 함수
+  - 기본 문법
+
+    - 함수 이름 뒤에 꺽쇠를 열고 타입을 담는 변수인 타입 변수 T를 선언한다. 그리고 매개변수와 반환값의 타입을 이 타입변수 T로 설정한다.
+
+      ```tsx
+      function identity<T>(arg: T): T {
+        return arg;
+      }
+
+      let output1 = identity<string>("Hello World"); // T는 string으로 결정됨
+      let output2 = identity(42); // T는 number로 추론됨
+      ```
+
+      - `identity<T>`는 `T`라는 타입 매개변수를 받아들인다.
+      - `identity("Hello World")`에서 타입 인수를 생략하면, 타입스크립트가 인수의 타입을 기반으로 `T`를 추론한다.
+
+  - 제네릭의 여러 타입 매개변수
+
+    - 여러 개의 타입 매개변수를 사용할 수 있다.
+
+      ```tsx
+      function swap<T, U>(a: T, b: U) {
+        return [b, a];
+      }
+
+      const [a, b] = swap("1", 2);
+      ```
+
+      - `swap<T, U>`는 두 개의 타입 매개변수 `T`와 `U`를 받아들인다.
+      - 이 함수는 두 인수를 받고, `[U, T]` 형태의 튜플을 반환한다.
+
+  - 제네릭 제약 (Generic Constraints)
+
+    - 제네릭 제약은 특정 타입만을 받아들이도록 제네릭을 제한할 때 사용한다.
+
+      ```tsx
+      interface HasLength {
+        length: number;
+      }
+
+      function logWithLength<T extends HasLength>(item: T): void {
+        console.log(item.length);
+      }
+
+      logWithLength("hello"); // 문자열은 length를 가짐, 출력: 5
+      logWithLength([1, 2, 3]); // 배열도 length를 가짐, 출력: 3
+      logWithLength({ length: 10, value: 42 }); // 객체에 length 속성이 있음, 출력: 10
+      ```
+
+      - `T extends HasLength`는 `T` 타입이 `HasLength` 인터페이스를 구현해야 한다는 것을 의미한다.
+      - 이 제약을 통해 `length` 속성이 없는 타입은 이 함수에 전달될 수 없다.
+
+  - map 함수
+
+    - `map` 함수는 배열의 각 요소에 대해 주어진 함수를 실행하고, 그 결과를 새로운 배열로 반환한다. 제네릭과 함께 사용하면, 입력 배열과 출력 배열의 타입을 명확히 지정할 수 있다.
+
+      ```tsx
+      function mapArray<T, U>(array: T[], callback: (item: T) => U): U[] {
+        return array.map(callback);
+      }
+
+      const numbers = [1, 2, 3, 4];
+      const strings = mapArray(numbers, (num) => num.toString());
+
+      console.log(strings); // ["1", "2", "3", "4"]
+      ```
+
+      - 제네릭 함수 `mapArray`
+        - `T[]`는 입력 배열의 타입이다. 여기서 `T`는 배열 요소의 타입을 나타낸다.
+        - `(item: T) => U`는 각 배열 요소에 대해 실행할 콜백 함수의 타입이다. 이 콜백 함수는 `T` 타입의 값을 받아 `U` 타입의 값을 반환한다.
+        - `U[]`는 새로운 배열의 타입이다. 이 배열은 `U` 타입의 요소로 이루어져 있다.
+      - 결과
+        - `numbers` 배열은 `number` 타입의 요소로 구성된다.
+        - `mapArray` 함수는 `number` 타입을 `string` 타입으로 변환하여 `strings` 배열을 반환한다.
+
+  - forEach 함수
+
+    - `forEach` 함수는 배열의 각 요소에 대해 주어진 함수를 실행하지만, 반환값은 없으며 단순히 배열을 반복(iterate)하는 용도로 사용된다. 제네릭과 함께 사용하면 배열 요소의 타입에 대해 타입 안전성을 유지하면서 반복 작업을 수행할 수 있다.
+
+      ```tsx
+      function forEachArray<T>(
+        array: T[],
+        callback: (item: T, index: number) => void
+      ): void {
+        array.forEach(callback);
+      }
+
+      const fruits = ["apple", "banana", "cherry"];
+
+      forEachArray(fruits, (fruit, index) => {
+        console.log(`${index}: ${fruit}`);
+      });
+      ```
+
+      - 제네릭 함수 `forEachArray`
+        - `T[]`는 입력 배열의 타입이다. 여기서 `T`는 배열 요소의 타입을 나타낸다.
+        - `(item: T, index: number) => void`는 배열 요소와 인덱스를 인수로 받아, 아무것도 반환하지 않는 콜백 함수의 타입이다.
+      - 결과
+        - `forEachArray` 함수는 `fruits` 배열의 각 요소와 그 인덱스를 콘솔에 출력한다.
+
+  - 제네릭 클래스
+
+    - 제네릭 클래스를 통해 다양한 타입을 처리할 수 있는 클래스를 만들 수 있다. 이를 통해 코드의 재사용성을 극대화할 수 있다.
+
+      ```tsx
+      class KeyValuePair<K, V> {
+        constructor(public key: K, public value: V) {}
+
+        display(): void {
+          console.log(`${this.key}: ${this.value}`);
+        }
+      }
+
+      let stringNumberPair = new KeyValuePair<string, number>("age", 30);
+      stringNumberPair.display(); // 출력: "age: 30"
+
+      let booleanStringPair = new KeyValuePair<boolean, string>(true, "Yes");
+      booleanStringPair.display(); // 출력: "true: Yes"
+      ```
+
+      - `KeyValuePair<K, V>`는 두 개의 타입 매개변수 `K`와 `V`를 받아, 각각 `key`와 `value`의 타입을 결정한다.
+      - 이 클래스는 키와 값을 쌍으로 저장하고 출력하는 기능을 제공하며, 다양한 타입의 키-값 쌍을 저장할 수 있다.
+
+  - 제네릭 인터페이스
+
+    - 제네릭 인터페이스는 다양한 타입을 처리하는 인터페이스를 정의할 때 유용하다.
+
+      ```tsx
+      interface Repository<T> {
+        getAll(): T[];
+        getById(id: number): T;
+      }
+
+      class User {
+        constructor(public id: number, public name: string) {}
+      }
+
+      class UserRepository implements Repository<User> {
+        private users: User[] = [new User(1, "Alice"), new User(2, "Bob")];
+
+        getAll(): User[] {
+          return this.users;
+        }
+
+        getById(id: number): User {
+          return this.users.find((user) => user.id === id);
+        }
+      }
+
+      let repo = new UserRepository();
+      console.log(repo.getAll()); // 모든 사용자 출력
+      console.log(repo.getById(1)); // ID가 1인 사용자 출력
+      ```
+
+      - `Repository<T>` 인터페이스는 `T` 타입을 다루는 리포지토리의 구조를 정의한다.
+      - `UserRepository` 클래스는 `Repository<User>`를 구현하여 `User` 타입의 데이터를 관리한다.
+
+  - 제네릭을 활용한 유틸리티 타입
+
+    - 타입스크립트에는 제네릭을 활용한 여러 유틸리티 타입이 내장되어 있다.
+    - `Partial<T>`
+
+      - `Partial<T>`는 타입 `T`의 모든 속성을 선택적(optional)으로 만든다.
+
+        ```tsx
+        interface User {
+          id: number;
+          name: string;
+          age: number;
+        }
+
+        let updateUser: Partial<User> = {
+          name: "Alice",
+        };
+        ```
+
+        - `Partial<User>`는 `User` 타입의 모든 속성이 선택적으로 만든다.
+        - 따라서 `updateUser`는 `User` 타입의 일부 속성만 가질 수도 있다.
+
+    - `Readonly<T>`
+
+      - `Readonly<T>`는 타입 `T`의 모든 속성을 읽기 전용(readonly)으로 만듭니다.
+
+        ```tsx
+        let readonlyUser: Readonly<User> = {
+          id: 1,
+          name: "Bob",
+          age: 25,
+        };
+
+        // readonlyUser.age = 30; // 오류! 읽기 전용 속성은 수정할 수 없습니다.
+        ```
+
+        - `Readonly<User>`는 `User` 타입의 속성을 읽기 전용으로 만들어, 수정할 수 없게 만든다.
+
+    - `Record<K, T>`
+
+      - `Record<K, T>`는 키 `K`의 집합과 값 `T`로 이루어진 객체 타입을 생성한다.
+
+        ```tsx
+        type PageInfo = {
+          title: string;
+        };
+
+        type Page = "home" | "about" | "contact";
+
+        let pages: Record<Page, PageInfo> = {
+          home: { title: "Home" },
+          about: { title: "About Us" },
+          contact: { title: "Contact" },
+        };
+        ```
+
+        - `Record<Page, PageInfo>`는 키가 `Page`이고 값이 `PageInfo`인 객체 타입을 만든다.
+
+  - 제네릭과 any의 차이
+    - `any`는 타입 검사를 비활성화하여 타입 안전성을 잃게 되지만, 제네릭은 여전히 타입 안전성을 유지한다. 제네릭은 특정 타입을 강제하면서도 유연성을 제공하므로, 가능한 한 제네릭을 사용해 타입 안전성을 유지하는 것이 좋다.
+
 - 리터럴 타입
   - 하나의 값만 포함하도록 값 자체로 만들어진 타입
   ```tsx
