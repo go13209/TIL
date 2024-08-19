@@ -814,9 +814,78 @@
   - 제네릭과 any의 차이
     - `any`는 타입 검사를 비활성화하여 타입 안전성을 잃게 되지만, 제네릭은 여전히 타입 안전성을 유지한다. 제네릭은 특정 타입을 강제하면서도 유연성을 제공하므로, 가능한 한 제네릭을 사용해 타입 안전성을 유지하는 것이 좋다.
 
-- 리터럴 타입
-  - 하나의 값만 포함하도록 값 자체로 만들어진 타입
-  ```tsx
-  let strA: "hello" = "hello";
-  let numA: 10 = 10;
-  ```
+- 타입 조작
+
+  - 인덱스드 액세스 타입 (Indexed Access Types)
+
+    - 객체 타입에서 특정 속성의 타입을 추출하는 데 사용
+    - 배열이나 객체에서 특정 키를 사용해 값을 추출하는 방식처럼, 타입 수준에서 타입을 추출할 수 있다.
+
+      ```tsx
+      type Person = {
+        name: string;
+        age: number;
+      };
+
+      type NameType = Person["name"]; // NameType은 string 타입
+      ```
+
+  - keyof, typeof 연산자
+
+    - `keyof` 연산자는 객체 타입으로부터 프로퍼티의 모든 key들을 String Literal Union 타입으로 추출한다. 객체 타입에 있는 모든 키를 얻고, 이를 활용할 수 있게 해준다.
+
+      ```tsx
+      type Person = {
+        name: string;
+        age: number;
+      };
+
+      type PersonKeys = keyof Person; // PersonKeys는 'name' | 'age' 타입
+      ```
+
+    - `typeof` 연산자는 변수나 표현식의 타입을 추출하는 데 사용된다. 즉, 변수의 실제 타입을 자동으로 추론하고, 이 타입을 사용하고자 할 때 유용하다.
+
+      ```tsx
+      const person = {
+        name: "Alice",
+        age: 25,
+      };
+
+      type PersonType = typeof person; // PersonType은 { name: string; age: number; } 타입
+      ```
+
+  - 맵드 타입 (Mapped Types)
+
+    - 기존 객체 타입의 모든 속성에 대해 일관되게 변환을 적용한 새로운 타입을 생성할 때 사용
+    - 객체의 각 속성에 변환을 적용하거나, 모든 속성의 읽기 전용, 선택적 여부 등을 변경할 수 있다.
+
+      ```tsx
+      type Person = {
+        name: string;
+        age: number;
+      };
+
+      type ReadonlyPerson = {
+        readonly [P in keyof Person]: Person[P];
+      };
+
+      // ReadonlyPerson은 { readonly name: string; readonly age: number } 타입
+      ```
+
+  - 템플릿 리터럴 타입
+
+    - 문자열 리터럴 타입을 조합하여 새로운 문자열 타입을 만드는 기능
+
+      ```tsx
+      type PrefixKeys<T> = {
+        [K in keyof T as `prefix_${K & string}`]: T[K];
+      };
+
+      type Person = {
+        name: string;
+        age: number;
+      };
+
+      type PrefixedPerson = PrefixKeys<Person>;
+      // PrefixedPerson은 { prefix_name: string; prefix_age: number } 타입
+      ```
