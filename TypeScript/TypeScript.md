@@ -889,3 +889,106 @@
       type PrefixedPerson = PrefixKeys<Person>;
       // PrefixedPerson은 { prefix_name: string; prefix_age: number } 타입
       ```
+
+- 조건부 타입
+
+  - extends와 삼항 연산자를 이용해 조건에 따라 각각 다른 타입을 정의하도록 돕는 문법
+
+  ```tsx
+  T extends U ? X : Y
+  ```
+
+  - `T extends U`는 조건을 나타낸다. `T`가 `U`의 서브타입(subtype)인지 검사한다.
+  - `X`는 조건이 참(true)일 때, `Y`는 조건이 거짓(false)일 때 사용할 타입이다.
+  - 제네릭 조건부 타입
+
+    ```tsx
+    function removeSpaces<T>(text: T): T extends string ? string : undefined;
+    function removeSpaces(text: any) {
+      if (typeof text === "string") {
+        return text.replaceAll(" ", "");
+      } else {
+        return undefined;
+      }
+    }
+
+    let result = removeSpaces("hello");
+    // string
+
+    let result2 = removeSpaces(undefined);
+    // undefined
+    ```
+
+    - 함수 `removeSpaces`는 제네릭을 사용해 입력 타입에 따라 반환 타입을 동적으로 결정한다.
+    - 함수 내에서 입력값의 타입이 문자열(`string`)인지를 검사한다.
+    - 문자열이면 공백을 제거한 후 문자열을 반환하고, 그렇지 않으면 `undefined`를 반환한다.
+    - 각 호출에서 타입스크립트가 반환 타입을 정확하게 추론하여, 타입 안전성을 유지한다.
+
+  - Exclude 조건부 타입
+
+    - 타입스크립트에서 제공하는 내장 조건부 타입 중 하나
+    - 이 타입은 한 유니온 타입에서 특정 타입을 제외한 새로운 타입을 만들 때 사용
+
+    ```tsx
+    type Exclude<T, U> = T extends U ? never : T;
+
+    type A = Exclude<number | string | boolean, string>;
+    ```
+
+    - Union 타입이 분리된다.
+      - `Exclude<number, string>`
+      - `Exclude<string, string>`
+      - `Exclude<boolean, string>`
+    - 각 분리된 타입을 모두 계산한다.
+      - `T = number`, `U = string` 일 때 `number extends string` 은 거짓이므로 결과는 `number`
+      - `T = string`, `U = string` 일 때 `string extends string` 은 참이므로 결과는 `never`
+      - `T = boolean`, `U = string` 일 때 `boolean extends string` 은 거짓이므로 결과는 `boolean`
+    - 계산된 타입을 모두 Union으로 묶는다.
+      - 결과 : `number | never | boolean`
+
+  - infer
+
+    - 조건부 타입 내에서 특정 타입을 추론하는 문법
+
+    ```tsx
+    type Example<T> = T extends infer U ? U : never;
+    ```
+
+    - `T extends infer U` 부분은 `T`로부터 새로운 타입 `U`를 추론하는 것을 의미한다.
+    - 만약 `T`가 특정 타입이라면, 그 타입이 `U`로 추론된다.
+
+    ```tsx
+    type ElementType<T> = T extends (infer U)[] ? U : T;
+
+    // 사용 예시
+    type NumberArrayType = ElementType<number[]>; // number
+    type StringType = ElementType<string>; // string
+    ```
+
+    - `ElementType<T>`는 `T`가 배열인지 확인하고, 배열이라면 그 요소 타입을 추론한다.
+    - `T extends (infer U)[]`는 `T`가 배열(`U[]`)이라면 그 요소 타입(`U`)을 추론한다.
+    - 만약 `T`가 배열이 아니라면, 그냥 `T` 자체를 반환한다.
+    - `NumberArrayType`은 `number[]` 배열의 요소 타입을 추론해서 `number`가 된다.
+    - `StringType`은 배열이 아니므로, 타입 그대로 `string`이 반환된다.
+
+    ```tsx
+    type ReturnType<T> = T extends () => infer R ? R : never;
+
+    type FuncA = () => string;
+
+    type FuncB = () => number;
+
+    type A = ReturnType<FuncA>;
+    // string
+
+    type B = ReturnType<FuncB>;
+    // number
+
+    type C = ReturnType<number>;
+    // 조건식을 만족하는 R추론 불가능
+    // never
+    ```
+
+    - `T extends () => infer R`에서 `T`가 함수 타입(`() => something`)인지 검사한다. 만약 `T`가 함수 타입이라면, 함수의 반환 타입을 `R`로 추론(`infer`)한다.
+    - 만약 `T`가 함수 타입이라면 `R`을 반환하고, 그렇지 않다면 `never`를 반환한다.
+    - `never`는 타입스크립트에서 "절대 발생하지 않는" 타입을 의미한다. 여기서는 `T`가 함수 타입이 아니기 때문에 함수 반환 타입을 추론할 수 없음을 나타낸다.
